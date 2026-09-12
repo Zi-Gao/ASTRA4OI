@@ -1,0 +1,21 @@
+PASS CLI, known factorization, noncanonical coordinates, invalid intervals, and regressions
+PASS exhaustive {'modulus': 4, 'dimension': 2, 'length': 3}
+PASS exhaustive {'modulus': 8, 'dimension': 1, 'length': 4}
+PASS exhaustive {'modulus': 2, 'dimension': 2, 'length': 4}
+PASS exhaustive {'modulus': 6, 'dimension': 1, 'length': 3}
+PASS exhaustive {'modulus': 12, 'dimension': 1, 'length': 2}
+PASS random {'modulus': 4, 'dimension': 3, 'sequences': 80}
+PASS random {'modulus': 8, 'dimension': 2, 'sequences': 80}
+PASS random {'modulus': 9, 'dimension': 2, 'sequences': 80}
+PASS random {'modulus': 12, 'dimension': 2, 'sequences': 80}
+PASS random {'modulus': 18, 'dimension': 2, 'sequences': 40}
+PASS random {'modulus': 6, 'dimension': 3, 'sequences': 60}
+PASS random {'modulus': 5, 'dimension': 3, 'sequences': 40}
+PASS random {'modulus': 1, 'dimension': 3, 'sequences': 10}
+PASS stronger timestamp/level invariants and per-append operation bounds
+PASS 1200 structured random comparisons with explicit closure algorithm
+PASS general ring reduction: F2[e,f]/(e^2,ef,f^2)
+PASS general ring reduction: Z4[e]/(e^2)
+PASS general ring reduction: Z4 x F2 (unequal additive exponents)
+PASS all tests: {'sequences': 9278, 'intervals': 79694, 'membership_assertions': 5959998, 'ring_assertions': 153600}
+Elapsed: 10.913 seconds
