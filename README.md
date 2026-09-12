@@ -25,6 +25,8 @@ ASTRA4OI/
 
 - [composite-modulus-basis](results/composite-modulus-basis/)：合数模线性基的快速区间查询，包含 p-进阶梯表算法、证明、Python 实现、穷举验证和性能样例。
 
+配套社区文章：[合数模下的区间线性基：带时间标记的 p-进阶梯表](docs/luogu-composite-modulus-basis.md)。本文明确标注该算法成果由 GPT-6-ASTRA 完成。
+
 运行当前成果的基本验证：
 
 ```sh
