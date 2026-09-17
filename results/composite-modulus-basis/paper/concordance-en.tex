@@ -1,0 +1,40 @@
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{0.10\linewidth}>{\raggedright\arraybackslash}p{0.25\linewidth}>{\raggedright\arraybackslash}p{0.59\linewidth}@{}}
+\caption{Paper--Lean concordance.}\label{tab:concordance}\\
+\toprule
+Item & Claim & Lean declaration \\
+\midrule\endfirsthead
+\toprule
+Item & Claim & Lean declaration \\
+\midrule\endhead
+\bottomrule\endfoot
+Def.~\ref{def:interval} & Interval span and index bridge & \Lean{Paper.intervalSpan}\newline \Lean{Paper.prefixSource_span}\newline \Lean{Paper.compositePrefix_span} \\
+\addlinespace[0.55em]
+Def.~\ref{def:lead} & Leading slots and normalized rows & \Lean{PadicEchelon.HasLead}\newline \Lean{PadicEchelon.PivotRow} \\
+\addlinespace[0.55em]
+Def.~\ref{def:digit} & Cardinality characterization of digit bases & \Lean{DigitCardinality.CardinalBasis}\newline \Lean{DigitCardinality.CardinalBasis.mem_iff_digitRep} \\
+\addlinespace[0.55em]
+Lem.~\ref{lem:digits} & Injective digit encoding & \Lean{DigitCardinality.encode_injective}\newline \Lean{DigitCardinality.card_range_encode} \\
+\addlinespace[0.55em]
+Lem.~\ref{lem:query} & Query existence and both answer directions & \Lean{BasisQuery.exists_correct_answer}\newline \Lean{BasisQuery.Derivation.correct} \\
+\addlinespace[0.55em]
+Lem.~\ref{lem:order} & Quotient order and power levels & \Lean{CyclicQuotient.exists_quotient_order_exponent}\newline \Lean{CyclicQuotient.nsmul_pow_ne_zero_iff}\newline \Lean{CyclicQuotient.quotient_exponent_anti} \\
+\addlinespace[0.55em]
+Lem.~\ref{lem:coset} & Missing-slot leads and advancement under p & \Lean{BasisQuery.Basis.missing_coset_lead_unique}\newline \Lean{BasisQuery.Derivation.p_nsmul_final_strictly_later} \\
+\addlinespace[0.55em]
+Lem.~\ref{lem:extension} & Cyclic extension and distinct layer slots & \Lean{ArbitraryExtension.basisFromSettledLayers}\newline \Lean{CyclicExtension.no_same_slot_of_missing_layers} \\
+\addlinespace[0.55em]
+Lem.~\ref{lem:terminal} & Extracting suffix digit bases & \Lean{TerminalExtraction.drained_table_correct} \\
+\addlinespace[0.55em]
+Lem.~\ref{lem:operational} & Protected keys and equal-time collision exclusion & \Lean{FastAppend.initial_protected}\newline \Lean{FastInvariant.scan_preservesKeysAndProtected}\newline \Lean{PrioritySafety.same_timestamp_collision_impossible} \\
+\addlinespace[0.55em]
+Lem.~\ref{lem:budget} & Totality, column budgets, and queue size & \Lean{Totality.appendResult_nonempty}\newline \Lean{WorklistComplexity.insertion_visits_le}\newline \Lean{WorklistComplexity.insertion_pops_le}\newline \Lean{WorklistComplexity.insertion_queue_lengths_le} \\
+\addlinespace[0.55em]
+Thm.~\ref{thm:prime} & Prime-power interval theorem & \Lean{Paper.theorem_1_prime_power} \\
+\addlinespace[0.55em]
+Cor.~\ref{cor:card} & Interval module cardinality & \Lean{TimestampedBasis.CorrectTable.card_at}\newline \Lean{Paper.prefixSource_span} \\
+\addlinespace[0.55em]
+Thm.~\ref{thm:crt} & CRT interval queries and preprocessing & \Lean{Paper.theorem_2_composite_interval}\newline \Lean{Paper.theorem_2_composite_preprocessing} \\
+\addlinespace[0.55em]
+Prop.~\ref{prop:cost} & Full implementation cost model (event counts only) & \Lean{VerifiedScan.Drain.initial_operational_bounds}\newline \Lean{WorklistComplexity.insertion_heap_comparisons_le} \\
+\addlinespace[0.55em]
+\end{longtable}

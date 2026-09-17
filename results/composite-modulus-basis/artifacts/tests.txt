@@ -1,0 +1,40 @@
+Python 3.14.5; suite=all; small-suite seed=20260912
+PASS CLI, known factorization, noncanonical coordinates, invalid intervals, and regressions
+PASS exhaustive {'modulus': 4, 'dimension': 2, 'length': 3}
+PASS exhaustive {'modulus': 8, 'dimension': 1, 'length': 4}
+PASS exhaustive {'modulus': 2, 'dimension': 2, 'length': 4}
+PASS exhaustive {'modulus': 6, 'dimension': 1, 'length': 3}
+PASS exhaustive {'modulus': 12, 'dimension': 1, 'length': 2}
+PASS random {'modulus': 4, 'dimension': 3, 'sequences': 80}
+PASS random {'modulus': 8, 'dimension': 2, 'sequences': 80}
+PASS random {'modulus': 9, 'dimension': 2, 'sequences': 80}
+PASS random {'modulus': 12, 'dimension': 2, 'sequences': 80}
+PASS random {'modulus': 18, 'dimension': 2, 'sequences': 40}
+PASS random {'modulus': 6, 'dimension': 3, 'sequences': 60}
+PASS random {'modulus': 5, 'dimension': 3, 'sequences': 40}
+PASS random {'modulus': 1, 'dimension': 3, 'sequences': 10}
+PASS stronger timestamp/level invariants and per-append operation bounds
+PASS 1200 structured random comparisons with explicit closure algorithm
+PASS general ring reduction: F2[e,f]/(e^2,ef,f^2)
+PASS general ring reduction: Z4[e]/(e^2)
+PASS general ring reduction: Z4 x F2 (unequal additive exponents)
+PASS small-modulus suite: {'sequences': 9278, 'intervals': 79694, 'membership_assertions': 5959998, 'ring_assertions': 153600}
+Small-modulus elapsed: 10.903 seconds
+Large-modulus seed: 20260915; independently trial-checked primes: [2, 3, 17, 97, 257, 65537, 998244353, 1000000007, 2147483647]
+PASS lattice oracle vs coefficient enumeration: 4656 targets
+PASS factors=((17, 1),); modulus_bits=5; YES=3885, NO=2185
+PASS factors=((97, 2),); modulus_bits=14; YES=3740, NO=2325
+PASS factors=((257, 4),); modulus_bits=33; YES=3630, NO=2668
+PASS factors=((65537, 1),); modulus_bits=17; YES=3860, NO=2234
+PASS factors=((65537, 3),); modulus_bits=49; YES=3692, NO=2410
+PASS factors=((998244353, 1),); modulus_bits=30; YES=3734, NO=2203
+PASS factors=((998244353, 2),); modulus_bits=60; YES=3823, NO=2290
+PASS factors=((1000000007, 3),); modulus_bits=90; YES=3707, NO=2419
+PASS factors=((2147483647, 2),); modulus_bits=62; YES=3893, NO=2313
+PASS factors=((2, 64),); modulus_bits=65; YES=2742, NO=3557
+PASS factors=((3, 20),); modulus_bits=32; YES=3004, NO=3311
+PASS factors=((2, 12), (97, 3), (65537, 1)); modulus_bits=48; YES=3108, NO=3190
+PASS factors=((998244353, 2), (1000000007, 2)); modulus_bits=120; YES=3568, NO=2649
+PASS large-modulus suite: {'sequences': 78, 'lattice_intervals': 4296, 'analytic_intervals': 1136, 'gcd_intervals': 3900, 'membership_assertions': 240420, 'analytic_oracle_assertions': 9484, 'yes': 46386, 'no': 33754}
+Large-modulus elapsed: 1.349 seconds
+PASS all requested suites

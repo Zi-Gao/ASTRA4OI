@@ -1,0 +1,41 @@
+\usepackage[a4paper,margin=25mm,headheight=15pt]{geometry}
+\usepackage{fontspec}
+\setmainfont{texgyretermes}[Extension=.otf,UprightFont=*-regular,BoldFont=*-bold,ItalicFont=*-italic,BoldItalicFont=*-bolditalic]
+\setsansfont{texgyreheros}[Extension=.otf,UprightFont=*-regular,BoldFont=*-bold,ItalicFont=*-italic,BoldItalicFont=*-bolditalic]
+\setmonofont{lmmono10-regular.otf}[Scale=0.88]
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{booktabs,longtable,tabularx,array}
+\usepackage{algorithm,algpseudocode}
+\usepackage[section]{placeins}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{microtype}
+\usepackage{fancyhdr}
+\usepackage{xurl}
+\usepackage[colorlinks=true,linkcolor=black,citecolor=black,urlcolor=blue!45!black]{hyperref}
+\usepackage{seqsplit}
+\setlength{\parindent}{1.6em}
+\setlength{\parskip}{0.2em}
+\setlist{itemsep=0.15em,topsep=0.25em}
+\renewcommand{\arraystretch}{1.1}
+\setlength{\LTcapwidth}{\textwidth}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\sffamily ASTRA4OI}
+\fancyhead[R]{\small\sffamily\shorttitle}
+\fancyfoot[C]{\thepage}
+\renewcommand{\headrulewidth}{0.3pt}
+\newcommand{\Z}{\mathbb Z}
+\newcommand{\N}{\mathbb N}
+\newcommand{\Span}{\operatorname{span}}
+\newcommand{\lead}{\operatorname{lead}}
+\newcommand{\val}{\operatorname{val}_p}
+\newcommand{\ord}{\operatorname{ord}}
+\newcommand{\core}{\operatorname{core}}
+\newcommand{\Lean}[1]{\texttt{\expandafter\seqsplit\expandafter{\detokenize{#1}}}}
+\newcommand{\artifacturl}{https://github.com/Zi-Gao/ASTRA4OI/tree/main/results/composite-modulus-basis}
+\newcommand{\leanref}[1]{\par\smallskip{\footnotesize\sffamily Lean: \Lean{#1}.}\par}
+\emergencystretch=1.5em
+\clubpenalty=10000
+\widowpenalty=10000
+\displaywidowpenalty=10000

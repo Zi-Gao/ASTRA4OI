@@ -1,0 +1,18 @@
+Python 3.14.5; Darwin arm64
+Case: small; seed=120926; factors=((2, 3), (3, 2))
+n=4000, d=16, q=8000, modulus_bits=7
+Offline solve only: 0.731 seconds; YES=6032, NO=1968
+PASS 83 sampled answers against independent integer-lattice oracle
+PASS p=2, k=3: reductions=145367, writes=109990, pops=113036, max_pending=3
+PASS p=3, k=2: reductions=102668, writes=83722, pops=85299, max_pending=2
+Case: large-prime-power; seed=120926; factors=((1000000007, 2),)
+n=4000, d=16, q=8000, modulus_bits=60
+Offline solve only: 0.777 seconds; YES=6154, NO=1846
+PASS 83 sampled answers against independent integer-lattice oracle
+PASS p=1000000007, k=2: reductions=127728, writes=127760, pops=127760, max_pending=2
+Case: large-crt; seed=120926; factors=((998244353, 2), (1000000007, 2))
+n=4000, d=16, q=8000, modulus_bits=120
+Offline solve only: 2.107 seconds; YES=6179, NO=1821
+PASS 83 sampled answers against independent integer-lattice oracle
+PASS p=998244353, k=2: reductions=127728, writes=127760, pops=127760, max_pending=2
+PASS p=1000000007, k=2: reductions=127728, writes=127760, pops=127760, max_pending=2

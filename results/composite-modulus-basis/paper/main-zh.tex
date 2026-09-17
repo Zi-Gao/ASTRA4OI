@@ -1,0 +1,383 @@
+\documentclass[11pt,a4paper,fontset=fandol]{ctexart}
+\newcommand{\shorttitle}{合数模区间成员查询}
+\input{common}
+\theoremstyle{definition}
+\newtheorem{definition}{定义}
+\theoremstyle{plain}
+\newtheorem{lemma}{引理}
+\newtheorem{theorem}{定理}
+\newtheorem{proposition}{命题}
+\newtheorem{corollary}{推论}
+\renewcommand{\proofname}{证明}
+\floatname{algorithm}{算法}
+\title{合数模数下的区间生成子模成员查询\\[0.4em]\large 带时间标记的 $p$-进阶梯表及其 Lean 4 验证}
+\author{ASTRA4OI 项目}
+\date{2026 年 9 月 16 日\quad 技术论文稿}
+\hypersetup{pdftitle={合数模数下的区间生成子模成员查询},pdfauthor={ASTRA4OI Project},pdfsubject={Timestamped p-adic echelon tables with Lean 4 verification},pdflang={zh-CN}}
+\begin{document}
+\maketitle
+\begin{abstract}
+给定向量序列 $a_i\in(\Z/m\Z)^d$，区间生成子模成员查询判断目标是否属于
+$\langle a_l,\ldots,a_r\rangle$。合数模数下的非单位主元具有非平凡零化关系，
+直接沿用域上的单主元消元不能保证完备性。本文给出带时间标记的 $p$-进阶梯表算法：
+对模 $p^k$ 的每个新向量只启动至多 $k$ 条不分叉幂链，按时间优先处理被替换的余行。
+证明利用循环商群的幂层首项与数字表示基数，建立同时适用于所有后缀的不变量。
+正维度下，预处理主体坐标更新量为 $O(nkd^2)$，单次成员查询为 $O(d^2)$；
+已知素因子分解时，通过中国剩余定理合并为 $O(nKd^2)$ 和 $O(wd^2)$。
+我们给出一般性 Lean 4 证明、逐条定理对照与独立参考程序测试。
+所述界将求逆、赋值、堆操作及整数位成本明确单列，既不假定因数分解免费，
+也不声称形式化的关系式定义等同于经过源码精化验证的可执行实现。
+\end{abstract}
+\noindent\textbf{关键词：}合数模线性代数；区间查询；有限链环；数字基；形式化验证
+
+\section{引言与问题定位}
+域上线性基允许通过可逆主元逐列消元，而 $\Z/m\Z$ 中的非零元素不一定可逆。
+例如模 $4$ 下，$(2,1)$ 的倍数 $(0,2)$ 不能通过只保留第一列主元的朴素结构识别。
+此外，序列 $1,2\pmod4$ 的整个区间可以生成 $1$，最后一个元素却不能；
+因此，仅保留最新原向量也不足以支持后缀过滤。
+
+本文研究追加型序列上的成员判断，不要求输出系数、不支持中间元素修改或删除。
+核心方法在每列保留 $k$ 个赋值槽位，并用时间戳同时表示所有后缀。
+主要交付是：一个完整的插入与查询算法；基于循环扩张和不分叉链的证明；
+以及连接论文编号、Lean 声明和可复现实验的研究工件。
+
+\paragraph{相关工作与范围。}
+单个区间的模成员关系可以归约为整数格成员关系。Smith 与 Hermite 正规形的
+多项式算法由 Kannan 和 Bachem 给出~\cite{kannan1979}；这些正规形提供了静态问题的基础方法。
+有限环上限制系数为数字集合的基并非新的概念，例如 Kuijper 和 Pinto 在环卷积码中
+使用 $p$-线性组合与 $p$-基~\cite{kuijper2009}。本文采用适合有限向量和首项槽位的明确定义，
+关注所有后缀的时间标记维护，而不将一般数字基概念本身作为创新性主张。
+形式化使用 Lean 4~\cite{demoura2021} 与 Mathlib~\cite{mathlib2020}。
+本文不主张所得界具有已知最优性，也不以实验时间与正规形算法作未经控制的性能比较。
+
+\section{记号、接口与成本模型}
+令 $m=\prod_{s=1}^w p_s^{k_s}>1$，其中 $p_s$ 为互异素数，$k_s\ge1$，
+并记 $K=\sum_s k_s$。分解作为已知输入。先固定素数幂环 $R=\Z/p^k\Z$，其中 $n,d,k\ge1$。
+坐标编号为 $0,\ldots,d-1$，原向量时间编号为 $1,\ldots,n$。
+
+\begin{definition}[区间子模]\label{def:interval}
+对 $1\le l\le r\le n$，定义
+\[
+ M_{l,r}=\Span_R\{a_i:l\le i\le r\}.
+\]
+成员查询要求返回布尔值 $\mathsf{YES}$ 当且仅当 $x\in M_{l,r}$。
+\end{definition}
+\leanref{Paper.intervalSpan; Paper.prefixSource_span}
+
+一个\emph{坐标更新}指归一化时的一次坐标缩放，或行消元时的一次乘减更新，
+它可包含常数次标量模运算。我们将其与单位求逆次数、赋值次数、堆比较和输入扫描分别计量。
+槽位采用可常数时间寻址的数组，优先队列采用大小相关的对数成本堆。
+后文的精确常数界针对坐标更新额度；完整标量成本和位成本另行说明。
+
+\begin{definition}[首项与规范槽位]\label{def:lead}
+对非零 $b\in R^d$，令 $j$ 为首个非零坐标，$v=v_p(b_j)\in\{0,\ldots,k-1\}$，
+并定义 $\lead(b)=(j,v)$，按字典序排序。
+槽位 $(j,v)$ 的规范行满足 $b_i=0$（$i<j$）且 $b_j=p^v$。
+\end{definition}
+\leanref{PadicEchelon.HasLead; PadicEchelon.PivotRow}
+
+若首坐标的规范代表元是 $p^v u$，则 $u$ 为单位，乘 $u^{-1}$ 即可归一化。
+消元系数 $b_j/p^v$ 是规范整数代表元上的整除，不涉及非单位 $p^v$ 的逆元。
+
+\section{数字基与循环商群}
+\begin{definition}[$p$-数字基]\label{def:digit}
+首项互异的规范行族 $\mathcal B$ 是子模 $H$ 的 $p$-数字基，当且仅当映射
+\[
+ \{0,\ldots,p-1\}^{\mathcal B}\longrightarrow H,
+ \qquad(c_b)_b\longmapsto\sum_{b\in\mathcal B}c_b b
+\]
+为双射。这不要求 $H$ 是自由 $R$-模。
+\end{definition}
+\leanref{DigitCardinality.CardinalBasis; DigitCardinality.CardinalBasis.mem_iff_digitRep}
+
+\begin{lemma}[数字表示单射]\label{lem:digits}
+任何首项互异的规范行族有恰好 $p^{|\mathcal B|}$ 个不同数字组合。
+\end{lemma}
+\begin{proof}
+两个不同组合相减，取非零系数对应的最小首项 $(j,v)$。
+该系数非零且绝对值小于 $p$，故不被 $p$ 整除。在坐标 $j$，其贡献有精确赋值 $v$；
+同列更晚项的赋值至少为 $v+1$，而后列项在此坐标为零，因此不能抵消。
+\end{proof}
+\leanref{DigitCardinality.encode_injective; DigitCardinality.card_range_encode}
+
+\begin{lemma}[数字基查询完备性]\label{lem:query}
+给定 $H$ 的数字基，非零成员的首项一定对应其中的槽位。按规范主元逐列消元，
+遇到缺槽返回 NO、最终归零返回 YES，所得答案正确，且至多进行 $d$ 次行消元。
+\end{lemma}
+\begin{proof}
+数字展开的首个非零项决定整个向量的首项，故成员不会在缺槽处停下。
+减去基行的任意环倍数保持成员关系。反向累加成功消元中的行倍数证明 YES 的充分性。
+每步清空整个当前坐标，已经清空的前缀不再改变，故消元次数至多为 $d$。
+\end{proof}
+\leanref{BasisQuery.exists_correct_answer; BasisQuery.Derivation.correct}
+
+\begin{lemma}[循环商群的幂层]\label{lem:order}
+对 $H\le R^d$ 与 $a\in R^d$，存在 $0\le h\le k$ 使得
+$\ord(a+H)=p^h$。而 $p^e a+H\ne0$ 当且仅当 $e<h$。
+扩大 $H$ 只能使 $h$ 减小。
+\end{lemma}
+\begin{proof}
+$R^d/H$ 被 $p^k$ 零化，故元素阶整除 $p^k$，从而是某个 $p^h$。
+$p^e$ 零化该陪集当且仅当 $p^h\mid p^e$。较大商模是较小商模的商，元素阶只能取约数。
+\end{proof}
+\leanref{CyclicQuotient.exists_quotient_order_exponent; CyclicQuotient.nsmul_pow_ne_zero_iff; CyclicQuotient.quotient_exponent_anti}
+
+\begin{lemma}[陪集的缺槽首项]\label{lem:coset}
+相对于 $H$ 的数字基，消元到首次缺槽得到的非零余行，其首项仅由陪集决定。
+乘单位不改变该首项；乘 $p$ 并重新消元后，首项严格增大，或陪集归零。
+\end{lemma}
+\begin{proof}
+若同陪集的两个缺槽余行首项不同，其差属于 $H$，却仍具有较早的缺失首项，
+与引理~\ref{lem:query} 矛盾。单位缩放不改变首项和缺槽性质。
+乘 $p$ 会提高当前坐标的赋值或清空该坐标，后续消元只会清空更多坐标，因此严格向后推进。
+\end{proof}
+\leanref{BasisQuery.Basis.missing_coset_lead_unique; BasisQuery.Derivation.p_nsmul_final_strictly_later}
+
+\begin{lemma}[循环扩张的数字基]\label{lem:extension}
+若 $\ord(a+H)=p^h$，则从每个存活幂层取得一个规范缺槽余行
+$b_e\equiv u_e p^e a\pmod H$（$u_e$ 为单位，$0\le e<h$），
+这些行与 $H$ 的数字基合起来构成 $H+Ra$ 的数字基。
+\end{lemma}
+\begin{proof}
+由引理~\ref{lem:coset}，新增各层的首项严格递增，且均不属于旧基槽位。
+若旧基有 $s$ 行，合并后的 $s+h$ 行产生 $p^{s+h}$ 个不同数字组合。
+这些组合都位于扩张子模中，而 $|H+Ra|=|H|p^h=p^{s+h}$，故注入映射为满射。
+这也证明不同存活幂层不会争用同一缺槽。
+\end{proof}
+\leanref{ArbitraryExtension.basisFromSettledLayers; CyclicExtension.no_same_slot_of_missing_layers}
+
+\section{带时间标记的算法}
+表 $B[j][v]$ 保存规范行、时间戳 $t$ 和原向量幂层 $e$。
+时间戳与幂层记录的是商群身份
+\begin{equation}\label{eq:identity}
+ b\equiv u p^e a_t\pmod{H_{t+1}^{(r)}},\qquad
+ H_{t+1}^{(r)}=\Span_R\{a_{t+1},\ldots,a_r\},\quad u\in R^\times.
+\end{equation}
+幂层 $e$ 不等于槽位赋值 $v$。减去较新行必须保留旧时间与旧幂层。
+
+\begin{algorithm}[htbp]
+\small
+\caption{查询当前前缀的后缀 $[l,r]$}\label{alg:query}
+\begin{algorithmic}[1]
+\Require 当前前缀表 $B$，左端点 $l$，目标 $x\in R^d$
+\For{$j=0,\ldots,d-1$}
+  \If{$x_j=0$} \State \textbf{continue} \EndIf
+  \State $v\gets v_p(x_j)$，$b\gets B[j][v]$
+  \If{$b$ 不存在或 $b.t<l$} \State \Return NO \EndIf
+  \State $x\gets x-(x_j/p^v)b$ \Comment{所有坐标模 $p^k$}
+\EndFor
+\State \Return YES
+\end{algorithmic}
+\end{algorithm}
+
+\begin{algorithm}[htbp]
+\small
+\caption{追加时间为 $r$ 的向量 $a_r$}\label{alg:append}
+\begin{algorithmic}[1]
+\State $Q\gets\{(p^e a_r,r,e,0):0\le e<k,\ p^e a_r\ne0\}$
+\While{$Q\ne\varnothing$}
+  \State 弹出时间最大的 $(x,t,e,s)$，同时间以较小幂层优先
+  \For{$j=s,\ldots,d-1$}
+    \If{$x_j=0$} \State \textbf{continue} \EndIf
+    \State $v\gets v_p(x_j)$，$b\gets B[j][v]$
+    \If{$b$ 不存在}
+      \State 归一化 $x$，以 $(t,e)$ 存入槽位；\textbf{break}
+    \ElsIf{$b.t>t$}
+      \State $x\gets x-(x_j/p^v)b$
+    \ElsIf{$b.t<t$}
+      \State 归一化 $x$，用 $(x,t,e)$ 替换槽位
+      \State $y\gets b-(b_j/p^v)x$
+      \If{$y\ne0$} \State 将 $(y,b.t,b.e,j+1)$ 压回 $Q$ \EndIf
+      \State \textbf{break}
+    \Else
+      \State 不可能发生，见引理~\ref{lem:operational}
+    \EndIf
+  \EndFor
+\EndWhile
+\end{algorithmic}
+\end{algorithm}
+
+每次替换只接续一个旧余行，不额外生成新主元的 $p$ 倍。
+幂链首次建立后只进行原任务的消元或转移。这个无分叉条件对复杂度证明不可省略。
+
+\section{插入不变量与完备性}
+固定待完成的前缀 $r$，令 $p^{h_t}$ 是 $a_t+H_{t+1}^{(r)}$ 的阶。
+称 $(t,e)$ 在 $e<h_t$ 时为\emph{必要键}。考虑表和待处理队列组成的活动集合，维持：
+\begin{enumerate}[label=(I\arabic*)]
+\item 表中槽位互异，且规范行按首项有序；
+\item 活动键 $(t,e)$ 不重复，每条活动行满足式~\eqref{eq:identity}；
+\item 每个必要键都出现在表或队列中。
+\end{enumerate}
+
+\begin{lemma}[终态提取]\label{lem:terminal}
+若一个表满足上述三个条件且队列为空，则对任意 $l$，时间至少为 $l$ 的行构成 $M_{l,r}$ 的数字基；
+时间 $t$ 恰保留层 $0,\ldots,h_t-1$。
+\end{lemma}
+\begin{proof}
+对时间从大到小归纳。假定较新行已构成 $H=H_{t+1}^{(r)}$ 的数字基。
+时间 $t$ 的行槽位不属于较新表，且每个 $e<h_t$ 由 (I3) 必定存在。
+若存在 $e\ge h_t$ 的行，式~\eqref{eq:identity} 使它属于 $H$，
+却在 $H$ 的缺槽处有非零首项，与引理~\ref{lem:query} 矛盾。
+由 (I2) 必要键不重复，再应用引理~\ref{lem:extension} 即得该时间对应的扩张数字基。
+\end{proof}
+\leanref{TerminalExtraction.drained_table_correct}
+
+\begin{lemma}[活动不变量与碰撞排除]\label{lem:operational}
+从一个正确前缀表追加新向量，初始队列满足 (I1)--(I3)。每个合法分支保持这些条件。
+弹出最大时间任务时，不可能与同时间的存储行在同槽位碰撞。
+\end{lemma}
+\begin{proof}
+追加使每个旧 $H_{t+1}$ 扩大，故旧必要层集合只会缩小；新时间的全部 $k$ 层最初进入队列，
+省略的零行不可能具有必要键。因此初始 (I3) 成立。
+规范化只乘单位，旧行只减较新行，保持商群身份。
+每次操作仅移动键或丢弃零行，必要层的非零商群身份排除了后者，故 (I2)--(I3) 保持。
+槽位替换和空槽写入保持 (I1)。
+
+设弹出任务时间为 $t$。队列中无较新任务，所以所有较新必要键已位于表中。
+将活动不变量限制到较新时间，便可应用引理~\ref{lem:terminal}，得到 $H_{t+1}$ 的完整数字基。
+若同时间两行碰撞，其槽位为较新表的缺槽；它们的键不同，所以幂层不同。
+非零缺槽余行不可能来自已消失的层，而不同存活层由引理~\ref{lem:extension} 具有不同首项，矛盾。
+该论证先从局部条件提取较新数字基，不以插入已经成功完成为前提。
+\end{proof}
+\leanref{FastAppend.initial_protected; FastInvariant.scan_preservesKeysAndProtected; PrioritySafety.same_timestamp_collision_impossible}
+
+\begin{lemma}[终止与不分叉预算]\label{lem:budget}
+一次插入始终存在合法后继并在有限步内完成；列访问至多 $kd$，弹出至多 $k(d+1)$，
+任一时刻待处理任务数至多为 $k$。
+\end{lemma}
+\begin{proof}
+非零行必有首项且可以单位归一化，引理~\ref{lem:operational} 排除了唯一的碰撞错误分支。
+每个初始任务拥有 $d$ 的列预算。完成任务消耗一个队列元素；替换只产生一个从下一列开始的后继，
+并至少消耗一列。因此队列长度不增长，总列访问不超过初始预算 $kd$。
+势函数 $|Q|+\sum_{q\in Q}(d-q.\mathrm{start})$ 每次弹出严格减小，初值至多 $k(d+1)$，
+同时给出终止性和弹出次数界。
+\end{proof}
+\leanref{Totality.appendResult_nonempty; WorklistComplexity.insertion_visits_le; WorklistComplexity.insertion_pops_le}
+
+\section{主结果与完整成本说明}
+\begin{theorem}[素数幂区间成员查询]\label{thm:prime}
+对任意素数 $p$、正整数 $k,d$ 和输入序列，算法~\ref{alg:append} 从空表依次处理前缀，
+在每个右端点 $r$ 得到同时适用于全部 $[l,r]$ 的数字基表。
+算法~\ref{alg:query} 返回 YES 当且仅当 $x\in M_{l,r}$，至多进行 $d$ 次行消元。
+每个表至多有 $dk$ 行；处理 $n$ 个向量的消元与初始幂链准备额度至多为 $3nkd^2$ 个坐标更新。
+\end{theorem}
+\begin{proof}
+空表满足不变量。引理~\ref{lem:operational}、\ref{lem:budget} 保证每次插入合法终止，
+引理~\ref{lem:terminal} 恢复所有后缀数字基。对前缀归纳，再由引理~\ref{lem:query} 得查询结论。
+槽位总数为 $dk$。每次列访问至多包含两次向量遍历，因此消元额度至多 $2kd^2$；
+一次输入规范化及至多 $k-1$ 次逐行乘 $p$ 共预留 $kd$，在 $d\ge1$ 时总计不超过 $3kd^2$。
+\end{proof}
+\leanref{Paper.theorem_1_prime_power}
+
+\begin{corollary}[子模大小]\label{cor:card}
+若筛选后的表有 $s$ 行，则 $|M_{l,r}|=p^s$。
+\end{corollary}
+\begin{proof}
+这是数字基定义中的双射及引理~\ref{lem:digits} 的直接推论。
+\end{proof}
+\leanref{TimestampedBasis.CorrectTable.card_at; Paper.prefixSource_span}
+
+\begin{theorem}[合数模数的 CRT 合并]\label{thm:crt}
+给定互异素数的分解 $m=\prod_{s=1}^w p_s^{k_s}$，整体查询的答案为各分量答案的合取。
+其主体预处理坐标更新量为 $O(nKd^2)$，每次成员查询为 $O(wd^2)$。
+\end{theorem}
+\begin{proof}
+整体线性表示投影到各分量给出必要性。反之，对每个原向量下标 $i$，
+将各分量的系数 $\lambda_i^{(s)}$ 分别用 CRT 合成为同一模 $m$ 的系数 $\lambda_i$；
+不要求各分量首先得到相同的整数系数。计数对分量求和，分别得到 $3nKd^2$ 与 $wd^2$。
+\end{proof}
+\leanref{Paper.theorem_2_composite_interval; Paper.theorem_2_composite_preprocessing}
+
+\begin{proposition}[实现成本模型]\label{prop:cost}
+采用数组槽位和二叉堆，预存各次 $p$ 幂，以二分整除性测试计算赋值。
+若除求逆外的标量算术暂按单位成本计，一次单位求逆的成本为 $I(p^k)$，则
+$n$ 次追加与 $q$ 次查询的总上界为
+\begin{equation}\label{eq:runtime}
+ O\!\left(nkd\bigl(d+\log(k+1)+I(p^k)\bigr)
+       +qd\bigl(d+\log(k+1)\bigr)\right).
+\end{equation}
+\end{proposition}
+\begin{proof}
+引理~\ref{lem:budget} 给出 $O(kd)$ 次堆操作；每次成本 $O(\log(k+1))$。
+插入的赋值和求逆分别至多 $kd$ 次，查询赋值至多 $d$ 次且不求逆。
+每次弹出至多 $O(d)$ 的零检测和坐标搜索亦被主体界吸收。
+预存幂的 $O(k)$ 构造成本在正 $n,d$ 下被吸收。对查询按右端点分桶的 $O(n+q)$ 开销同理。
+\end{proof}
+该命题的事件次数由 Lean 验证；数组、堆和标量子程序的单位成本契约是文字分析部分。
+任意精度整数需要逐类计入位成本，因数分解成本另加。$m=1$ 时所有合法查询为 YES，
+但输入输出和管理开销仍非零。程序的 \texttt{span\_size} 需 $O(dK)$ 次槽位检查及额外幂运算，
+不适用成员查询的界。
+
+\paragraph{存储与历史区间。}
+当前表使用 $O(Kd^2)$ 个坐标单元。每次插入至多创建 $O(Kd)$ 个不可变行记录，
+保存每个前缀的 $dK$ 个引用快照得到 $O(nKd^2)$ 空间，查询直接访问版本 $r$。
+这是持久化布局的计数分析，不是分配器或字节级内存的形式化验证。
+
+\section{Lean 4 对照与信任边界}
+形式化将向量表示为 \texttt{Fin d} 到 $\operatorname{ZMod}(p^k)$ 的函数，以规范首项、生成子模和基数刻画数字基。
+\Lean{Paper.prefixSource} 将原序列前 $r$ 项标为 $1,\ldots,r$；
+\Lean{Paper.prefixSource_span} 证明时间阈值过滤等于定义~\ref{def:interval} 的字面区间子模。
+因此定理~\ref{thm:prime} 的机器声明并不只针对抽象的“假定正确表”。
+
+构造层的 \Lean{BuildResult} 证明字段由归纳实际建立；终止性和查询存在性均有证明。
+\Lean{noncomputable} 与选择公理用于选取数学证据，不意味着这些 Lean 定义编译后具有数组/堆程序的运行时间。
+同时间幂层递增是参考程序的确定性次序；核心证明只要求弹出最大时间，因而覆盖此特例。
+
+下表省略公共命名空间 \Lean{CompositeModulusBasis}。
+表~\ref{tab:concordance} 由 \texttt{paper/theorem-map.json} 生成。
+其中每个声明都接受编译检查和传递公理审计；允许的逻辑基础仅为
+\Lean{propext}、\Lean{Classical.choice}、\Lean{Quot.sound}。
+有限模型回归被单列，不导入核心入口。Python 源码精化、通用有限环归约和完整位复杂度不在核心机器定理中。
+\input{concordance-zh}
+
+\section{实验设计与可复现性}
+参考实现只使用 Python 标准库。测试分为三种独立答案来源：小模数直接枚举所有系数；
+大模数使用整数格 $\Span_\Z(a_l,\ldots,a_r,mI_d)$ 的三角化与整数回代；
+以及已知可逆坐标变换下的 gcd 理想构造和一维 gcd 判定。
+整数格 oracle 先通过 4,656 个小模数目标验证，并另与 9,484 个大模数构造目标对照。
+
+\begin{table}[htbp]
+\centering
+\caption{程序验证的覆盖与统计。成员断言包含三种接口/阶段的重复核对。}\label{tab:tests}
+\begin{tabular}{lrrr}
+\toprule
+测试组 & 序列 & 区间 & 成员关系断言\\
+\midrule
+小模数主测试 & 9,278 & 79,694 & 5,959,998\\
+大模数新增测试 & 78 & 9,332 & 240,420\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+大参数使用种子 $20260915$，质数独立试除验证，最大为 $2,147,483,647$。
+包含 $2^{64}$、$3^{20}$、$(10^9+7)^3$，以及
+$998244353^2\cdot1000000007^2$ 的 120 位模数。
+维度为 $1,2,4,8,12$，序列长度为 $24$ 或 $32$；数据覆盖零行、重复行、非单位、
+低秩耦合及后缀秩下降。80,140 条大模数查询用例中有 46,386 个 YES、33,754 个 NO，
+并分别在追加时、历史版本和离线接口上核对。
+
+性能样例使用固定种子 $120926$、$n=4000,d=16,q=8000$，
+覆盖模 $72$、$(10^9+7)^2$ 及上述 120 位 CRT 模数。
+每组抽查 83 个答案，计时仅包围求解，不含数据生成与 oracle 验证。
+一次运行不是统计学性能评估，因此本文不据此声称最坏时间、最优性或相对正规形算法的加速比。
+原始时间和计数保存在 \texttt{artifacts/benchmarks.txt}。
+
+\paragraph{工件复现。}
+仓库入口为 \url{https://github.com/Zi-Gao/ASTRA4OI/tree/main/results/composite-modulus-basis}。Lean 工具链固定为 4.32.0，Mathlib 固定为 v4.32.0 及锁定提交。
+在成果目录执行 \texttt{make test}、\texttt{make formal}、\texttt{make paper}，
+分别复现程序测试、论文声明审计及中英文 PDF。编译和测试日志位于 \texttt{artifacts/}；
+初始化下载与缓存步骤见使用文档。
+
+\section{讨论与结论}
+本方法将非单位主元引起的闭包需求组织为循环商群的有限幂层，并利用保守时间戳同时维护所有后缀。
+正确性依赖首项唯一性、必要层不丢失及优先处理较新时间；复杂度依赖每个新向量仅启动 $k$ 条不分叉链。
+这三项条件共同给出任意合法输入上的一般结果，而不是由大参数实验外推。
+
+进一步的问题包括更精细的位成本、因数分解接口、系数见证恢复、修改或删除操作，
+以及与其他动态模算法的系统比较。一般有限交换环的加法群归约保存在补充文档中，
+其维度膨胀和形式化边界与本文整数模数主定理分开陈述。
+{\small
+\bibliographystyle{plain}
+\bibliography{references}
+}
+\end{document}

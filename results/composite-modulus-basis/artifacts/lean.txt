@@ -1,0 +1,60 @@
+PASS paper concordance: 15 numbered claims, 32 Lean declarations
+✔ [3024/3025] Built LeanVerification (11s)
+Build completed successfully (3025 jobs).
+'CompositeModulusBasis.Paper.intervalSpan' depends on axioms: [propext, Quot.sound]
+'CompositeModulusBasis.Paper.prefixSource_span' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CompositeModulusBasis.Paper.compositePrefix_span' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CompositeModulusBasis.PadicEchelon.HasLead' depends on axioms: [propext, Quot.sound]
+'CompositeModulusBasis.PadicEchelon.PivotRow' depends on axioms: [propext, Quot.sound]
+'CompositeModulusBasis.DigitCardinality.CardinalBasis' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CompositeModulusBasis.DigitCardinality.CardinalBasis.mem_iff_digitRep' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CompositeModulusBasis.DigitCardinality.encode_injective' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CompositeModulusBasis.DigitCardinality.card_range_encode' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CompositeModulusBasis.BasisQuery.exists_correct_answer' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CompositeModulusBasis.BasisQuery.Derivation.correct' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CompositeModulusBasis.CyclicQuotient.exists_quotient_order_exponent' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CompositeModulusBasis.CyclicQuotient.nsmul_pow_ne_zero_iff' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CompositeModulusBasis.CyclicQuotient.quotient_exponent_anti' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CompositeModulusBasis.BasisQuery.Basis.missing_coset_lead_unique' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CompositeModulusBasis.BasisQuery.Derivation.p_nsmul_final_strictly_later' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CompositeModulusBasis.ArbitraryExtension.basisFromSettledLayers' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CompositeModulusBasis.CyclicExtension.no_same_slot_of_missing_layers' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CompositeModulusBasis.TerminalExtraction.drained_table_correct' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CompositeModulusBasis.FastAppend.initial_protected' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CompositeModulusBasis.FastInvariant.scan_preservesKeysAndProtected' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CompositeModulusBasis.PrioritySafety.same_timestamp_collision_impossible' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CompositeModulusBasis.Totality.appendResult_nonempty' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CompositeModulusBasis.WorklistComplexity.insertion_visits_le' depends on axioms: [propext, Quot.sound]
+'CompositeModulusBasis.WorklistComplexity.insertion_pops_le' depends on axioms: [propext, Quot.sound]
+'CompositeModulusBasis.WorklistComplexity.insertion_queue_lengths_le' depends on axioms: [propext, Quot.sound]
+'CompositeModulusBasis.Paper.theorem_1_prime_power' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CompositeModulusBasis.TimestampedBasis.CorrectTable.card_at' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CompositeModulusBasis.Paper.theorem_2_composite_interval' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CompositeModulusBasis.Paper.theorem_2_composite_preprocessing' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CompositeModulusBasis.VerifiedScan.Drain.initial_operational_bounds' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CompositeModulusBasis.WorklistComplexity.insertion_heap_comparisons_le' depends on axioms: [propext, Quot.sound]
+✔ [3025/3026] Built LeanRegression (10s)
+Build completed successfully (3026 jobs).
+PASS core axiom audit: 32 declarations; only standard logical axioms

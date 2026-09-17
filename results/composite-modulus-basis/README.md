@@ -1,43 +1,50 @@
-# 合数模线性基的快速区间查询
+# 合数模数下的区间生成子模成员查询
 
-## 本目录研究结果（2026-09-12）
+[English](README-EN.md)
 
-已得到带时间标记的 p-进阶梯表算法，并完成证明与测试。
+本目录按研究论文与可复现工件组织。中文论文为主稿，英文稿保持相同定义、引理和定理编号。
+核心结果是带时间标记的 p-进阶梯表；数学正确性与操作计数有一般性 Lean 4 证明。
 
-- [完整解法与证明](SOLUTION.md)：模 `p^k` 的主体计算量为预处理 `O(nd²k)`、每次查询 `O(d²)`；通过 CRT 处理任意整数模数，并给出一般有限交换环的归约。
-- [可运行实现](solver.py)：按右端点离线处理，或保存前缀快照在线回答历史区间。
-- [测试](test_solver.py) / [测试结果](test_results.txt)：独立穷举成员关系、在线历史版本、时间与幂层不变量、一般环归约。
-- [进度记录](PROGRESS.md)：研究过程、反例、实际验证结果和适用边界。
+## 论文与证明
 
-因数分解、单位求逆等额外成本在解法中单列。原题描述保留如下。
+- **[中文论文 PDF](paper/output/pdf/paper-zh.pdf)** / [英文论文 PDF](paper/output/pdf/paper-en.pdf)
+- [中文 LaTeX 源码](paper/main-zh.tex) / [英文 LaTeX 源码](paper/main-en.tex)
+- **[论文—Lean 逐条对照](docs/zh/proof-map.md)** / [直接按区间下标陈述的 Lean 主定理](formal/LeanVerification/Paper.lean)
+- [形式化范围与信任边界](docs/zh/formalization.md)
 
-## 问题描述
+对已知分解 `m = ∏ p_s^k_s`，记 `K = ∑ k_s`、`w` 为分量数。
+主体坐标更新量为预处理 `O(nKd²)`、每次成员查询 `O(wd²)`。
+求逆、赋值、堆、因数分解与整数位成本另计；论文严格区分这些成本模型。
 
-给定向量序列
+## 目录
 
-\[
-a_i\in(\mathbb Z/m\mathbb Z)^d,
-\]
+```text
+paper/           中英文论文、参考文献、定理映射及 PDF
+formal/          Lean 工程、论文主定理、声明审计
+implementation/  参考程序、测试、性能样例、输入输出样例
+  experiments/   历史原型，只作补充对照
+  tests/         独立整数格 oracle 和大模数测试
+docs/zh/         中文使用、验证、测试、扩展及历史说明
+docs/en/         对应英文说明
+artifacts/       实际测试、构建与性能日志
+```
 
-其中 `m` 可以是合数。需要回答区间 `[l,r]` 内的向量能否线性表示给定向量 `x`，即判断是否存在模 `m` 的系数使
+## 复现
 
-\[
-x=\sum_{i=l}^{r}\lambda_i a_i.
-\]
+Python 3.10+，参考程序及测试只用标准库。从本目录执行：
 
-普通异或线性基和素数模线性基都有区间查询技巧，但合数模下不再是向量空间，存在零因子和非唯一表示。
+```sh
+python3 implementation/solver.py < implementation/examples/example.in
+make test
+make formal
+make paper
+make check
+```
 
-## 核心问题
+- Lean 首次安装与依赖缓存：[形式化说明](docs/zh/formalization.md)。
+- PDF 需要含 `ctex`、Fandol 字体和 `latexmk` 的 TeX Live/XeLaTeX。
+- [程序接口与输入契约](docs/zh/usage.md) · [测试覆盖](docs/zh/testing.md) · [补充数学说明](docs/zh/extensions.md)
 
-能否得到高效的离线或在线区间查询算法？复杂度能否接近普通线性基的复杂度？
-
-## 可验证方向
-
-- 先研究 `m=p^2`；
-- 再推广到任意素数幂或任意有限交换环；
-- 分析 Smith 标准形、有限模上的生成子模与持久化结构；
-- 构造反例，检验将普通线性基直接推广到合数模时的贪心步骤。
-
-## 来源
-
-[Linear Basis (Xor Basis Extended)](https://codeforces.com/blog/entry/98376)
+程序测试包含最大为 **2,147,483,647** 的质数、`2^64`、`(10^9+7)^3` 和 **120 位 CRT 模数**，
+同时覆盖 YES、NO、历史版本与操作上界。实测日志位于 [artifacts/](artifacts/)。
+形式化验证不等于 Python 源码精化，也不表示论文已通过外部同行评审。

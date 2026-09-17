@@ -1,0 +1,174 @@
+{
+  "namespace": "CompositeModulusBasis",
+  "schema_version": 1,
+  "claims": [
+    {
+      "id": "def:interval",
+      "kind": "definition",
+      "title_zh": "区间子模与下标桥接",
+      "title_en": "Interval span and index bridge",
+      "status": "formal",
+      "declarations": [
+        "CompositeModulusBasis.Paper.intervalSpan",
+        "CompositeModulusBasis.Paper.prefixSource_span",
+        "CompositeModulusBasis.Paper.compositePrefix_span"
+      ]
+    },
+    {
+      "id": "def:lead",
+      "kind": "definition",
+      "title_zh": "首项和规范行",
+      "title_en": "Leading slots and normalized rows",
+      "status": "formal",
+      "declarations": [
+        "CompositeModulusBasis.PadicEchelon.HasLead",
+        "CompositeModulusBasis.PadicEchelon.PivotRow"
+      ]
+    },
+    {
+      "id": "def:digit",
+      "kind": "definition",
+      "title_zh": "数字基的基数刻画",
+      "title_en": "Cardinality characterization of digit bases",
+      "status": "formal",
+      "declarations": [
+        "CompositeModulusBasis.DigitCardinality.CardinalBasis",
+        "CompositeModulusBasis.DigitCardinality.CardinalBasis.mem_iff_digitRep"
+      ]
+    },
+    {
+      "id": "lem:digits",
+      "kind": "lemma",
+      "title_zh": "数字表示单射",
+      "title_en": "Injective digit encoding",
+      "status": "formal",
+      "declarations": [
+        "CompositeModulusBasis.DigitCardinality.encode_injective",
+        "CompositeModulusBasis.DigitCardinality.card_range_encode"
+      ]
+    },
+    {
+      "id": "lem:query",
+      "kind": "lemma",
+      "title_zh": "查询存在性与双向正确性",
+      "title_en": "Query existence and both answer directions",
+      "status": "formal",
+      "declarations": [
+        "CompositeModulusBasis.BasisQuery.exists_correct_answer",
+        "CompositeModulusBasis.BasisQuery.Derivation.correct"
+      ]
+    },
+    {
+      "id": "lem:order",
+      "kind": "lemma",
+      "title_zh": "商群阶与幂层",
+      "title_en": "Quotient order and power levels",
+      "status": "formal",
+      "declarations": [
+        "CompositeModulusBasis.CyclicQuotient.exists_quotient_order_exponent",
+        "CompositeModulusBasis.CyclicQuotient.nsmul_pow_ne_zero_iff",
+        "CompositeModulusBasis.CyclicQuotient.quotient_exponent_anti"
+      ]
+    },
+    {
+      "id": "lem:coset",
+      "kind": "lemma",
+      "title_zh": "缺槽首项及乘 p 的推进",
+      "title_en": "Missing-slot leads and advancement under p",
+      "status": "formal",
+      "declarations": [
+        "CompositeModulusBasis.BasisQuery.Basis.missing_coset_lead_unique",
+        "CompositeModulusBasis.BasisQuery.Derivation.p_nsmul_final_strictly_later"
+      ]
+    },
+    {
+      "id": "lem:extension",
+      "kind": "lemma",
+      "title_zh": "循环扩张与层间不碰撞",
+      "title_en": "Cyclic extension and distinct layer slots",
+      "status": "formal",
+      "declarations": [
+        "CompositeModulusBasis.ArbitraryExtension.basisFromSettledLayers",
+        "CompositeModulusBasis.CyclicExtension.no_same_slot_of_missing_layers"
+      ]
+    },
+    {
+      "id": "lem:terminal",
+      "kind": "lemma",
+      "title_zh": "终态提取后缀数字基",
+      "title_en": "Extracting suffix digit bases",
+      "status": "formal",
+      "declarations": [
+        "CompositeModulusBasis.TerminalExtraction.drained_table_correct"
+      ]
+    },
+    {
+      "id": "lem:operational",
+      "kind": "lemma",
+      "title_zh": "必要键保持和同时间碰撞排除",
+      "title_en": "Protected keys and equal-time collision exclusion",
+      "status": "formal",
+      "declarations": [
+        "CompositeModulusBasis.FastAppend.initial_protected",
+        "CompositeModulusBasis.FastInvariant.scan_preservesKeysAndProtected",
+        "CompositeModulusBasis.PrioritySafety.same_timestamp_collision_impossible"
+      ]
+    },
+    {
+      "id": "lem:budget",
+      "kind": "lemma",
+      "title_zh": "合法终止、列预算与队列大小",
+      "title_en": "Totality, column budgets, and queue size",
+      "status": "formal",
+      "declarations": [
+        "CompositeModulusBasis.Totality.appendResult_nonempty",
+        "CompositeModulusBasis.WorklistComplexity.insertion_visits_le",
+        "CompositeModulusBasis.WorklistComplexity.insertion_pops_le",
+        "CompositeModulusBasis.WorklistComplexity.insertion_queue_lengths_le"
+      ]
+    },
+    {
+      "id": "thm:prime",
+      "kind": "theorem",
+      "title_zh": "素数幂区间主定理",
+      "title_en": "Prime-power interval theorem",
+      "status": "formal",
+      "declarations": [
+        "CompositeModulusBasis.Paper.theorem_1_prime_power"
+      ]
+    },
+    {
+      "id": "cor:card",
+      "kind": "corollary",
+      "title_zh": "区间子模大小",
+      "title_en": "Interval module cardinality",
+      "status": "formal",
+      "declarations": [
+        "CompositeModulusBasis.TimestampedBasis.CorrectTable.card_at",
+        "CompositeModulusBasis.Paper.prefixSource_span"
+      ]
+    },
+    {
+      "id": "thm:crt",
+      "kind": "theorem",
+      "title_zh": "CRT 区间查询及预处理",
+      "title_en": "CRT interval queries and preprocessing",
+      "status": "formal",
+      "declarations": [
+        "CompositeModulusBasis.Paper.theorem_2_composite_interval",
+        "CompositeModulusBasis.Paper.theorem_2_composite_preprocessing"
+      ]
+    },
+    {
+      "id": "prop:cost",
+      "kind": "proposition",
+      "title_zh": "完整实现成本模型",
+      "title_en": "Full implementation cost model",
+      "status": "events-only",
+      "declarations": [
+        "CompositeModulusBasis.VerifiedScan.Drain.initial_operational_bounds",
+        "CompositeModulusBasis.WorklistComplexity.insertion_heap_comparisons_le"
+      ]
+    }
+  ]
+}

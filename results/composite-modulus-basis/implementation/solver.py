@@ -73,10 +73,13 @@ class PrimePowerBasis:
             raise ValueError("invalid prime power or dimension")
         self.p, self.k, self.d = p, k, dimension
         self.modulus = p**k
-        self.powers = [p**v for v in range(k + 1)]
+        self.powers = [1]
+        for _ in range(k):
+            self.powers.append(self.powers[-1] * p)
         self.table: list[list[Pivot | None]] = [[None] * k for _ in range(dimension)]
         self.length = 0
         self.row_reductions = self.slot_writes = self.heap_pops = 0
+        self.column_visits = self.initial_row_passes = 0
         self.max_pending = 0
 
     def valuation(self, value: int) -> int:
@@ -103,13 +106,16 @@ class PrimePowerBasis:
         self.length += 1
         timestamp = self.length
         row = tuple(a % self.modulus for a in vector)
+        self.initial_row_passes += 1
         # Unique (timestamp, level) keys. At most k pending rows at a time.
         pending = []
         for level in range(self.k):
             if not any(row):
                 break
             heapq.heappush(pending, (-timestamp, level, 0, row))
-            row = tuple(a * self.p % self.modulus for a in row)
+            if level + 1 < self.k:
+                row = tuple(a * self.p % self.modulus for a in row)
+                self.initial_row_passes += 1
         self.max_pending = max(self.max_pending, len(pending))
 
         while pending:
@@ -117,6 +123,7 @@ class PrimePowerBasis:
             tag = -minus_tag
             self.heap_pops += 1
             for j in range(start_column, self.d):
+                self.column_visits += 1
                 if row[j] == 0:
                     continue
                 v = self.valuation(row[j])
@@ -135,6 +142,7 @@ class PrimePowerBasis:
                             # Requeue, rather than immediately following an
                             # older row: all newer timestamps must settle first.
                             heapq.heappush(pending, (-old.timestamp, old.level, j + 1, residual))
+                            self.max_pending = max(self.max_pending, len(pending))
                     break
                 row = self._subtract(row, old, j, v)
 
@@ -234,7 +242,10 @@ def main() -> None:
     parser.add_argument("--online", action="store_true", help="use prefix snapshots instead of offline bucketing")
     parser.add_argument("--factors", help="known prime factorization, e.g. 2:2,3:1; supplied bases must be prime")
     args = parser.parse_args()
-    values = list(map(int, sys.stdin.buffer.read().split()))
+    try:
+        values = list(map(int, sys.stdin.buffer.read().split()))
+    except ValueError:
+        parser.error("input must contain integers only")
     if len(values) < 4:
         parser.error("expected n d m q, followed by vectors and queries")
     n, d, modulus, q = values[:4]

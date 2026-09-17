@@ -1,0 +1,419 @@
+\documentclass[11pt,a4paper]{article}
+\newcommand{\shorttitle}{Range membership over composite moduli}
+\input{common}
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}
+\theoremstyle{plain}
+\newtheorem{lemma}{Lemma}
+\newtheorem{theorem}{Theorem}
+\newtheorem{proposition}{Proposition}
+\newtheorem{corollary}{Corollary}
+\title{Range-Generated Submodule Membership\\over Composite Moduli\\[0.4em]\large Timestamped $p$-Adic Echelon Tables with Lean 4 Verification}
+\author{ASTRA4OI Project}
+\date{16 September 2026\quad Technical manuscript}
+\hypersetup{pdftitle={Range-Generated Submodule Membership over Composite Moduli},pdfauthor={ASTRA4OI Project},pdfsubject={Timestamped p-adic echelon tables with Lean 4 verification},pdflang={en}}
+\begin{document}
+\maketitle
+\begin{abstract}
+Given vectors $a_i\in(\Z/m\Z)^d$, range-generated submodule membership asks whether a target belongs to
+$\langle a_l,\ldots,a_r\rangle$. Over composite moduli, nonunit pivots have nontrivial annihilator relations,
+so a direct adaptation of single-pivot field elimination is incomplete. We present a timestamped
+$p$-adic echelon-table algorithm. Modulo $p^k$, each new vector starts at most $k$ nonbranching power
+chains, and displaced residuals are processed by timestamp priority. Cyclic-quotient leading positions
+and digit-representation cardinalities yield an invariant valid for all suffixes simultaneously.
+For positive dimension, dominant coordinate-update counts are $O(nkd^2)$ for preprocessing and $O(d^2)$
+per query; a known factorization gives $O(nKd^2)$ and $O(wd^2)$ via the Chinese remainder theorem.
+We provide general Lean 4 proofs, a declaration-by-declaration concordance, and independent program tests.
+Inversions, valuations, heap operations, and integer bit costs are charged separately. Factorization
+is not assumed free, and the formal execution relations are not claimed to be a source-refined
+verification of the executable implementation.
+\end{abstract}
+\noindent\textbf{Keywords:} modular linear algebra; range queries; finite chain rings; digit bases; formal verification
+
+\section{Introduction and scope}
+Over a field, invertible pivots support coordinate-by-coordinate elimination. In $\Z/m\Z$, nonzero
+elements need not be units. For instance, modulo $4$, the multiple $(0,2)$ of $(2,1)$ cannot be
+recognized by a naive structure that retains only a first-coordinate pivot. Also, the full sequence
+$1,2\pmod4$ generates $1$, whereas its last element does not. Retaining only the latest original
+vector therefore fails to support suffix filtering.
+
+We study append-only membership queries. Recovering coefficients, editing interior elements, and
+deleting elements are outside the interface. The method stores $k$ valuation slots per coordinate,
+using timestamps to represent all suffixes. The contribution is a complete insertion and query
+algorithm, a cyclic-extension and nonbranching-chain proof, and a research artifact linking paper
+statements, Lean declarations, and reproducible experiments.
+
+\paragraph{Related work and positioning.}
+A single modular membership problem reduces to integer-lattice membership. Kannan and Bachem gave
+polynomial algorithms for Smith and Hermite normal forms~\cite{kannan1979}, providing foundational
+methods for the static problem. Bases with coefficients restricted to digits over finite rings are
+not new; for example, Kuijper and Pinto use $p$-linear combinations and $p$-bases for ring convolutional
+codes~\cite{kuijper2009}. We specify the finite-vector, leading-slot notion used here and focus on
+timestamped maintenance of all suffixes, rather than claiming novelty for digit bases themselves.
+The formalization uses Lean 4~\cite{demoura2021} and Mathlib~\cite{mathlib2020}. We do not claim known
+optimality or infer comparative speedups over normal-form algorithms from uncontrolled timings.
+
+\section{Notation, interface, and cost model}
+Let $m=\prod_{s=1}^w p_s^{k_s}>1$ with distinct primes $p_s$, exponents $k_s\ge1$, and
+$K=\sum_s k_s$. The factorization is supplied. First fix $R=\Z/p^k\Z$, with $n,d,k\ge1$.
+Coordinates are indexed by $0,\ldots,d-1$ and original vectors by times $1,\ldots,n$.
+
+\begin{definition}[Interval submodule]\label{def:interval}
+For $1\le l\le r\le n$, define
+\[
+ M_{l,r}=\Span_R\{a_i:l\le i\le r\}.
+\]
+A membership query must return $\mathsf{YES}$ exactly when $x\in M_{l,r}$.
+\end{definition}
+\leanref{Paper.intervalSpan; Paper.prefixSource_span}
+
+A \emph{coordinate update} is a coordinate scaling during normalization or a multiply-subtract
+update during row reduction. It may contain a constant number of scalar modular operations.
+We count these separately from inversions, valuations, heap comparisons, and input scanning.
+Slots use constant-access arrays and the priority queue uses a heap with logarithmic operation cost.
+Exact constants below refer to coordinate-update allowances; full scalar and bit costs are separate.
+
+\begin{definition}[Leading position and normalized slot]\label{def:lead}
+For nonzero $b\in R^d$, let $j$ be its first nonzero coordinate and
+$v=v_p(b_j)\in\{0,\ldots,k-1\}$. Define $\lead(b)=(j,v)$ with lexicographic order.
+A normalized row for slot $(j,v)$ has $b_i=0$ for $i<j$ and $b_j=p^v$.
+\end{definition}
+\leanref{PadicEchelon.HasLead; PadicEchelon.PivotRow}
+
+If the canonical representative of the leading coordinate is $p^v u$, then $u$ is a unit;
+multiplication by $u^{-1}$ normalizes the row. The reduction coefficient $b_j/p^v$ uses exact
+integer division of the canonical representative, never the inverse of the nonunit $p^v$.
+
+\section{Digit bases and cyclic quotients}
+\begin{definition}[$p$-digit basis]\label{def:digit}
+A normalized row family $\mathcal B$ with distinct leading positions is a $p$-digit basis of $H$ if
+\[
+ \{0,\ldots,p-1\}^{\mathcal B}\longrightarrow H,
+ \qquad(c_b)_b\longmapsto\sum_{b\in\mathcal B}c_b b
+\]
+is bijective. The submodule $H$ need not be free over $R$.
+\end{definition}
+\leanref{DigitCardinality.CardinalBasis; DigitCardinality.CardinalBasis.mem_iff_digitRep}
+
+\begin{lemma}[Injective digit representations]\label{lem:digits}
+A normalized row family with distinct leading positions has exactly $p^{|\mathcal B|}$ distinct
+digit combinations.
+\end{lemma}
+\begin{proof}
+Subtract two different combinations and take the least leading position $(j,v)$ with a nonzero
+coefficient. That coefficient has absolute value less than $p$ and is not divisible by $p$.
+Its contribution in coordinate $j$ has exact valuation $v$. Later slots in the same coordinate
+contribute valuation at least $v+1$, and rows led by later coordinates contribute zero there.
+Cancellation is impossible.
+\end{proof}
+\leanref{DigitCardinality.encode_injective; DigitCardinality.card_range_encode}
+
+\begin{lemma}[Complete digit-basis queries]\label{lem:query}
+For a digit basis of $H$, the leading position of any nonzero member is a stored slot.
+Reducing by normalized pivots, rejecting at a missing slot, and accepting at zero is correct
+and takes at most $d$ row reductions.
+\end{lemma}
+\begin{proof}
+The first nonzero term in a digit expansion determines its leading position, so a member cannot
+stop at a missing slot. Subtracting arbitrary ring multiples of basis rows preserves membership.
+Reversing a successful reduction sequence proves sufficiency of YES. Every step clears the entire
+current coordinate and preserves the zero prefix; hence at most $d$ reductions occur.
+\end{proof}
+\leanref{BasisQuery.exists_correct_answer; BasisQuery.Derivation.correct}
+
+\begin{lemma}[Power levels of a cyclic quotient]\label{lem:order}
+For $H\le R^d$ and $a\in R^d$, there is $0\le h\le k$ with $\ord(a+H)=p^h$.
+Moreover, $p^e a+H\ne0$ exactly when $e<h$. Enlarging $H$ can only decrease $h$.
+\end{lemma}
+\begin{proof}
+The quotient $R^d/H$ is annihilated by $p^k$, so the element order divides $p^k$ and is $p^h$.
+The coset is annihilated by $p^e$ exactly when $p^h\mid p^e$. A larger denominator submodule
+gives a quotient of the previous quotient; element orders can only become divisors.
+\end{proof}
+\leanref{CyclicQuotient.exists_quotient_order_exponent; CyclicQuotient.nsmul_pow_ne_zero_iff; CyclicQuotient.quotient_exponent_anti}
+
+\begin{lemma}[Missing-slot lead of a coset]\label{lem:coset}
+After reduction against a digit basis of $H$ to the first missing slot, a nonzero residual's
+leading position depends only on its coset. Multiplication by a unit preserves it; multiplication
+by $p$ and renewed reduction strictly increases it, unless the coset becomes zero.
+\end{lemma}
+\begin{proof}
+If two missing-slot residuals in one coset have different leads, their difference belongs to $H$
+but retains the earlier missing lead, contradicting Lemma~\ref{lem:query}. Unit scaling preserves
+both the lead and missing-slot property. Multiplication by $p$ increases its valuation or clears
+that coordinate; further reductions can only advance through more coordinates.
+\end{proof}
+\leanref{BasisQuery.Basis.missing_coset_lead_unique; BasisQuery.Derivation.p_nsmul_final_strictly_later}
+
+\begin{lemma}[Digit basis of a cyclic extension]\label{lem:extension}
+Suppose $\ord(a+H)=p^h$. Choose one normalized missing-slot representative
+$b_e\equiv u_e p^e a\pmod H$ for every surviving level $0\le e<h$, with units $u_e$.
+Together with a digit basis of $H$, these rows form a digit basis of $H+Ra$.
+\end{lemma}
+\begin{proof}
+By Lemma~\ref{lem:coset}, the new leading positions are strictly increasing and absent from the old
+basis. With $s$ old rows, the combined $s+h$ rows yield $p^{s+h}$ distinct digit combinations.
+All lie in $H+Ra$, whose cardinality is $|H|p^h=p^{s+h}$, so the injection is surjective.
+In particular, distinct surviving levels cannot compete for one missing slot.
+\end{proof}
+\leanref{ArbitraryExtension.basisFromSettledLayers; CyclicExtension.no_same_slot_of_missing_layers}
+
+\section{Timestamped algorithm}
+Slot $B[j][v]$ stores a normalized row, timestamp $t$, and source power level $e$. These labels
+record the quotient identity
+\begin{equation}\label{eq:identity}
+ b\equiv u p^e a_t\pmod{H_{t+1}^{(r)}},\qquad
+ H_{t+1}^{(r)}=\Span_R\{a_{t+1},\ldots,a_r\},\quad u\in R^\times.
+\end{equation}
+The source level $e$ is not the slot valuation $v$. Subtracting a newer row must retain the older
+time and level.
+
+\begin{algorithm}[htbp]
+\small
+\caption{Query suffix $[l,r]$ of the current prefix}\label{alg:query}
+\begin{algorithmic}[1]
+\Require Current-prefix table $B$, left endpoint $l$, target $x\in R^d$
+\For{$j=0,\ldots,d-1$}
+  \If{$x_j=0$} \State \textbf{continue} \EndIf
+  \State $v\gets v_p(x_j)$; $b\gets B[j][v]$
+  \If{$b$ is absent or $b.t<l$} \State \Return NO \EndIf
+  \State $x\gets x-(x_j/p^v)b$ \Comment{Coordinates modulo $p^k$}
+\EndFor
+\State \Return YES
+\end{algorithmic}
+\end{algorithm}
+
+\begin{algorithm}[htbp]
+\small
+\caption{Append vector $a_r$ at time $r$}\label{alg:append}
+\begin{algorithmic}[1]
+\State $Q\gets\{(p^e a_r,r,e,0):0\le e<k,\ p^e a_r\ne0\}$
+\While{$Q\ne\varnothing$}
+  \State Pop $(x,t,e,s)$ of greatest time, breaking ties by least level
+  \For{$j=s,\ldots,d-1$}
+    \If{$x_j=0$} \State \textbf{continue} \EndIf
+    \State $v\gets v_p(x_j)$; $b\gets B[j][v]$
+    \If{$b$ is absent}
+      \State Normalize $x$ and store it with $(t,e)$; \textbf{break}
+    \ElsIf{$b.t>t$}
+      \State $x\gets x-(x_j/p^v)b$
+    \ElsIf{$b.t<t$}
+      \State Normalize $x$ and replace the slot by $(x,t,e)$
+      \State $y\gets b-(b_j/p^v)x$
+      \If{$y\ne0$} \State Enqueue $(y,b.t,b.e,j+1)$ \EndIf
+      \State \textbf{break}
+    \Else
+      \State Impossible by Lemma~\ref{lem:operational}
+    \EndIf
+  \EndFor
+\EndWhile
+\end{algorithmic}
+\end{algorithm}
+
+Each replacement continues only one old residual and does not generate another $p$-multiple of
+the new pivot. Once initialized, power-chain tasks are only reduced or transferred. The
+nonbranching condition is essential for the cost bound.
+
+\section{Insertion invariants and completeness}
+Fix the prefix $r$ being completed, and let $p^{h_t}$ be the order of $a_t+H_{t+1}^{(r)}$.
+Call $(t,e)$ \emph{protected} if $e<h_t$. Across the active table and pending queue, maintain:
+\begin{enumerate}[label=(I\arabic*)]
+\item stored slots are distinct, and normalized rows are ordered by leading position;
+\item active keys $(t,e)$ are unique, and every active row satisfies~\eqref{eq:identity};
+\item every protected key is present in the table or queue.
+\end{enumerate}
+
+\begin{lemma}[Terminal extraction]\label{lem:terminal}
+If a table satisfies these conditions with an empty queue, then for every $l$ the rows of time
+at least $l$ form a digit basis of $M_{l,r}$. Time $t$ retains exactly levels $0,\ldots,h_t-1$.
+\end{lemma}
+\begin{proof}
+Induct on timestamps in descending order. Suppose newer rows form a digit basis of
+$H=H_{t+1}^{(r)}$. Time-$t$ slots are absent from the newer table, and every $e<h_t$ occurs by (I3).
+An extra row with $e\ge h_t$ would belong to $H$ by~\eqref{eq:identity} yet have a missing nonzero
+lead, contradicting Lemma~\ref{lem:query}. Protected keys are unique by (I2), so
+Lemma~\ref{lem:extension} gives the next extended digit basis.
+\end{proof}
+\leanref{TerminalExtraction.drained_table_correct}
+
+\begin{lemma}[Active invariants and collision exclusion]\label{lem:operational}
+Appending to a correct prefix table initializes (I1)--(I3), and each legal branch preserves them.
+A task popped at maximum timestamp cannot collide with a stored row of the same time and slot.
+\end{lemma}
+\begin{proof}
+Appending enlarges older $H_{t+1}$, so older protected-level sets can only shrink. All $k$ new-time
+levels are initially queued, except zero rows, which cannot have protected keys. Thus (I3) holds
+initially. Normalization multiplies by a unit, and older rows only subtract newer rows, preserving
+quotient identities. Keys are moved, or dropped only with zero rows; the latter is impossible for
+a protected nonzero coset. Hence (I2)--(I3) persist, while replacement and empty-slot insertion
+preserve (I1).
+
+Let the popped time be $t$. No newer task is pending, so all newer protected keys are already
+stored. Restricting the invariants to newer times permits Lemma~\ref{lem:terminal}, yielding a
+complete basis of $H_{t+1}$. If two time-$t$ rows collide, their slot is missing from that newer
+basis. Their distinct keys imply distinct levels. A nonzero missing-slot residual cannot represent
+a vanished level, and distinct surviving levels have different leads by
+Lemma~\ref{lem:extension}, a contradiction. This extracts the newer basis from local invariants;
+it does not assume that insertion has already completed successfully.
+\end{proof}
+\leanref{FastAppend.initial_protected; FastInvariant.scan_preservesKeysAndProtected; PrioritySafety.same_timestamp_collision_impossible}
+
+\begin{lemma}[Termination and nonbranching budgets]\label{lem:budget}
+An insertion always has a legal continuation and terminates. It visits at most $kd$ columns,
+pops at most $k(d+1)$ tasks, and has at most $k$ pending tasks at any time.
+\end{lemma}
+\begin{proof}
+A nonzero row has a lead and admits unit normalization; Lemma~\ref{lem:operational} excludes the
+only collision error branch. Each initial task owns a column budget of $d$. Finishing removes a
+queue item; replacement adds only one successor starting at the next column and consumes at least
+one column. Queue length cannot increase, and total visits cannot exceed $kd$. The potential
+$|Q|+\sum_{q\in Q}(d-q.\mathrm{start})$ decreases at every pop from an initial value at most
+$k(d+1)$, proving termination and the pop bound.
+\end{proof}
+\leanref{Totality.appendResult_nonempty; WorklistComplexity.insertion_visits_le; WorklistComplexity.insertion_pops_le}
+
+\section{Main results and full cost accounting}
+\begin{theorem}[Prime-power interval membership]\label{thm:prime}
+For every prime $p$, positive $k,d$, and input sequence, Algorithm~\ref{alg:append}, starting from
+the empty table, constructs at each right endpoint $r$ a table valid for all intervals $[l,r]$.
+Algorithm~\ref{alg:query} returns YES exactly when $x\in M_{l,r}$ and performs at most $d$ row
+reductions. A table has at most $dk$ rows. Processing $n$ vectors uses at most $3nkd^2$ coordinate
+updates in the allowance for elimination and initial power-row preparation.
+\end{theorem}
+\begin{proof}
+The empty table satisfies the invariants. Lemmas~\ref{lem:operational} and~\ref{lem:budget} give
+legal terminating appends, and Lemma~\ref{lem:terminal} restores all suffix bases. Prefix induction
+and Lemma~\ref{lem:query} prove the answers. There are $dk$ slots. At most two row passes occur per
+column visit, giving $2kd^2$ drain updates. One input-normalization pass and at most $k-1$ passes
+multiplying by $p$ use an additional allowance $kd$, for a total at most $3kd^2$ when $d\ge1$.
+\end{proof}
+\leanref{Paper.theorem_1_prime_power}
+
+\begin{corollary}[Module cardinality]\label{cor:card}
+If the filtered table has $s$ rows, then $|M_{l,r}|=p^s$.
+\end{corollary}
+\begin{proof}
+Apply the digit-basis bijection and Lemma~\ref{lem:digits}.
+\end{proof}
+\leanref{TimestampedBasis.CorrectTable.card_at; Paper.prefixSource_span}
+
+\begin{theorem}[CRT combination]\label{thm:crt}
+For a supplied factorization $m=\prod_{s=1}^w p_s^{k_s}$ into distinct primes, the full answer is
+the conjunction of component answers. Dominant preprocessing coordinate updates are $O(nKd^2)$,
+and each membership query uses $O(wd^2)$.
+\end{theorem}
+\begin{proof}
+Projecting a full linear expression proves necessity. Conversely, combine the component
+coefficients $\lambda_i^{(s)}$ by CRT separately for every original generator index $i$, obtaining
+one coefficient $\lambda_i$ modulo $m$. Components need not first agree on integer coefficients.
+Summing their counters gives $3nKd^2$ and $wd^2$ respectively.
+\end{proof}
+\leanref{Paper.theorem_2_composite_interval; Paper.theorem_2_composite_preprocessing}
+
+\begin{proposition}[Implementation cost model]\label{prop:cost}
+Use array slots, a binary heap, and precomputed powers with binary-search divisibility tests for
+valuation. If scalar operations other than inversion are temporarily counted at unit cost and a
+unit inversion costs $I(p^k)$, then $n$ appends and $q$ queries cost
+\begin{equation}\label{eq:runtime}
+ O\!\left(nkd\bigl(d+\log(k+1)+I(p^k)\bigr)
+       +qd\bigl(d+\log(k+1)\bigr)\right).
+\end{equation}
+\end{proposition}
+\begin{proof}
+Lemma~\ref{lem:budget} gives $O(kd)$ heap operations, each costing $O(\log(k+1))$.
+Insertion has at most $kd$ valuations and inversions; queries have at most $d$ valuations and no
+inversions. Zero checks and coordinate searches cost at most $O(d)$ per pop and are absorbed.
+Precomputing powers takes $O(k)$, absorbed for positive $n,d$, as is the $O(n+q)$ cost of
+right-endpoint bucketing.
+\end{proof}
+Lean verifies the event counts; array, heap, and scalar-subroutine cost contracts are part of the
+written analysis. Arbitrary-precision arithmetic requires separate bit costs for each operation,
+and factorization is additional. For $m=1$, every valid query is YES but I/O and bookkeeping are
+not free. The program's \texttt{span\_size} uses $O(dK)$ slot checks and exponentiation, not the
+membership-query bound.
+
+\paragraph{Storage and historical intervals.}
+The current table uses $O(Kd^2)$ coordinate cells. Each append creates at most $O(Kd)$ immutable
+row records. Saving $dK$ references per prefix gives $O(nKd^2)$ total space and direct access to
+version $r$. This is a persistent-layout accounting argument, not allocator or byte-level memory
+verification.
+
+\section{Lean 4 concordance and trust boundary}
+Vectors are represented as functions from \texttt{Fin d} to $\operatorname{ZMod}(p^k)$; normalized
+leads, generated spans, and cardinality characterize digit bases. \Lean{Paper.prefixSource} labels
+the first $r$ input vectors by $1,\ldots,r$, and \Lean{Paper.prefixSource_span} equates timestamp
+filtering with the literal interval in Definition~\ref{def:interval}. Thus the machine statement
+of Theorem~\ref{thm:prime} is not merely about an assumed-correct abstract table.
+
+The proof fields of \Lean{BuildResult} are established inductively, with both termination and
+query existence proved. \texttt{noncomputable} definitions and choice select mathematical evidence;
+they do not assert that compiled Lean definitions run with array/heap complexity. Increasing-level
+tie breaking is the reference program's deterministic policy; the core proof only requires maximum
+timestamp selection and therefore covers that policy.
+
+The table omits the shared namespace \Lean{CompositeModulusBasis}.
+Table~\ref{tab:concordance} is generated from \texttt{paper/theorem-map.json}. Every listed
+declaration is compiled and its transitive axioms audited; the allowlist is
+\Lean{propext}, \Lean{Classical.choice}, and \Lean{Quot.sound}. Finite-model regression is separate
+and is not imported by the core entry point. Python source refinement, the general finite-ring
+reduction, and full bit complexity are outside the core machine theorems.
+\input{concordance-en}
+
+\section{Experiments and reproducibility}
+The reference implementation uses only Python's standard library. Independent answers come from
+three sources: coefficient enumeration for small moduli; triangularization and integer substitution
+in $\Span_\Z(a_l,\ldots,a_r,mI_d)$ for large moduli; and gcd ideals under known invertible coordinate
+changes, plus one-dimensional gcd membership. The lattice oracle is first checked on 4,656 small
+targets and then on 9,484 additional large-modulus analytic targets.
+
+\begin{table}[htbp]
+\centering
+\caption{Program coverage. Membership assertions include checks across three APIs/stages.}\label{tab:tests}
+\begin{tabular}{lrrr}
+\toprule
+Suite & Sequences & Intervals & Membership assertions\\
+\midrule
+Small-modulus main tests & 9,278 & 79,694 & 5,959,998\\
+Additional large-modulus tests & 78 & 9,332 & 240,420\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Large tests use seed $20260915$, with independently trial-verified primes up to $2,147,483,647$.
+They include $2^{64}$, $3^{20}$, $(10^9+7)^3$, and the 120-bit modulus
+$998244353^2\cdot1000000007^2$. Dimensions are $1,2,4,8,12$ and lengths are $24$ or $32$.
+Data include zeros, duplicates, nonunits, coupled low-rank rows, and suffix rank drops.
+Of 80,140 large-modulus query cases, 46,386 are YES and 33,754 are NO; each is checked at append
+time, against historical versions, and through the offline API.
+
+Performance samples use seed $120926$ and $n=4000,d=16,q=8000$, for modulus $72$, $(10^9+7)^2$,
+and the above 120-bit CRT modulus. Each configuration independently spot-checks 83 answers.
+Timing covers solving only, excluding data generation and oracle checks. One run is not a
+statistical performance evaluation; we infer neither worst-case runtime, optimality, nor speedup
+over normal-form methods. Raw timings and counters are in \texttt{artifacts/benchmarks.txt}.
+
+\paragraph{Artifact reproduction.}
+The repository entry is \url{https://github.com/Zi-Gao/ASTRA4OI/tree/main/results/composite-modulus-basis}.
+Lean is pinned to 4.32.0, and Mathlib to v4.32.0 with locked dependency commits. From the result
+directory, \texttt{make test}, \texttt{make formal}, and \texttt{make paper} reproduce program tests,
+paper-declaration auditing, and bilingual PDFs. Logs are in \texttt{artifacts/}; setup and cache
+instructions are provided in the usage documentation.
+
+\section{Discussion and conclusion}
+The method organizes the closure requirements caused by nonunit pivots into finitely many levels
+of a cyclic quotient, using conservative timestamps to maintain every suffix simultaneously.
+Correctness rests on leading-position uniqueness, preservation of protected levels, and newer-time
+priority; complexity rests on initiating only $k$ nonbranching chains per vector. Together these
+conditions establish a general result for all legal inputs, rather than an extrapolation from
+large-parameter tests.
+
+Further questions include refined bit costs, factorization interfaces, coefficient recovery,
+updates or deletions, and controlled comparisons with other dynamic module algorithms. The
+additive-group reduction for general finite commutative rings is retained in supplementary
+documentation; its dimension expansion and formalization scope are separate from the main
+integer-modulus theorem.
+{\small
+\bibliographystyle{plain}
+\bibliography{references}
+}
+\end{document}

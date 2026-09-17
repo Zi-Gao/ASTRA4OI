@@ -1,0 +1,54 @@
+name: Composite modulus basis
+
+on:
+  push:
+    paths:
+      - 'results/composite-modulus-basis/**'
+      - '.github/workflows/composite-modulus-basis.yml'
+  pull_request:
+    paths:
+      - 'results/composite-modulus-basis/**'
+      - '.github/workflows/composite-modulus-basis.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  python:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ['3.10', '3.14']
+    defaults:
+      run:
+        working-directory: results/composite-modulus-basis
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Exhaustive and large-modulus tests
+        run: |
+          python3 implementation/test_solver.py
+          python3 formal/sync_paper.py --check
+          python3 paper/check_artifact.py
+
+  lean:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.14'
+      - uses: leanprover/lean-action@v1
+        with:
+          lake-package-directory: results/composite-modulus-basis/formal
+          auto-config: false
+          build: true
+      - name: Core axiom audit and finite regression
+        working-directory: results/composite-modulus-basis
+        run: python3 formal/verify.py --regression

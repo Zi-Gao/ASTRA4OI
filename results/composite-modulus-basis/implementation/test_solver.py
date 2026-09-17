@@ -1,5 +1,9 @@
-"""Independent finite-span oracles, persistence checks, and ring reductions."""
+"""Reproducible standard-library tests: small exhaustive and large-modulus suites.
 
+From the artifact root, run `python3 implementation/test_solver.py`, or select --suite small / large.
+"""
+
+import argparse
 from itertools import product
 from pathlib import Path
 import random
@@ -89,7 +93,7 @@ def check_metadata_and_operation_bound():
 def compare_large_structured_cases():
     # The explicitly closed prototype is an additional algorithmic cross-check;
     # small-case correctness above uses an independent coefficient oracle.
-    from experiment import PrimePowerBasis as ClosureBasis
+    from experiments.explicit_closure import PrimePowerBasis as ClosureBasis
     rng = random.Random(2026091202)
     for _ in range(1200):
         p, k, dimension = rng.choice([2, 3, 5, 7]), rng.randrange(1, 9), rng.randrange(1, 10)
@@ -161,10 +165,20 @@ def check_finite_rings():
 
 def check_interfaces():
     here = Path(__file__).resolve().parent
-    data, expected = (here / "example.in").read_bytes(), (here / "example.out").read_bytes()
+    data, expected = (here / "examples/example.in").read_bytes(), (here / "examples/example.out").read_bytes()
     for flags in [[], ["--online"], ["--factors", "2:2"]]:
         process = subprocess.run([sys.executable, str(here / "solver.py"), *flags], input=data, capture_output=True, check=True)
         assert process.stdout == expected
+    for bad_input, flags in [
+        (b"one two", []),
+        (b"1 2 4 0 1", []),
+        (b"1 1 4 1 2 0 1 2", []),
+        (data, ["--factors", "2:1"]),
+        (data, ["--factors", "2:1,2:1"]),
+        (data, ["--factors", "2:2:1"]),
+    ]:
+        process = subprocess.run([sys.executable, str(here / "solver.py"), *flags], input=bad_input, capture_output=True)
+        assert process.returncode != 0 and b"Traceback" not in process.stderr
     assert trial_factorization(1) == []
     assert trial_factorization(360) == [(2, 3), (3, 2), (5, 1)]
     known = RangeBasis(12, 2, factors=[(2, 2), (3, 1)])
@@ -191,7 +205,7 @@ def check_interfaces():
     print("PASS CLI, known factorization, noncanonical coordinates, invalid intervals, and regressions", flush=True)
 
 
-def main():
+def run_small_suite():
     started = time.perf_counter()
     rng = random.Random(20260912)
     check_interfaces()
@@ -208,8 +222,23 @@ def main():
     check_metadata_and_operation_bound()
     compare_large_structured_cases()
     check_finite_rings()
-    print("PASS all tests:", COUNTS, flush=True)
-    print(f"Elapsed: {time.perf_counter() - started:.3f} seconds", flush=True)
+    print("PASS small-modulus suite:", COUNTS, flush=True)
+    print(f"Small-modulus elapsed: {time.perf_counter() - started:.3f} seconds", flush=True)
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--suite", choices=("all", "small", "large"), default="all")
+    args = parser.parse_args()
+    if not __debug__:
+        parser.error("tests require assertions; do not use python -O")
+    print(f"Python {sys.version.split()[0]}; suite={args.suite}; small-suite seed=20260912", flush=True)
+    if args.suite in ("all", "small"):
+        run_small_suite()
+    if args.suite in ("all", "large"):
+        from tests.large_moduli import main as run_large_suite
+        run_large_suite()
+    print("PASS all requested suites", flush=True)
 
 
 if __name__ == "__main__":

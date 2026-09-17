@@ -1,7 +1,7 @@
 """Priority-ordered insertion: only k incoming power rows, no closure branching."""
 
 import heapq
-from experiment import PrimePowerBasis, check_sequence, generated_span
+from .explicit_closure import PrimePowerBasis, check_sequence, generated_span
 from itertools import product
 import random
 

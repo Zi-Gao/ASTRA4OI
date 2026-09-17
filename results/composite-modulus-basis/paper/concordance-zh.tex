@@ -1,0 +1,40 @@
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{0.10\linewidth}>{\raggedright\arraybackslash}p{0.25\linewidth}>{\raggedright\arraybackslash}p{0.59\linewidth}@{}}
+\caption{论文与 Lean 声明对照。}\label{tab:concordance}\\
+\toprule
+编号 & 结论 & Lean 声明 \\
+\midrule\endfirsthead
+\toprule
+编号 & 结论 & Lean 声明 \\
+\midrule\endhead
+\bottomrule\endfoot
+定义~\ref{def:interval} & 区间子模与下标桥接 & \Lean{Paper.intervalSpan}\newline \Lean{Paper.prefixSource_span}\newline \Lean{Paper.compositePrefix_span} \\
+\addlinespace[0.55em]
+定义~\ref{def:lead} & 首项和规范行 & \Lean{PadicEchelon.HasLead}\newline \Lean{PadicEchelon.PivotRow} \\
+\addlinespace[0.55em]
+定义~\ref{def:digit} & 数字基的基数刻画 & \Lean{DigitCardinality.CardinalBasis}\newline \Lean{DigitCardinality.CardinalBasis.mem_iff_digitRep} \\
+\addlinespace[0.55em]
+引理~\ref{lem:digits} & 数字表示单射 & \Lean{DigitCardinality.encode_injective}\newline \Lean{DigitCardinality.card_range_encode} \\
+\addlinespace[0.55em]
+引理~\ref{lem:query} & 查询存在性与双向正确性 & \Lean{BasisQuery.exists_correct_answer}\newline \Lean{BasisQuery.Derivation.correct} \\
+\addlinespace[0.55em]
+引理~\ref{lem:order} & 商群阶与幂层 & \Lean{CyclicQuotient.exists_quotient_order_exponent}\newline \Lean{CyclicQuotient.nsmul_pow_ne_zero_iff}\newline \Lean{CyclicQuotient.quotient_exponent_anti} \\
+\addlinespace[0.55em]
+引理~\ref{lem:coset} & 缺槽首项及乘 p 的推进 & \Lean{BasisQuery.Basis.missing_coset_lead_unique}\newline \Lean{BasisQuery.Derivation.p_nsmul_final_strictly_later} \\
+\addlinespace[0.55em]
+引理~\ref{lem:extension} & 循环扩张与层间不碰撞 & \Lean{ArbitraryExtension.basisFromSettledLayers}\newline \Lean{CyclicExtension.no_same_slot_of_missing_layers} \\
+\addlinespace[0.55em]
+引理~\ref{lem:terminal} & 终态提取后缀数字基 & \Lean{TerminalExtraction.drained_table_correct} \\
+\addlinespace[0.55em]
+引理~\ref{lem:operational} & 必要键保持和同时间碰撞排除 & \Lean{FastAppend.initial_protected}\newline \Lean{FastInvariant.scan_preservesKeysAndProtected}\newline \Lean{PrioritySafety.same_timestamp_collision_impossible} \\
+\addlinespace[0.55em]
+引理~\ref{lem:budget} & 合法终止、列预算与队列大小 & \Lean{Totality.appendResult_nonempty}\newline \Lean{WorklistComplexity.insertion_visits_le}\newline \Lean{WorklistComplexity.insertion_pops_le}\newline \Lean{WorklistComplexity.insertion_queue_lengths_le} \\
+\addlinespace[0.55em]
+定理~\ref{thm:prime} & 素数幂区间主定理 & \Lean{Paper.theorem_1_prime_power} \\
+\addlinespace[0.55em]
+推论~\ref{cor:card} & 区间子模大小 & \Lean{TimestampedBasis.CorrectTable.card_at}\newline \Lean{Paper.prefixSource_span} \\
+\addlinespace[0.55em]
+定理~\ref{thm:crt} & CRT 区间查询及预处理 & \Lean{Paper.theorem_2_composite_interval}\newline \Lean{Paper.theorem_2_composite_preprocessing} \\
+\addlinespace[0.55em]
+命题~\ref{prop:cost} & 完整实现成本模型（仅事件计数） & \Lean{VerifiedScan.Drain.initial_operational_bounds}\newline \Lean{WorklistComplexity.insertion_heap_comparisons_le} \\
+\addlinespace[0.55em]
+\end{longtable}
