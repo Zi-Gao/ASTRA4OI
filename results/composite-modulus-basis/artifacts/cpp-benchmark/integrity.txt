@@ -1,0 +1,16 @@
+2026-09-18: Post-run integrity audit
+PASS standard-native: complete, 13 cases
+PASS standard-portable: complete, 13 cases
+PASS scaling-native: complete, 18 cases
+PASS stress-native: complete, 5 cases
+PASS all four groups used the final main.cpp, algorithms.hpp and arithmetic_test.cpp (SHA-256 checked against source)
+PASS every completed case has one common full-output SHA-256 across all successful candidates and repetitions
+PASS completed repetition counts, medians and RSS maxima recomputed from raw runs
+PASS successful repetitions stay within the recorded RSS budget
+PASS 36 unique performance input SHA-256 values
+PASS 284 completed candidate/configuration cells; 1006 measured repetitions (warmups excluded)
+PASS 20 resource-limit cells retained without fabricated runtimes
+PASS make check: paper concordance, public links, bilingual structure, Python 3.10 syntax, API examples
+PASS git diff --check
+Correctness gate per release build: 2,741,761 independent C++ membership assertions plus exact arithmetic checks.
+UBSan smoke validation passed. AddressSanitizer did not initialize successfully on this host; see sanitizer-smoke/validation-failure.txt.

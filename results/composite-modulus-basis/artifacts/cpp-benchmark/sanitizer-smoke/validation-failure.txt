@@ -1,0 +1,5 @@
+2026-09-17: Apple Clang 17 AddressSanitizer runtime did not reach main on macOS 26.6.2 arm64.
+The arithmetic test was stopped after a startup stall, not recorded as a passing test.
+A one-second stack sample showed AsanInitInternal -> InitializeShadowMemory -> get_dyld_hdr -> allocation -> AsanInitFromRtl -> StaticSpinMutex::LockSlow.
+The same startup stall occurred outside the filesystem sandbox. No benchmark timings were produced in this configuration.
+An independent UBSan-only configuration is used for executable validation; AddressSanitizer coverage remains unavailable on this host.

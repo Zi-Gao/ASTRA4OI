@@ -1,7 +1,8 @@
 PYTHON ?= python3
 LATEXMK ?= latexmk
+CXX ?= c++
 
-.PHONY: test test-large formal core map check paper benchmark
+.PHONY: test test-large formal core map check paper benchmark cpp-test benchmark-cpp benchmark-cpp-native benchmark-cpp-stress
 
 test:
 	$(PYTHON) implementation/test_solver.py
@@ -32,3 +33,19 @@ paper: map
 
 benchmark:
 	$(PYTHON) implementation/benchmark.py
+
+cpp-test:
+	mkdir -p build/cpp-benchmark
+	$(CXX) -std=c++17 -O2 -DNDEBUG -Wall -Wextra implementation/benchmark_cpp/main.cpp -o build/cpp-benchmark/bench
+	$(CXX) -std=c++17 -O2 -DNDEBUG -Wall -Wextra implementation/benchmark_cpp/arithmetic_test.cpp -o build/cpp-benchmark/arithmetic_test
+	build/cpp-benchmark/arithmetic_test
+	$(PYTHON) implementation/benchmark_cpp/verify.py --binary build/cpp-benchmark/bench --output build/cpp-benchmark/verification.json
+
+benchmark-cpp:
+	CXX="$(CXX)" $(PYTHON) implementation/benchmark_cpp/run.py --profile standard
+
+benchmark-cpp-native:
+	CXX="$(CXX)" $(PYTHON) implementation/benchmark_cpp/run.py --profile standard --tuning native
+
+benchmark-cpp-stress:
+	CXX="$(CXX)" $(PYTHON) implementation/benchmark_cpp/run.py --profile stress --tuning native

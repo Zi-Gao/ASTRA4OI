@@ -13,6 +13,9 @@ operation-count proofs.
 - [English LaTeX source](paper/main-en.tex) / [Chinese LaTeX source](paper/main-zh.tex)
 - **[Paper–Lean concordance](docs/en/proof-map.md)** / [Literal interval-index main theorems](formal/LeanVerification/Paper.lean)
 - [Formalization scope and trust boundary](docs/en/formalization.md)
+- [Novelty audit and prior-work comparison (2026-09-17)](docs/en/novelty-audit.md)
+- [C++ implementations and standardized benchmarks](implementation/benchmark_cpp/README-EN.md)
+- **[OI/CP performance results](docs/en/cpp-benchmark-results.md)** (basic/optimized C++, eight candidates, 36 datasets)
 
 For a known factorization `m = ∏ p_s^k_s`, write `K = ∑ k_s` and let `w` be the component count.
 Dominant coordinate updates are `O(nKd²)` for preprocessing and `O(wd²)` per membership query.
@@ -48,6 +51,10 @@ make check
 - PDF compilation requires TeX Live/XeLaTeX with `ctex`, Fandol fonts, and `latexmk`.
 - [API and input contracts](docs/en/usage.md) · [Test coverage](docs/en/testing.md) · [Mathematical supplements](docs/en/extensions.md)
 
-Program tests include primes up to **2,147,483,647**, `2^64`, `(10^9+7)^3`, and a **120-bit CRT modulus**,
+Python reference tests include primes up to **2,147,483,647**, `2^64`, `(10^9+7)^3`, and a **120-bit CRT modulus**,
 with YES, NO, historical-version, and operation-bound checks. Logs are in [artifacts/](artifacts/).
 Formal verification is not Python source refinement and does not imply external peer review of the paper.
+
+The separate C++ benchmark covers **32-bit moduli**, comparing basic/optimized timestamp tables,
+Howell-style interval baselines, and field-specialized methods. Its implementation and performance
+measurements are not verified by the existing Lean mathematical proofs; see the linked C++ guide.

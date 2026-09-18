@@ -1,0 +1,318 @@
+{
+  "seed": 20260917,
+  "quick": true,
+  "cases": [
+    {
+      "label": "lattice-0-m2-d3",
+      "queries": 60,
+      "algorithms": [
+        "timestamp-basic",
+        "timestamp-fast",
+        "closure-prototype",
+        "howell-rebuild",
+        "howell-segment",
+        "howell-sparse",
+        "field-timestamp",
+        "xor-packed"
+      ],
+      "assertions": 480
+    },
+    {
+      "label": "lattice-1-m4-d6",
+      "queries": 60,
+      "algorithms": [
+        "timestamp-basic",
+        "timestamp-fast",
+        "closure-prototype",
+        "howell-rebuild",
+        "howell-segment",
+        "howell-sparse"
+      ],
+      "assertions": 360
+    },
+    {
+      "label": "lattice-2-m256-d2",
+      "queries": 60,
+      "algorithms": [
+        "timestamp-basic",
+        "timestamp-fast",
+        "closure-prototype",
+        "howell-rebuild",
+        "howell-segment",
+        "howell-sparse"
+      ],
+      "assertions": 360
+    },
+    {
+      "label": "lattice-3-m2147483648-d1",
+      "queries": 60,
+      "algorithms": [
+        "timestamp-basic",
+        "timestamp-fast",
+        "closure-prototype",
+        "howell-rebuild",
+        "howell-segment",
+        "howell-sparse"
+      ],
+      "assertions": 360
+    },
+    {
+      "label": "lattice-4-m59049-d1",
+      "queries": 60,
+      "algorithms": [
+        "timestamp-basic",
+        "timestamp-fast",
+        "closure-prototype",
+        "howell-rebuild",
+        "howell-segment",
+        "howell-sparse"
+      ],
+      "assertions": 360
+    },
+    {
+      "label": "lattice-5-m72-d7",
+      "queries": 60,
+      "algorithms": [
+        "timestamp-basic",
+        "timestamp-fast",
+        "closure-prototype",
+        "howell-rebuild",
+        "howell-segment",
+        "howell-sparse"
+      ],
+      "assertions": 360
+    },
+    {
+      "label": "lattice-6-m998244353-d1",
+      "queries": 60,
+      "algorithms": [
+        "timestamp-basic",
+        "timestamp-fast",
+        "closure-prototype",
+        "howell-rebuild",
+        "howell-segment",
+        "howell-sparse",
+        "field-timestamp"
+      ],
+      "assertions": 420
+    },
+    {
+      "label": "lattice-7-m4294967291-d7",
+      "queries": 60,
+      "algorithms": [
+        "timestamp-basic",
+        "timestamp-fast",
+        "closure-prototype",
+        "howell-rebuild",
+        "howell-segment",
+        "howell-sparse",
+        "field-timestamp"
+      ],
+      "assertions": 420
+    },
+    {
+      "label": "lattice-8-m4294967295-d8",
+      "queries": 60,
+      "algorithms": [
+        "timestamp-basic",
+        "timestamp-fast",
+        "closure-prototype",
+        "howell-rebuild",
+        "howell-segment",
+        "howell-sparse"
+      ],
+      "assertions": 360
+    },
+    {
+      "label": "lattice-9-m4293001441-d3",
+      "queries": 60,
+      "algorithms": [
+        "timestamp-basic",
+        "timestamp-fast",
+        "closure-prototype",
+        "howell-rebuild",
+        "howell-segment",
+        "howell-sparse"
+      ],
+      "assertions": 360
+    },
+    {
+      "label": "lattice-10-m2-d3",
+      "queries": 60,
+      "algorithms": [
+        "timestamp-basic",
+        "timestamp-fast",
+        "closure-prototype",
+        "howell-rebuild",
+        "howell-segment",
+        "howell-sparse",
+        "field-timestamp",
+        "xor-packed"
+      ],
+      "assertions": 480
+    },
+    {
+      "label": "lattice-11-m4-d1",
+      "queries": 60,
+      "algorithms": [
+        "timestamp-basic",
+        "timestamp-fast",
+        "closure-prototype",
+        "howell-rebuild",
+        "howell-segment",
+        "howell-sparse"
+      ],
+      "assertions": 360
+    },
+    {
+      "label": "lattice-12-m256-d6",
+      "queries": 60,
+      "algorithms": [
+        "timestamp-basic",
+        "timestamp-fast",
+        "closure-prototype",
+        "howell-rebuild",
+        "howell-segment",
+        "howell-sparse"
+      ],
+      "assertions": 360
+    },
+    {
+      "label": "lattice-13-m2147483648-d4",
+      "queries": 60,
+      "algorithms": [
+        "timestamp-basic",
+        "timestamp-fast",
+        "closure-prototype",
+        "howell-rebuild",
+        "howell-segment",
+        "howell-sparse"
+      ],
+      "assertions": 360
+    },
+    {
+      "label": "lattice-14-m59049-d7",
+      "queries": 60,
+      "algorithms": [
+        "timestamp-basic",
+        "timestamp-fast",
+        "closure-prototype",
+        "howell-rebuild",
+        "howell-segment",
+        "howell-sparse"
+      ],
+      "assertions": 360
+    },
+    {
+      "label": "lattice-15-m72-d2",
+      "queries": 60,
+      "algorithms": [
+        "timestamp-basic",
+        "timestamp-fast",
+        "closure-prototype",
+        "howell-rebuild",
+        "howell-segment",
+        "howell-sparse"
+      ],
+      "assertions": 360
+    },
+    {
+      "label": "lattice-16-m998244353-d6",
+      "queries": 60,
+      "algorithms": [
+        "timestamp-basic",
+        "timestamp-fast",
+        "closure-prototype",
+        "howell-rebuild",
+        "howell-segment",
+        "howell-sparse",
+        "field-timestamp"
+      ],
+      "assertions": 420
+    },
+    {
+      "label": "lattice-17-m4294967291-d5",
+      "queries": 60,
+      "algorithms": [
+        "timestamp-basic",
+        "timestamp-fast",
+        "closure-prototype",
+        "howell-rebuild",
+        "howell-segment",
+        "howell-sparse",
+        "field-timestamp"
+      ],
+      "assertions": 420
+    },
+    {
+      "label": "lattice-18-m4294967295-d2",
+      "queries": 60,
+      "algorithms": [
+        "timestamp-basic",
+        "timestamp-fast",
+        "closure-prototype",
+        "howell-rebuild",
+        "howell-segment",
+        "howell-sparse"
+      ],
+      "assertions": 360
+    },
+    {
+      "label": "lattice-19-m4293001441-d3",
+      "queries": 60,
+      "algorithms": [
+        "timestamp-basic",
+        "timestamp-fast",
+        "closure-prototype",
+        "howell-rebuild",
+        "howell-segment",
+        "howell-sparse"
+      ],
+      "assertions": 360
+    },
+    {
+      "label": "xor-top-bit",
+      "queries": 3,
+      "algorithms": [
+        "timestamp-basic",
+        "timestamp-fast",
+        "closure-prototype",
+        "howell-rebuild",
+        "howell-segment",
+        "howell-sparse",
+        "field-timestamp",
+        "xor-packed"
+      ],
+      "assertions": 24
+    },
+    {
+      "label": "empty-query-batch",
+      "queries": 0,
+      "algorithms": [
+        "timestamp-basic",
+        "timestamp-fast",
+        "closure-prototype",
+        "howell-rebuild",
+        "howell-segment",
+        "howell-sparse"
+      ],
+      "assertions": 0
+    },
+    {
+      "label": "signed-input-boundaries",
+      "queries": 4,
+      "algorithms": [
+        "timestamp-basic",
+        "timestamp-fast",
+        "closure-prototype",
+        "howell-rebuild",
+        "howell-segment",
+        "howell-sparse",
+        "field-timestamp"
+      ],
+      "assertions": 28
+    }
+  ],
+  "membership_assertions": 7732,
+  "status": "passed"
+}

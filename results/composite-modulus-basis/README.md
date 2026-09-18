@@ -11,6 +11,9 @@
 - [中文 LaTeX 源码](paper/main-zh.tex) / [英文 LaTeX 源码](paper/main-en.tex)
 - **[论文—Lean 逐条对照](docs/zh/proof-map.md)** / [直接按区间下标陈述的 Lean 主定理](formal/LeanVerification/Paper.lean)
 - [形式化范围与信任边界](docs/zh/formalization.md)
+- [新颖性核查与已有工作对照（2026-09-17）](docs/zh/novelty-audit.md)
+- [C++ 实现与标准化性能对照](implementation/benchmark_cpp/README.md)
+- **[OI/CP 性能实测汇总](docs/zh/cpp-benchmark-results.md)**（普通/优化 C++、8 种候选、36 组数据）
 
 对已知分解 `m = ∏ p_s^k_s`，记 `K = ∑ k_s`、`w` 为分量数。
 主体坐标更新量为预处理 `O(nKd²)`、每次成员查询 `O(wd²)`。
@@ -45,6 +48,9 @@ make check
 - PDF 需要含 `ctex`、Fandol 字体和 `latexmk` 的 TeX Live/XeLaTeX。
 - [程序接口与输入契约](docs/zh/usage.md) · [测试覆盖](docs/zh/testing.md) · [补充数学说明](docs/zh/extensions.md)
 
-程序测试包含最大为 **2,147,483,647** 的质数、`2^64`、`(10^9+7)^3` 和 **120 位 CRT 模数**，
+Python 参考程序测试包含最大为 **2,147,483,647** 的质数、`2^64`、`(10^9+7)^3` 和 **120 位 CRT 模数**，
 同时覆盖 YES、NO、历史版本与操作上界。实测日志位于 [artifacts/](artifacts/)。
 形式化验证不等于 Python 源码精化，也不表示论文已通过外部同行评审。
+
+C++ 性能工件另以 **32 位模数**为范围，包含普通/优化时间戳实现、Howell 风格区间基线和域专用对照；
+见上方 C++ 文档。现有 Lean 数学证明没有验证 C++ 源码或实际运行时间。
