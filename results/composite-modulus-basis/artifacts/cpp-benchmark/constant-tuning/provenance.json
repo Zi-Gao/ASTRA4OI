@@ -1,0 +1,40 @@
+{
+  "baseline_revision": "9a0fb9ec2c7a54ba1b95f93feafe9847e21e0bf4",
+  "compiler": "Apple clang version 17.0.0 (clang-1700.6.3.2)\nTarget: arm64-apple-darwin25.6.0\nThread model: posix\nInstalledDir: /Library/Developer/CommandLineTools/usr/bin\n",
+  "cpu_from_prior_same_workspace_report": "Apple M3 Pro",
+  "platform": "macOS-26.6.2-arm64-arm-64bit-Mach-O",
+  "source_sha256": {
+    "algorithms.hpp": "11a57a8ab8412faa7f864fa62e9dfe778fa04013c41afcd702ee63b41dc876b6",
+    "main.cpp": "9999ac3d8b52f9dccb2874958d7fd198f2dfe2d90766de3bcffd1151b51eae88",
+    "arithmetic_test.cpp": "38e3afa7c8c989443068af8ec06166784f1878b9fe07ab0a8dbee2bef6c90544",
+    "compare_versions.py": "0672d5fa5a8fb31600bdb88c85d0c8aa95767ba950799bd9dee450815fc59ba5",
+    "datasets.py": "91b59f2181e9379eda3c1c179943d88ea002d42a96e57330f8984433f9c5bf5d",
+    "verify.py": "0389ee85f6630715ca57b132e3af68b534decdeb8a45473436334f4d99ff9126"
+  },
+  "build_flags": {
+    "native": "-std=c++17 -O3 -DNDEBUG -march=native",
+    "portable": "-std=c++17 -O2 -DNDEBUG -Wall -Wextra",
+    "ubsan": "-std=c++17 -O1 -g -fsanitize=undefined -fno-sanitize-recover=all -fno-omit-frame-pointer -Wall -Wextra"
+  },
+  "notes": [
+    "Native baseline compiled without warning switches; optimized native also used -Wall -Wextra. Optimization flags are identical.",
+    "Benchmarks ran serially with paired randomized version order. CPU frequency and background load were not controlled.",
+    "arithmetic.txt is the O2 regression log; arithmetic-ubsan.txt is the UBSan regression log.",
+    "The before binary was preserved before edits; the portable baseline was reconstructed from commit 9a0fb9e.",
+    "Fresh CPU brand sysctl access was denied in the sandbox; CPU model is taken from the prior same-workspace benchmark report."
+  ],
+  "log_sha256": {
+    "arithmetic.txt": "e301abde0f1f299fb63e15c62a84161346ef9b3ca5471ebfbc39c8df105a2993",
+    "standard-o2.json": "8c6c633426ae0fc7c323da8883b1e04131b628547d8970de6d8a942184e3da48",
+    "verification-ubsan.json": "8237a2c3f8a4ee22146dcf55c1f0c7f21aded35bed726f945f074d738309a3c0",
+    "verification-o2.txt": "993021e973941be2d8cca85677173ae533e5234a2b3d5e4dfe833a9c5bd7b228",
+    "arithmetic-ubsan.txt": "e301abde0f1f299fb63e15c62a84161346ef9b3ca5471ebfbc39c8df105a2993",
+    "verification.txt": "993021e973941be2d8cca85677173ae533e5234a2b3d5e4dfe833a9c5bd7b228",
+    "stress.json": "6e0e4512c2ead84baf3a814195f38ac305b3b02d7d0d2ca4f32e7484c4d2ac3f",
+    "verification-ubsan.txt": "993021e973941be2d8cca85677173ae533e5234a2b3d5e4dfe833a9c5bd7b228",
+    "verification.json": "8237a2c3f8a4ee22146dcf55c1f0c7f21aded35bed726f945f074d738309a3c0",
+    "standard.json": "69fb7d997578cfa32e38cedb73953ba86fd3e12508d2f299cd0afba4fa8e2fa3",
+    "verification-o2.json": "8237a2c3f8a4ee22146dcf55c1f0c7f21aded35bed726f945f074d738309a3c0",
+    "scaling.json": "b31f950d059b3ef1a520305b44a7c0e999cec22d826adef9a8fffa1159710ae0"
+  }
+}

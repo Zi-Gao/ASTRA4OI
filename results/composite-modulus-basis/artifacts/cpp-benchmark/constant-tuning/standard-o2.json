@@ -1,0 +1,3041 @@
+{
+  "command": "/opt/homebrew/opt/python@3.14/bin/python3.14 implementation/benchmark_cpp/compare_versions.py --before build/constant-tuning/before-o2 --after build/constant-tuning/after-o2 --repeats 5 --before-label 9a0fb9e '--build-flags=-std=c++17 -O2 -DNDEBUG -Wall -Wextra' --output artifacts/cpp-benchmark/constant-tuning/standard-o2.json",
+  "before_label": "9a0fb9e",
+  "after_label": "working-tree",
+  "build_flags": "-std=c++17 -O2 -DNDEBUG -Wall -Wextra",
+  "platform": "macOS-26.6.2-arm64-arm-64bit-Mach-O",
+  "profile": "standard",
+  "repeats": 5,
+  "binary_sha256": {
+    "before": "118e475be9924e896e3da840c373878f1caefa5c9ca680c46cdbf135d7c4e39e",
+    "after": "524b1c735cca74c410cb7316757ce9179e3496c2cd88ea1b5dc3ca24777c7904"
+  },
+  "source_sha256": {
+    "algorithms.hpp": "11a57a8ab8412faa7f864fa62e9dfe778fa04013c41afcd702ee63b41dc876b6",
+    "datasets.py": "91b59f2181e9379eda3c1c179943d88ea002d42a96e57330f8984433f9c5bf5d",
+    "compare_versions.py": "0672d5fa5a8fb31600bdb88c85d0c8aa95767ba950799bd9dee450815fc59ba5"
+  },
+  "cases": [
+    {
+      "manifest": {
+        "name": "binary-d64",
+        "n": 20000,
+        "d": 64,
+        "q": 20000,
+        "factors": [
+          [
+            2,
+            1
+          ]
+        ],
+        "distribution": "uniform",
+        "seed": 20260917,
+        "modulus": 2,
+        "K": 1,
+        "w": 1,
+        "sha256": "ddc4c93048fb5f4484605b08823da4b996c20b06319be6def82d6384a115e146",
+        "input_bytes": 5334994,
+        "length_min": 1,
+        "length_max": 19840,
+        "length_mean": 1299.2648,
+        "length_histogram": {
+          "singleton": 5072,
+          "2_to_d": 7510,
+          "d_plus_1_to_2d": 2544,
+          "over_2d": 4874
+        },
+        "oracle_probes": [
+          {
+            "query_index": 0,
+            "expected": false
+          },
+          {
+            "query_index": 1,
+            "expected": true
+          },
+          {
+            "query_index": 2,
+            "expected": false
+          },
+          {
+            "query_index": 3,
+            "expected": true
+          },
+          {
+            "query_index": 4,
+            "expected": false
+          },
+          {
+            "query_index": 5,
+            "expected": true
+          },
+          {
+            "query_index": 6,
+            "expected": false
+          },
+          {
+            "query_index": 7,
+            "expected": true
+          }
+        ],
+        "guaranteed_yes_rule": "every odd zero-based query index",
+        "guaranteed_no_rule": null
+      },
+      "answer_sha256": "765efa977ec5a9c2bbd5d687b7856db4690333d7a1fdd43fc97909f34bb32b0d",
+      "runs": {
+        "before": [
+          {
+            "algorithm": "timestamp-fast",
+            "parse_seconds": 0.012154041,
+            "solve_seconds": 0.037308375,
+            "program_seconds": 0.049736708,
+            "peak_rss_bytes": 13828096,
+            "yes": 13796,
+            "queries": 20000,
+            "answer_hash": "1425859909269876389",
+            "visits": 1264812,
+            "reductions": 639422,
+            "writes": 433092,
+            "pops": 439764,
+            "max_pending": 1
+          },
+          {
+            "algorithm": "timestamp-fast",
+            "parse_seconds": 0.0117835,
+            "solve_seconds": 0.03828475,
+            "program_seconds": 0.050328667,
+            "peak_rss_bytes": 13828096,
+            "yes": 13796,
+            "queries": 20000,
+            "answer_hash": "1425859909269876389",
+            "visits": 1264812,
+            "reductions": 639422,
+            "writes": 433092,
+            "pops": 439764,
+            "max_pending": 1
+          },
+          {
+            "algorithm": "timestamp-fast",
+            "parse_seconds": 0.012147041,
+            "solve_seconds": 0.03714175,
+            "program_seconds": 0.049534416,
+            "peak_rss_bytes": 13828096,
+            "yes": 13796,
+            "queries": 20000,
+            "answer_hash": "1425859909269876389",
+            "visits": 1264812,
+            "reductions": 639422,
+            "writes": 433092,
+            "pops": 439764,
+            "max_pending": 1
+          },
+          {
+            "algorithm": "timestamp-fast",
+            "parse_seconds": 0.012132125,
+            "solve_seconds": 0.037413459,
+            "program_seconds": 0.04980125,
+            "peak_rss_bytes": 13828096,
+            "yes": 13796,
+            "queries": 20000,
+            "answer_hash": "1425859909269876389",
+            "visits": 1264812,
+            "reductions": 639422,
+            "writes": 433092,
+            "pops": 439764,
+            "max_pending": 1
+          },
+          {
+            "algorithm": "timestamp-fast",
+            "parse_seconds": 0.011773875,
+            "solve_seconds": 0.037361167,
+            "program_seconds": 0.049418834,
+            "peak_rss_bytes": 13828096,
+            "yes": 13796,
+            "queries": 20000,
+            "answer_hash": "1425859909269876389",
+            "visits": 1264812,
+            "reductions": 639422,
+            "writes": 433092,
+            "pops": 439764,
+            "max_pending": 1
+          }
+        ],
+        "after": [
+          {
+            "algorithm": "timestamp-fast",
+            "parse_seconds": 0.011945084,
+            "solve_seconds": 0.025330041,
+            "program_seconds": 0.03751575,
+            "peak_rss_bytes": 13811712,
+            "yes": 13796,
+            "queries": 20000,
+            "answer_hash": "1425859909269876389",
+            "visits": 1264812,
+            "reductions": 639422,
+            "writes": 433092,
+            "pops": 439764,
+            "max_pending": 1
+          },
+          {
+            "algorithm": "timestamp-fast",
+            "parse_seconds": 0.011950292,
+            "solve_seconds": 0.025237083,
+            "program_seconds": 0.037434583,
+            "peak_rss_bytes": 13828096,
+            "yes": 13796,
+            "queries": 20000,
+            "answer_hash": "1425859909269876389",
+            "visits": 1264812,
+            "reductions": 639422,
+            "writes": 433092,
+            "pops": 439764,
+            "max_pending": 1
+          },
+          {
+            "algorithm": "timestamp-fast",
+            "parse_seconds": 0.012562208,
+            "solve_seconds": 0.025717042,
+            "program_seconds": 0.038564458,
+            "peak_rss_bytes": 13828096,
+            "yes": 13796,
+            "queries": 20000,
+            "answer_hash": "1425859909269876389",
+            "visits": 1264812,
+            "reductions": 639422,
+            "writes": 433092,
+            "pops": 439764,
+            "max_pending": 1
+          },
+          {
+            "algorithm": "timestamp-fast",
+            "parse_seconds": 0.012173625,
+            "solve_seconds": 0.025323209,
+            "program_seconds": 0.037764042,
+            "peak_rss_bytes": 13811712,
+            "yes": 13796,
+            "queries": 20000,
+            "answer_hash": "1425859909269876389",
+            "visits": 1264812,
+            "reductions": 639422,
+            "writes": 433092,
+            "pops": 439764,
+            "max_pending": 1
+          },
+          {
+            "algorithm": "timestamp-fast",
+            "parse_seconds": 0.012098291,
+            "solve_seconds": 0.025179334,
+            "program_seconds": 0.037554416,
+            "peak_rss_bytes": 13811712,
+            "yes": 13796,
+            "queries": 20000,
+            "answer_hash": "1425859909269876389",
+            "visits": 1264812,
+            "reductions": 639422,
+            "writes": 433092,
+            "pops": 439764,
+            "max_pending": 1
+          }
+        ]
+      },
+      "median_seconds": {
+        "before": 0.037361167,
+        "after": 0.025323209
+      },
+      "speedup": 1.4753725327623368
+    },
+    {
+      "manifest": {
+        "name": "prime-d32",
+        "n": 10000,
+        "d": 32,
+        "q": 20000,
+        "factors": [
+          [
+            998244353,
+            1
+          ]
+        ],
+        "distribution": "uniform",
+        "seed": 20260917,
+        "modulus": 998244353,
+        "K": 1,
+        "w": 1,
+        "sha256": "cb069a3b9521a1298ae3d68a9c210d9bfcb10f17be825321eeb6eeb20783f09c",
+        "input_bytes": 9687222,
+        "length_min": 1,
+        "length_max": 9843,
+        "length_mean": 632.5308,
+        "length_histogram": {
+          "singleton": 5332,
+          "2_to_d": 7267,
+          "d_plus_1_to_2d": 2575,
+          "over_2d": 4826
+        },
+        "oracle_probes": [
+          {
+            "query_index": 0,
+            "expected": false
+          },
+          {
+            "query_index": 1,
+            "expected": true
+          },
+          {
+            "query_index": 2,
+            "expected": false
+          },
+          {
+            "query_index": 3,
+            "expected": true
+          },
+          {
+            "query_index": 4,
+            "expected": false
+          },
+          {
+            "query_index": 5,
+            "expected": true
+          },
+          {
+            "query_index": 6,
+            "expected": false
+          },
+          {
+            "query_index": 7,
+            "expected": true
+          }
+        ],
+        "guaranteed_yes_rule": "every odd zero-based query index",
+        "guaranteed_no_rule": null
+      },
+      "answer_sha256": "1f7d746514bdbe3786f0cba45b28ad4f92f5434a404caea570b8ef6e2fd69c31",
+      "runs": {
+        "before": [
+          {
+            "algorithm": "timestamp-fast",
+            "parse_seconds": 0.020487083,
+            "solve_seconds": 0.036860458,
+            "program_seconds": 0.057629291,
+            "peak_rss_bytes": 6815744,
+            "yes": 13804,
+            "queries": 20000,
+            "answer_hash": "12573497653359312281",
+            "visits": 319504,
+            "reductions": 319472,
+            "writes": 319504,
+            "pops": 319504,
+            "max_pending": 1
+          },
+          {
+            "algorithm": "timestamp-fast",
+            "parse_seconds": 0.020006833,
+            "solve_seconds": 0.036717,
+            "program_seconds": 0.056986083,
+            "peak_rss_bytes": 6799360,
+            "yes": 13804,
+            "queries": 20000,
+            "answer_hash": "12573497653359312281",
+            "visits": 319504,
+            "reductions": 319472,
+            "writes": 319504,
+            "pops": 319504,
+            "max_pending": 1
+          },
+          {
+            "algorithm": "timestamp-fast",
+            "parse_seconds": 0.019533583,
+            "solve_seconds": 0.03876725,
+            "program_seconds": 0.05856075,
+            "peak_rss_bytes": 6815744,
+            "yes": 13804,
+            "queries": 20000,
+            "answer_hash": "12573497653359312281",
+            "visits": 319504,
+            "reductions": 319472,
+            "writes": 319504,
+            "pops": 319504,
+            "max_pending": 1
+          },
+          {
+            "algorithm": "timestamp-fast",
+            "parse_seconds": 0.019918834,
+            "solve_seconds": 0.036352291,
+            "program_seconds": 0.056520625,
+            "peak_rss_bytes": 6864896,
+            "yes": 13804,
+            "queries": 20000,
+            "answer_hash": "12573497653359312281",
+            "visits": 319504,
+            "reductions": 319472,
+            "writes": 319504,
+            "pops": 319504,
+            "max_pending": 1
+          },
+          {
+            "algorithm": "timestamp-fast",
+            "parse_seconds": 0.02053325,
+            "solve_seconds": 0.035899166,
+            "program_seconds": 0.056703541,
+            "peak_rss_bytes": 6815744,
+            "yes": 13804,
+            "queries": 20000,
+            "answer_hash": "12573497653359312281",
+            "visits": 319504,
+            "reductions": 319472,
+            "writes": 319504,
+            "pops": 319504,
+            "max_pending": 1
+          }
+        ],
+        "after": [
+          {
+            "algorithm": "timestamp-fast",
+            "parse_seconds": 0.019720458,
+            "solve_seconds": 0.028801167,
+            "program_seconds": 0.048766833,
+            "peak_rss_bytes": 6815744,
+            "yes": 13804,
+            "queries": 20000,
+            "answer_hash": "12573497653359312281",
+            "visits": 319504,
+            "reductions": 319472,
+            "writes": 319504,
+            "pops": 319504,
+            "max_pending": 1
+          },
+          {
+            "algorithm": "timestamp-fast",
+            "parse_seconds": 0.019676292,
+            "solve_seconds": 0.028836125,
+            "program_seconds": 0.048763833,
+            "peak_rss_bytes": 6815744,
+            "yes": 13804,
+            "queries": 20000,
+            "answer_hash": "12573497653359312281",
+            "visits": 319504,
+            "reductions": 319472,
+            "writes": 319504,
+            "pops": 319504,
+            "max_pending": 1
+          },
+          {
+            "algorithm": "timestamp-fast",
+            "parse_seconds": 0.019834458,
+            "solve_seconds": 0.030097125,
+            "program_seconds": 0.050194208,
+            "peak_rss_bytes": 6848512,
+            "yes": 13804,
+            "queries": 20000,
+            "answer_hash": "12573497653359312281",
+            "visits": 319504,
+            "reductions": 319472,
+            "writes": 319504,
+            "pops": 319504,
+            "max_pending": 1
+          },
+          {
+            "algorithm": "timestamp-fast",
+            "parse_seconds": 0.019639667,
+            "solve_seconds": 0.028720708,
+            "program_seconds": 0.048592167,
+            "peak_rss_bytes": 6815744,
+            "yes": 13804,
+            "queries": 20000,
+            "answer_hash": "12573497653359312281",
+            "visits": 319504,
+            "reductions": 319472,
+            "writes": 319504,
+            "pops": 319504,
+            "max_pending": 1
+          },
+          {
+            "algorithm": "timestamp-fast",
+            "parse_seconds": 0.020646041,
+            "solve_seconds": 0.02878425,
+            "program_seconds": 0.049670333,
+            "peak_rss_bytes": 6832128,
+            "yes": 13804,
+            "queries": 20000,
+            "answer_hash": "12573497653359312281",
+            "visits": 319504,
+            "reductions": 319472,
+            "writes": 319504,
+            "pops": 319504,
+            "max_pending": 1
+          }
+        ]
+      },
+      "median_seconds": {
+        "before": 0.036717,
+        "after": 0.028801167
+      },
+      "speedup": 1.2748441755849684
+    },
+    {
+      "manifest": {
+        "name": "square-d32",
+        "n": 20000,
+        "d": 32,
+        "q": 20000,
+        "factors": [
+          [
+            2,
+            2
+          ]
+        ],
+        "distribution": "uniform",
+        "seed": 20260917,
+        "modulus": 4,
+        "K": 2,
+        "w": 1,
+        "sha256": "2a782e31b1ba0f92cde8d7d90e73c8a8768842ec14f5b3c875bf6e2bd1e529fa",
+        "input_bytes": 2775203,
+        "length_min": 1,
+        "length_max": 19899,
+        "length_mean": 1221.2969,
+        "length_histogram": {
+          "singleton": 5295,
+          "2_to_d": 7377,
+          "d_plus_1_to_2d": 2494,
+          "over_2d": 4834
+        },
+        "oracle_probes": [
+          {
+            "query_index": 0,
+            "expected": false
+          },
+          {
+            "query_index": 1,
+            "expected": true
+          },
+          {
+            "query_index": 2,
+            "expected": false
+          },
+          {
+            "query_index": 3,
+            "expected": true
+          },
+          {
+            "query_index": 4,
+            "expected": false
+          },
+          {
+            "query_index": 5,
+            "expected": true
+          },
+          {
+            "query_index": 6,
+            "expected": false
+          },
+          {
+            "query_index": 7,
+            "expected": true
+          }
+        ],
+        "guaranteed_yes_rule": "every odd zero-based query index",
+        "guaranteed_no_rule": null
+      },
+      "answer_sha256": "c6993f09d9da8e022fcb894212f1f9943873926e30d58de114665438a67805de",
+      "runs": {
+        "before": [
+          {
+            "algorithm": "timestamp-fast",
+            "parse_seconds": 0.006650167,
+            "solve_seconds": 0.033219083,
+            "program_seconds": 0.040106417,
+            "peak_rss_bytes": 8699904,
+            "yes": 13802,
+            "queries": 20000,
+            "answer_hash": "12945168324727941065",
+            "visits": 1262301,
+            "reductions": 851366,
+            "writes": 598738,
+            "pops": 610823,
+            "max_pending": 2
+          },
+          {
+            "algorithm": "timestamp-fast",
+            "parse_seconds": 0.006741583,
+            "solve_seconds": 0.033265709,
+            "program_seconds": 0.040276042,
+            "peak_rss_bytes": 8683520,
+            "yes": 13802,
+            "queries": 20000,
+            "answer_hash": "12945168324727941065",
+            "visits": 1262301,
+            "reductions": 851366,
+            "writes": 598738,
+            "pops": 610823,
+            "max_pending": 2
+          },
+          {
+            "algorithm": "timestamp-fast",
+            "parse_seconds": 0.006650375,
+            "solve_seconds": 0.033245708,
+            "program_seconds": 0.040149875,
+            "peak_rss_bytes": 8699904,
+            "yes": 13802,
+            "queries": 20000,
+            "answer_hash": "12945168324727941065",
+            "visits": 1262301,
+            "reductions": 851366,
+            "writes": 598738,
+            "pops": 610823,
+            "max_pending": 2
+          },
+          {
+            "algorithm": "timestamp-fast",
+            "parse_seconds": 0.006648459,
+            "solve_seconds": 0.033505666,
+            "program_seconds": 0.04041025,
+            "peak_rss_bytes": 8699904,
+            "yes": 13802,
+            "queries": 20000,
+            "answer_hash": "12945168324727941065",
+            "visits": 1262301,
+            "reductions": 851366,
+            "writes": 598738,
+            "pops": 610823,
+            "max_pending": 2
+          },
+          {
+            "algorithm": "timestamp-fast",
+            "parse_seconds": 0.007319583,
+            "solve_seconds": 0.033579625,
+            "program_seconds": 0.041156625,
+            "peak_rss_bytes": 8699904,
+            "yes": 13802,
+            "queries": 20000,
+            "answer_hash": "12945168324727941065",
+            "visits": 1262301,
+            "reductions": 851366,
+            "writes": 598738,
+            "pops": 610823,
+            "max_pending": 2
+          }
+        ],
+        "after": [
+          {
+            "algorithm": "timestamp-fast",
+            "parse_seconds": 0.006650625,
+            "solve_seconds": 0.024682917,
+            "program_seconds": 0.031566542,
+            "peak_rss_bytes": 8699904,
+            "yes": 13802,
+            "queries": 20000,
+            "answer_hash": "12945168324727941065",
+            "visits": 1262301,
+            "reductions": 851366,
+            "writes": 598738,
+            "pops": 610823,
+            "max_pending": 2
+          },
+          {
+            "algorithm": "timestamp-fast",
+            "parse_seconds": 0.006628167,
+            "solve_seconds": 0.024911208,
+            "program_seconds": 0.031796667,
+            "peak_rss_bytes": 8683520,
+            "yes": 13802,
+            "queries": 20000,
+            "answer_hash": "12945168324727941065",
+            "visits": 1262301,
+            "reductions": 851366,
+            "writes": 598738,
+            "pops": 610823,
+            "max_pending": 2
+          },
+          {
+            "algorithm": "timestamp-fast",
+            "parse_seconds": 0.0066405,
+            "solve_seconds": 0.024739791,
+            "program_seconds": 0.031645958,
+            "peak_rss_bytes": 8683520,
+            "yes": 13802,
+            "queries": 20000,
+            "answer_hash": "12945168324727941065",
+            "visits": 1262301,
+            "reductions": 851366,
+            "writes": 598738,
+            "pops": 610823,
+            "max_pending": 2
+          },
+          {
+            "algorithm": "timestamp-fast",
+            "parse_seconds": 0.006593959,
+            "solve_seconds": 0.024656,
+            "program_seconds": 0.031519167,
+            "peak_rss_bytes": 8667136,
+            "yes": 13802,
+            "queries": 20000,
+            "answer_hash": "12945168324727941065",
+            "visits": 1262301,
+            "reductions": 851366,
+            "writes": 598738,
+            "pops": 610823,
+            "max_pending": 2
+          },
+          {
+            "algorithm": "timestamp-fast",
+            "parse_seconds": 0.006821125,
+            "solve_seconds": 0.024870167,
+            "program_seconds": 0.03195025,
+            "peak_rss_bytes": 8699904,
+            "yes": 13802,
+            "queries": 20000,
+            "answer_hash": "12945168324727941065",
+            "visits": 1262301,
+            "reductions": 851366,
+            "writes": 598738,
+            "pops": 610823,
+            "max_pending": 2
+          }
+        ]
+      },
+      "median_seconds": {
+        "before": 0.033265709,
+        "after": 0.024739791
+      },
+      "speedup": 1.344623687403018
+    },
+    {
+      "manifest": {
+        "name": "deep-power-d24",
+        "n": 12000,
+        "d": 24,
+        "q": 24000,
+        "factors": [
+          [
+            2,
+            16
+          ]
+        ],
+        "distribution": "uniform",
+        "seed": 20260917,
+        "modulus": 65536,
+        "K": 16,
+        "w": 1,
+        "sha256": "ea32803960c8f3eee7d3cf1a0cb75e58b3ae822d96ba7c632f7374d752d2a9d5",
+        "input_bytes": 5278720,
+        "length_min": 1,
+        "length_max": 11877,
+        "length_mean": 746.0056666666667,
+        "length_histogram": {
+          "singleton": 6422,
+          "2_to_d": 8708,
+          "d_plus_1_to_2d": 3092,
+          "over_2d": 5778
+        },
+        "oracle_probes": [
+          {
+            "query_index": 0,
+            "expected": false
+          },
+          {
+            "query_index": 1,
+            "expected": true
+          },
+          {
+            "query_index": 2,
+            "expected": false
+          },
+          {
+            "query_index": 3,
+            "expected": true
+          },
+          {
+            "query_index": 4,
+            "expected": false
+          },
+          {
+            "query_index": 5,
+            "expected": true
+          },
+          {
+            "query_index": 6,
+            "expected": false
+          },
+          {
+            "query_index": 7,
+            "expected": true
+          }
+        ],
+        "guaranteed_yes_rule": "every odd zero-based query index",
+        "guaranteed_no_rule": null
+      },
+      "answer_sha256": "4ddb6ea7c2e3b9e700606b7503b1388f5514a2242fa7b477a6b8674a3e75b5bf",
+      "runs": {
+        "before": [
+          {
+            "algorithm": "timestamp-fast",
+            "parse_seconds": 0.012084708,
+            "solve_seconds": 0.183096792,
+            "program_seconds": 0.195462083,
+            "peak_rss_bytes": 6815744,
+            "yes": 16490,
+            "queries": 24000,
+            "answer_hash": "16889535968864761513",
+            "visits": 4591811,
+            "reductions": 4396925,
+            "writes": 4144204,
+            "pops": 4155897,
+            "max_pending": 16
+          },
+          {
+            "algorithm": "timestamp-fast",
+            "parse_seconds": 0.01148725,
+            "solve_seconds": 0.183099583,
+            "program_seconds": 0.194876958,
+            "peak_rss_bytes": 6799360,
+            "yes": 16490,
+            "queries": 24000,
+            "answer_hash": "16889535968864761513",
+            "visits": 4591811,
+            "reductions": 4396925,
+            "writes": 4144204,
+            "pops": 4155897,
+            "max_pending": 16
+          },
+          {
+            "algorithm": "timestamp-fast",
+            "parse_seconds": 0.011915959,
+            "solve_seconds": 0.184168791,
+            "program_seconds": 0.196387459,
+            "peak_rss_bytes": 6799360,
+            "yes": 16490,
+            "queries": 24000,
+            "answer_hash": "16889535968864761513",
+            "visits": 4591811,
+            "reductions": 4396925,
+            "writes": 4144204,
+            "pops": 4155897,
+            "max_pending": 16
+          },
+          {
+            "algorithm": "timestamp-fast",
+            "parse_seconds": 0.011525084,
+            "solve_seconds": 0.184930083,
+            "program_seconds": 0.196736875,
+            "peak_rss_bytes": 6815744,
+            "yes": 16490,
+            "queries": 24000,
+            "answer_hash": "16889535968864761513",
+            "visits": 4591811,
+            "reductions": 4396925,
+            "writes": 4144204,
+            "pops": 4155897,
+            "max_pending": 16
+          },
+          {
+            "algorithm": "timestamp-fast",
+            "parse_seconds": 0.01241125,
+            "solve_seconds": 0.187704583,
+            "program_seconds": 0.200406625,
+            "peak_rss_bytes": 6815744,
+            "yes": 16490,
+            "queries": 24000,
+            "answer_hash": "16889535968864761513",
+            "visits": 4591811,
+            "reductions": 4396925,
+            "writes": 4144204,
+            "pops": 4155897,
+            "max_pending": 16
+          }
+        ],
+        "after": [
+          {
+            "algorithm": "timestamp-fast",
+            "parse_seconds": 0.011956167,
+            "solve_seconds": 0.147057667,
+            "program_seconds": 0.159308125,
+            "peak_rss_bytes": 6815744,
+            "yes": 16490,
+            "queries": 24000,
+            "answer_hash": "16889535968864761513",
+            "visits": 4591811,
+            "reductions": 4396925,
+            "writes": 4144204,
+            "pops": 4155897,
+            "max_pending": 16
+          },
+          {
+            "algorithm": "timestamp-fast",
+            "parse_seconds": 0.011730208,
+            "solve_seconds": 0.146590375,
+            "program_seconds": 0.158597042,
+            "peak_rss_bytes": 6815744,
+            "yes": 16490,
+            "queries": 24000,
+            "answer_hash": "16889535968864761513",
+            "visits": 4591811,
+            "reductions": 4396925,
+            "writes": 4144204,
+            "pops": 4155897,
+            "max_pending": 16
+          },
+          {
+            "algorithm": "timestamp-fast",
+            "parse_seconds": 0.012047875,
+            "solve_seconds": 0.146396,
+            "program_seconds": 0.158731,
+            "peak_rss_bytes": 6815744,
+            "yes": 16490,
+            "queries": 24000,
+            "answer_hash": "16889535968864761513",
+            "visits": 4591811,
+            "reductions": 4396925,
+            "writes": 4144204,
+            "pops": 4155897,
+            "max_pending": 16
+          },
+          {
+            "algorithm": "timestamp-fast",
+            "parse_seconds": 0.012068916,
+            "solve_seconds": 0.149991625,
+            "program_seconds": 0.162351791,
+            "peak_rss_bytes": 6815744,
+            "yes": 16490,
+            "queries": 24000,
+            "answer_hash": "16889535968864761513",
+            "visits": 4591811,
+            "reductions": 4396925,
+            "writes": 4144204,
+            "pops": 4155897,
+            "max_pending": 16
+          },
+          {
+            "algorithm": "timestamp-fast",
+            "parse_seconds": 0.012474875,
+            "solve_seconds": 0.150940667,
+            "program_seconds": 0.163731292,
+            "peak_rss_bytes": 6815744,
+            "yes": 16490,
+            "queries": 24000,
+            "answer_hash": "16889535968864761513",
+            "visits": 4591811,
+            "reductions": 4396925,
+            "writes": 4144204,
+            "pops": 4155897,
+            "max_pending": 16
+          }
+        ]
+      },
+      "median_seconds": {
+        "before": 0.184168791,
+        "after": 0.147057667
+      },
+      "speedup": 1.2523576278413284
+    },
+    {
+      "manifest": {
+        "name": "odd-power-d24",
+        "n": 12000,
+        "d": 24,
+        "q": 24000,
+        "factors": [
+          [
+            3,
+            10
+          ]
+        ],
+        "distribution": "uniform",
+        "seed": 20260917,
+        "modulus": 59049,
+        "K": 10,
+        "w": 1,
+        "sha256": "ce3ab30b71fd03d1976e5aadcfec3156d15e5b0aeb44d1d22a896788821609da",
+        "input_bytes": 5262795,
+        "length_min": 1,
+        "length_max": 11799,
+        "length_mean": 766.05025,
+        "length_histogram": {
+          "singleton": 6338,
+          "2_to_d": 8703,
+          "d_plus_1_to_2d": 3109,
+          "over_2d": 5850
+        },
+        "oracle_probes": [
+          {
+            "query_index": 0,
+            "expected": false
+          },
+          {
+            "query_index": 1,
+            "expected": true
+          },
+          {
+            "query_index": 2,
+            "expected": false
+          },
+          {
+            "query_index": 3,
+            "expected": true
+          },
+          {
+            "query_index": 4,
+            "expected": false
+          },
+          {
+            "query_index": 5,
+            "expected": true
+          },
+          {
+            "query_index": 6,
+            "expected": false
+          },
+          {
+            "query_index": 7,
+            "expected": true
+          }
+        ],
+        "guaranteed_yes_rule": "every odd zero-based query index",
+        "guaranteed_no_rule": null
+      },
+      "answer_sha256": "d2252720091926c09a44794443234e09405b2328b3341b31c600bbdeed5a3af6",
+      "runs": {
+        "before": [
+          {
+            "algorithm": "timestamp-fast",
+            "parse_seconds": 0.011685958,
+            "solve_seconds": 0.248951709,
+            "program_seconds": 0.260930792,
+            "peak_rss_bytes": 6799360,
+            "yes": 16547,
+            "queries": 24000,
+            "answer_hash": "6558310052712384400",
+            "visits": 2871490,
+            "reductions": 2765112,
+            "writes": 2639831,
+            "pops": 2645586,
+            "max_pending": 10
+          },
+          {
+            "algorithm": "timestamp-fast",
+            "parse_seconds": 0.011745458,
+            "solve_seconds": 0.243641917,
+            "program_seconds": 0.255656041,
+            "peak_rss_bytes": 6766592,
+            "yes": 16547,
+            "queries": 24000,
+            "answer_hash": "6558310052712384400",
+            "visits": 2871490,
+            "reductions": 2765112,
+            "writes": 2639831,
+            "pops": 2645586,
+            "max_pending": 10
+          },
+          {
+            "algorithm": "timestamp-fast",
+            "parse_seconds": 0.01161,
+            "solve_seconds": 0.248035125,
+            "program_seconds": 0.259940333,
+            "peak_rss_bytes": 6766592,
+            "yes": 16547,
+            "queries": 24000,
+            "answer_hash": "6558310052712384400",
+            "visits": 2871490,
+            "reductions": 2765112,
+            "writes": 2639831,
+            "pops": 2645586,
+            "max_pending": 10
+          },
+          {
+            "algorithm": "timestamp-fast",
+            "parse_seconds": 0.011837833,
+            "solve_seconds": 0.244872125,
+            "program_seconds": 0.257033708,
+            "peak_rss_bytes": 6766592,
+            "yes": 16547,
+            "queries": 24000,
+            "answer_hash": "6558310052712384400",
+            "visits": 2871490,
+            "reductions": 2765112,
+            "writes": 2639831,
+            "pops": 2645586,
+            "max_pending": 10
+          },
+          {
+            "algorithm": "timestamp-fast",
+            "parse_seconds": 0.011822291,
+            "solve_seconds": 0.248738292,
+            "program_seconds": 0.260875166,
+            "peak_rss_bytes": 6782976,
+            "yes": 16547,
+            "queries": 24000,
+            "answer_hash": "6558310052712384400",
+            "visits": 2871490,
+            "reductions": 2765112,
+            "writes": 2639831,
+            "pops": 2645586,
+            "max_pending": 10
+          }
+        ],
+        "after": [
+          {
+            "algorithm": "timestamp-fast",
+            "parse_seconds": 0.012293125,
+            "solve_seconds": 0.129871125,
+            "program_seconds": 0.142458083,
+            "peak_rss_bytes": 7061504,
+            "yes": 16547,
+            "queries": 24000,
+            "answer_hash": "6558310052712384400",
+            "visits": 2871490,
+            "reductions": 2765112,
+            "writes": 2639831,
+            "pops": 2645586,
+            "max_pending": 10
+          },
+          {
+            "algorithm": "timestamp-fast",
+            "parse_seconds": 0.012031833,
+            "solve_seconds": 0.129448458,
+            "program_seconds": 0.14175475,
+            "peak_rss_bytes": 7045120,
+            "yes": 16547,
+            "queries": 24000,
+            "answer_hash": "6558310052712384400",
+            "visits": 2871490,
+            "reductions": 2765112,
+            "writes": 2639831,
+            "pops": 2645586,
+            "max_pending": 10
+          },
+          {
+            "algorithm": "timestamp-fast",
+            "parse_seconds": 0.0119305,
+            "solve_seconds": 0.129441584,
+            "program_seconds": 0.141674917,
+            "peak_rss_bytes": 7061504,
+            "yes": 16547,
+            "queries": 24000,
+            "answer_hash": "6558310052712384400",
+            "visits": 2871490,
+            "reductions": 2765112,
+            "writes": 2639831,
+            "pops": 2645586,
+            "max_pending": 10
+          },
+          {
+            "algorithm": "timestamp-fast",
+            "parse_seconds": 0.011799333,
+            "solve_seconds": 0.128043125,
+            "program_seconds": 0.140159208,
+            "peak_rss_bytes": 7061504,
+            "yes": 16547,
+            "queries": 24000,
+            "answer_hash": "6558310052712384400",
+            "visits": 2871490,
+            "reductions": 2765112,
+            "writes": 2639831,
+            "pops": 2645586,
+            "max_pending": 10
+          },
+          {
+            "algorithm": "timestamp-fast",
+            "parse_seconds": 0.012132708,
+            "solve_seconds": 0.128415417,
+            "program_seconds": 0.140851625,
+            "peak_rss_bytes": 7061504,
+            "yes": 16547,
+            "queries": 24000,
+            "answer_hash": "6558310052712384400",
+            "visits": 2871490,
+            "reductions": 2765112,
+            "writes": 2639831,
+            "pops": 2645586,
+            "max_pending": 10
+          }
+        ]
+      },
+      "median_seconds": {
+        "before": 0.248035125,
+        "after": 0.129441584
+      },
+      "speedup": 1.9161935240223884
+    },
+    {
+      "manifest": {
+        "name": "crt-d32",
+        "n": 12000,
+        "d": 32,
+        "q": 24000,
+        "factors": [
+          [
+            2,
+            3
+          ],
+          [
+            3,
+            2
+          ]
+        ],
+        "distribution": "uniform",
+        "seed": 20260917,
+        "modulus": 72,
+        "K": 5,
+        "w": 2,
+        "sha256": "dba7f0fa26c4951536d053756aec95631b0ba321b74b8fd16e4bf0cfe2b1f6d5",
+        "input_bytes": 3531796,
+        "length_min": 1,
+        "length_max": 11813,
+        "length_mean": 732.7657083333334,
+        "length_histogram": {
+          "singleton": 6411,
+          "2_to_d": 8834,
+          "d_plus_1_to_2d": 3155,
+          "over_2d": 5600
+        },
+        "oracle_probes": [
+          {
+            "query_index": 0,
+            "expected": false
+          },
+          {
+            "query_index": 1,
+            "expected": true
+          },
+          {
+            "query_index": 2,
+            "expected": false
+          },
+          {
+            "query_index": 3,
+            "expected": true
+          },
+          {
+            "query_index": 4,
+            "expected": false
+          },
+          {
+            "query_index": 5,
+            "expected": true
+          },
+          {
+            "query_index": 6,
+            "expected": false
+          },
+          {
+            "query_index": 7,
+            "expected": true
+          }
+        ],
+        "guaranteed_yes_rule": "every odd zero-based query index",
+        "guaranteed_no_rule": null
+      },
+      "answer_sha256": "353d99865a994a27b1d7cf4cee950ac987fe3a0f25d8a10be3c8dc425400973a",
+      "runs": {
+        "before": [
+          {
+            "algorithm": "timestamp-fast",
+            "parse_seconds": 0.009111917,
+            "solve_seconds": 0.071781041,
+            "program_seconds": 0.081174375,
+            "peak_rss_bytes": 7929856,
+            "yes": 16394,
+            "queries": 24000,
+            "answer_hash": "13824212446038432617",
+            "visits": 1901459,
+            "reductions": 1493847,
+            "writes": 1146442,
+            "pops": 1160314,
+            "max_pending": 3
+          },
+          {
+            "algorithm": "timestamp-fast",
+            "parse_seconds": 0.009559208,
+            "solve_seconds": 0.071513917,
+            "program_seconds": 0.081350583,
+            "peak_rss_bytes": 7929856,
+            "yes": 16394,
+            "queries": 24000,
+            "answer_hash": "13824212446038432617",
+            "visits": 1901459,
+            "reductions": 1493847,
+            "writes": 1146442,
+            "pops": 1160314,
+            "max_pending": 3
+          },
+          {
+            "algorithm": "timestamp-fast",
+            "parse_seconds": 0.009311917,
+            "solve_seconds": 0.072393458,
+            "program_seconds": 0.081976417,
+            "peak_rss_bytes": 7913472,
+            "yes": 16394,
+            "queries": 24000,
+            "answer_hash": "13824212446038432617",
+            "visits": 1901459,
+            "reductions": 1493847,
+            "writes": 1146442,
+            "pops": 1160314,
+            "max_pending": 3
+          },
+          {
+            "algorithm": "timestamp-fast",
+            "parse_seconds": 0.009132,
+            "solve_seconds": 0.071813084,
+            "program_seconds": 0.081247375,
+            "peak_rss_bytes": 7929856,
+            "yes": 16394,
+            "queries": 24000,
+            "answer_hash": "13824212446038432617",
+            "visits": 1901459,
+            "reductions": 1493847,
+            "writes": 1146442,
+            "pops": 1160314,
+            "max_pending": 3
+          },
+          {
+            "algorithm": "timestamp-fast",
+            "parse_seconds": 0.00967775,
+            "solve_seconds": 0.0720545,
+            "program_seconds": 0.082039333,
+            "peak_rss_bytes": 7913472,
+            "yes": 16394,
+            "queries": 24000,
+            "answer_hash": "13824212446038432617",
+            "visits": 1901459,
+            "reductions": 1493847,
+            "writes": 1146442,
+            "pops": 1160314,
+            "max_pending": 3
+          }
+        ],
+        "after": [
+          {
+            "algorithm": "timestamp-fast",
+            "parse_seconds": 0.009204833,
+            "solve_seconds": 0.045760292,
+            "program_seconds": 0.055280916,
+            "peak_rss_bytes": 7913472,
+            "yes": 16394,
+            "queries": 24000,
+            "answer_hash": "13824212446038432617",
+            "visits": 1901459,
+            "reductions": 1493847,
+            "writes": 1146442,
+            "pops": 1160314,
+            "max_pending": 3
+          },
+          {
+            "algorithm": "timestamp-fast",
+            "parse_seconds": 0.009171625,
+            "solve_seconds": 0.046452708,
+            "program_seconds": 0.055940333,
+            "peak_rss_bytes": 7929856,
+            "yes": 16394,
+            "queries": 24000,
+            "answer_hash": "13824212446038432617",
+            "visits": 1901459,
+            "reductions": 1493847,
+            "writes": 1146442,
+            "pops": 1160314,
+            "max_pending": 3
+          },
+          {
+            "algorithm": "timestamp-fast",
+            "parse_seconds": 0.009221875,
+            "solve_seconds": 0.04624275,
+            "program_seconds": 0.055764167,
+            "peak_rss_bytes": 7929856,
+            "yes": 16394,
+            "queries": 24000,
+            "answer_hash": "13824212446038432617",
+            "visits": 1901459,
+            "reductions": 1493847,
+            "writes": 1146442,
+            "pops": 1160314,
+            "max_pending": 3
+          },
+          {
+            "algorithm": "timestamp-fast",
+            "parse_seconds": 0.009612,
+            "solve_seconds": 0.046217417,
+            "program_seconds": 0.056149,
+            "peak_rss_bytes": 7913472,
+            "yes": 16394,
+            "queries": 24000,
+            "answer_hash": "13824212446038432617",
+            "visits": 1901459,
+            "reductions": 1493847,
+            "writes": 1146442,
+            "pops": 1160314,
+            "max_pending": 3
+          },
+          {
+            "algorithm": "timestamp-fast",
+            "parse_seconds": 0.009116416,
+            "solve_seconds": 0.046771042,
+            "program_seconds": 0.056191541,
+            "peak_rss_bytes": 7913472,
+            "yes": 16394,
+            "queries": 24000,
+            "answer_hash": "13824212446038432617",
+            "visits": 1901459,
+            "reductions": 1493847,
+            "writes": 1146442,
+            "pops": 1160314,
+            "max_pending": 3
+          }
+        ]
+      },
+      "median_seconds": {
+        "before": 0.071813084,
+        "after": 0.04624275
+      },
+      "speedup": 1.5529587665093447
+    },
+    {
+      "manifest": {
+        "name": "many-primes-d24",
+        "n": 12000,
+        "d": 24,
+        "q": 24000,
+        "factors": [
+          [
+            2,
+            1
+          ],
+          [
+            3,
+            1
+          ],
+          [
+            5,
+            1
+          ],
+          [
+            7,
+            1
+          ],
+          [
+            11,
+            1
+          ],
+          [
+            13,
+            1
+          ],
+          [
+            17,
+            1
+          ],
+          [
+            19,
+            1
+          ]
+        ],
+        "distribution": "uniform",
+        "seed": 20260917,
+        "modulus": 9699690,
+        "K": 8,
+        "w": 8,
+        "sha256": "64aaa8f16aa7d1a10c4770bd383b7e9f31201a5549ffe4990de7067c03dbde0f",
+        "input_bytes": 7054222,
+        "length_min": 1,
+        "length_max": 11854,
+        "length_mean": 770.4109583333334,
+        "length_histogram": {
+          "singleton": 6418,
+          "2_to_d": 8639,
+          "d_plus_1_to_2d": 3055,
+          "over_2d": 5888
+        },
+        "oracle_probes": [
+          {
+            "query_index": 0,
+            "expected": false
+          },
+          {
+            "query_index": 1,
+            "expected": true
+          },
+          {
+            "query_index": 2,
+            "expected": false
+          },
+          {
+            "query_index": 3,
+            "expected": true
+          },
+          {
+            "query_index": 4,
+            "expected": false
+          },
+          {
+            "query_index": 5,
+            "expected": true
+          },
+          {
+            "query_index": 6,
+            "expected": false
+          },
+          {
+            "query_index": 7,
+            "expected": true
+          }
+        ],
+        "guaranteed_yes_rule": "every odd zero-based query index",
+        "guaranteed_no_rule": null
+      },
+      "answer_sha256": "a49b74bd4d0ab796c49badc1c07c46d61b795e9c826e23ae2fd8af68aab8c730",
+      "runs": {
+        "before": [
+          {
+            "algorithm": "timestamp-fast",
+            "parse_seconds": 0.018031334,
+            "solve_seconds": 0.103379958,
+            "program_seconds": 0.121711709,
+            "peak_rss_bytes": 6766592,
+            "yes": 16516,
+            "queries": 24000,
+            "answer_hash": "1398236373903501589",
+            "visits": 2281767,
+            "reductions": 1882917,
+            "writes": 1662157,
+            "pops": 1675767,
+            "max_pending": 1
+          },
+          {
+            "algorithm": "timestamp-fast",
+            "parse_seconds": 0.014998208,
+            "solve_seconds": 0.092348542,
+            "program_seconds": 0.107660167,
+            "peak_rss_bytes": 6766592,
+            "yes": 16516,
+            "queries": 24000,
+            "answer_hash": "1398236373903501589",
+            "visits": 2281767,
+            "reductions": 1882917,
+            "writes": 1662157,
+            "pops": 1675767,
+            "max_pending": 1
+          },
+          {
+            "algorithm": "timestamp-fast",
+            "parse_seconds": 0.016042042,
+            "solve_seconds": 0.102044042,
+            "program_seconds": 0.118396,
+            "peak_rss_bytes": 6782976,
+            "yes": 16516,
+            "queries": 24000,
+            "answer_hash": "1398236373903501589",
+            "visits": 2281767,
+            "reductions": 1882917,
+            "writes": 1662157,
+            "pops": 1675767,
+            "max_pending": 1
+          },
+          {
+            "algorithm": "timestamp-fast",
+            "parse_seconds": 0.015422667,
+            "solve_seconds": 0.094302625,
+            "program_seconds": 0.110014208,
+            "peak_rss_bytes": 6799360,
+            "yes": 16516,
+            "queries": 24000,
+            "answer_hash": "1398236373903501589",
+            "visits": 2281767,
+            "reductions": 1882917,
+            "writes": 1662157,
+            "pops": 1675767,
+            "max_pending": 1
+          },
+          {
+            "algorithm": "timestamp-fast",
+            "parse_seconds": 0.015403875,
+            "solve_seconds": 0.093895625,
+            "program_seconds": 0.109596,
+            "peak_rss_bytes": 6782976,
+            "yes": 16516,
+            "queries": 24000,
+            "answer_hash": "1398236373903501589",
+            "visits": 2281767,
+            "reductions": 1882917,
+            "writes": 1662157,
+            "pops": 1675767,
+            "max_pending": 1
+          }
+        ],
+        "after": [
+          {
+            "algorithm": "timestamp-fast",
+            "parse_seconds": 0.017206833,
+            "solve_seconds": 0.047996709,
+            "program_seconds": 0.065544542,
+            "peak_rss_bytes": 6782976,
+            "yes": 16516,
+            "queries": 24000,
+            "answer_hash": "1398236373903501589",
+            "visits": 2281767,
+            "reductions": 1882917,
+            "writes": 1662157,
+            "pops": 1675767,
+            "max_pending": 1
+          },
+          {
+            "algorithm": "timestamp-fast",
+            "parse_seconds": 0.015408917,
+            "solve_seconds": 0.0392625,
+            "program_seconds": 0.054969667,
+            "peak_rss_bytes": 6766592,
+            "yes": 16516,
+            "queries": 24000,
+            "answer_hash": "1398236373903501589",
+            "visits": 2281767,
+            "reductions": 1882917,
+            "writes": 1662157,
+            "pops": 1675767,
+            "max_pending": 1
+          },
+          {
+            "algorithm": "timestamp-fast",
+            "parse_seconds": 0.015460417,
+            "solve_seconds": 0.042262917,
+            "program_seconds": 0.058003334,
+            "peak_rss_bytes": 6766592,
+            "yes": 16516,
+            "queries": 24000,
+            "answer_hash": "1398236373903501589",
+            "visits": 2281767,
+            "reductions": 1882917,
+            "writes": 1662157,
+            "pops": 1675767,
+            "max_pending": 1
+          },
+          {
+            "algorithm": "timestamp-fast",
+            "parse_seconds": 0.015655375,
+            "solve_seconds": 0.041269708,
+            "program_seconds": 0.057228375,
+            "peak_rss_bytes": 6766592,
+            "yes": 16516,
+            "queries": 24000,
+            "answer_hash": "1398236373903501589",
+            "visits": 2281767,
+            "reductions": 1882917,
+            "writes": 1662157,
+            "pops": 1675767,
+            "max_pending": 1
+          },
+          {
+            "algorithm": "timestamp-fast",
+            "parse_seconds": 0.015405125,
+            "solve_seconds": 0.041714042,
+            "program_seconds": 0.057451792,
+            "peak_rss_bytes": 6766592,
+            "yes": 16516,
+            "queries": 24000,
+            "answer_hash": "1398236373903501589",
+            "visits": 2281767,
+            "reductions": 1882917,
+            "writes": 1662157,
+            "pops": 1675767,
+            "max_pending": 1
+          }
+        ]
+      },
+      "median_seconds": {
+        "before": 0.094302625,
+        "after": 0.041714042
+      },
+      "speedup": 2.2606925744573014
+    },
+    {
+      "manifest": {
+        "name": "word-boundary-d32",
+        "n": 10000,
+        "d": 32,
+        "q": 20000,
+        "factors": [
+          [
+            4294967291,
+            1
+          ]
+        ],
+        "distribution": "uniform",
+        "seed": 20260917,
+        "modulus": 4294967291,
+        "K": 1,
+        "w": 1,
+        "sha256": "0976b95d39288f78cf26c28fe10092f450cda43afb44e080862f69ade9bea7c2",
+        "input_bytes": 10506424,
+        "length_min": 1,
+        "length_max": 9742,
+        "length_mean": 637.9761,
+        "length_histogram": {
+          "singleton": 5282,
+          "2_to_d": 7290,
+          "d_plus_1_to_2d": 2610,
+          "over_2d": 4818
+        },
+        "oracle_probes": [
+          {
+            "query_index": 0,
+            "expected": false
+          },
+          {
+            "query_index": 1,
+            "expected": true
+          },
+          {
+            "query_index": 2,
+            "expected": false
+          },
+          {
+            "query_index": 3,
+            "expected": true
+          },
+          {
+            "query_index": 4,
+            "expected": false
+          },
+          {
+            "query_index": 5,
+            "expected": true
+          },
+          {
+            "query_index": 6,
+            "expected": false
+          },
+          {
+            "query_index": 7,
+            "expected": true
+          }
+        ],
+        "guaranteed_yes_rule": "every odd zero-based query index",
+        "guaranteed_no_rule": null
+      },
+      "answer_sha256": "1ba6837fe702505f9341d6288bc2dae662fe12073728d07475720b862179479d",
+      "runs": {
+        "before": [
+          {
+            "algorithm": "timestamp-fast",
+            "parse_seconds": 0.022611167,
+            "solve_seconds": 0.038819417,
+            "program_seconds": 0.061668084,
+            "peak_rss_bytes": 6815744,
+            "yes": 13900,
+            "queries": 20000,
+            "answer_hash": "1936914277168586109",
+            "visits": 319504,
+            "reductions": 319472,
+            "writes": 319504,
+            "pops": 319504,
+            "max_pending": 1
+          },
+          {
+            "algorithm": "timestamp-fast",
+            "parse_seconds": 0.026772667,
+            "solve_seconds": 0.06152725,
+            "program_seconds": 0.089270375,
+            "peak_rss_bytes": 6864896,
+            "yes": 13900,
+            "queries": 20000,
+            "answer_hash": "1936914277168586109",
+            "visits": 319504,
+            "reductions": 319472,
+            "writes": 319504,
+            "pops": 319504,
+            "max_pending": 1
+          },
+          {
+            "algorithm": "timestamp-fast",
+            "parse_seconds": 0.02424025,
+            "solve_seconds": 0.039345083,
+            "program_seconds": 0.063832625,
+            "peak_rss_bytes": 6832128,
+            "yes": 13900,
+            "queries": 20000,
+            "answer_hash": "1936914277168586109",
+            "visits": 319504,
+            "reductions": 319472,
+            "writes": 319504,
+            "pops": 319504,
+            "max_pending": 1
+          },
+          {
+            "algorithm": "timestamp-fast",
+            "parse_seconds": 0.0220775,
+            "solve_seconds": 0.037246333,
+            "program_seconds": 0.059593458,
+            "peak_rss_bytes": 6815744,
+            "yes": 13900,
+            "queries": 20000,
+            "answer_hash": "1936914277168586109",
+            "visits": 319504,
+            "reductions": 319472,
+            "writes": 319504,
+            "pops": 319504,
+            "max_pending": 1
+          },
+          {
+            "algorithm": "timestamp-fast",
+            "parse_seconds": 0.0223645,
+            "solve_seconds": 0.039122458,
+            "program_seconds": 0.061746167,
+            "peak_rss_bytes": 6832128,
+            "yes": 13900,
+            "queries": 20000,
+            "answer_hash": "1936914277168586109",
+            "visits": 319504,
+            "reductions": 319472,
+            "writes": 319504,
+            "pops": 319504,
+            "max_pending": 1
+          }
+        ],
+        "after": [
+          {
+            "algorithm": "timestamp-fast",
+            "parse_seconds": 0.023579667,
+            "solve_seconds": 0.032804291,
+            "program_seconds": 0.056636167,
+            "peak_rss_bytes": 6832128,
+            "yes": 13900,
+            "queries": 20000,
+            "answer_hash": "1936914277168586109",
+            "visits": 319504,
+            "reductions": 319472,
+            "writes": 319504,
+            "pops": 319504,
+            "max_pending": 1
+          },
+          {
+            "algorithm": "timestamp-fast",
+            "parse_seconds": 0.022882667,
+            "solve_seconds": 0.030234166,
+            "program_seconds": 0.053344458,
+            "peak_rss_bytes": 6815744,
+            "yes": 13900,
+            "queries": 20000,
+            "answer_hash": "1936914277168586109",
+            "visits": 319504,
+            "reductions": 319472,
+            "writes": 319504,
+            "pops": 319504,
+            "max_pending": 1
+          },
+          {
+            "algorithm": "timestamp-fast",
+            "parse_seconds": 0.035512416,
+            "solve_seconds": 0.032382292,
+            "program_seconds": 0.068266333,
+            "peak_rss_bytes": 6832128,
+            "yes": 13900,
+            "queries": 20000,
+            "answer_hash": "1936914277168586109",
+            "visits": 319504,
+            "reductions": 319472,
+            "writes": 319504,
+            "pops": 319504,
+            "max_pending": 1
+          },
+          {
+            "algorithm": "timestamp-fast",
+            "parse_seconds": 0.022950542,
+            "solve_seconds": 0.030596458,
+            "program_seconds": 0.053780834,
+            "peak_rss_bytes": 6815744,
+            "yes": 13900,
+            "queries": 20000,
+            "answer_hash": "1936914277168586109",
+            "visits": 319504,
+            "reductions": 319472,
+            "writes": 319504,
+            "pops": 319504,
+            "max_pending": 1
+          },
+          {
+            "algorithm": "timestamp-fast",
+            "parse_seconds": 0.022255417,
+            "solve_seconds": 0.030472791,
+            "program_seconds": 0.053000667,
+            "peak_rss_bytes": 6848512,
+            "yes": 13900,
+            "queries": 20000,
+            "answer_hash": "1936914277168586109",
+            "visits": 319504,
+            "reductions": 319472,
+            "writes": 319504,
+            "pops": 319504,
+            "max_pending": 1
+          }
+        ]
+      },
+      "median_seconds": {
+        "before": 0.039122458,
+        "after": 0.030596458
+      },
+      "speedup": 1.2786597062967222
+    },
+    {
+      "manifest": {
+        "name": "composite-boundary-d24",
+        "n": 12000,
+        "d": 24,
+        "q": 24000,
+        "factors": [
+          [
+            3,
+            1
+          ],
+          [
+            5,
+            1
+          ],
+          [
+            17,
+            1
+          ],
+          [
+            257,
+            1
+          ],
+          [
+            65537,
+            1
+          ]
+        ],
+        "distribution": "uniform",
+        "seed": 20260917,
+        "modulus": 4294967295,
+        "K": 5,
+        "w": 5,
+        "sha256": "737de06c7ccf0cbbffef2ad2cf8ddaf1d43ae3f122bae1842b0ed3ffa8fe2e45",
+        "input_bytes": 9522250,
+        "length_min": 1,
+        "length_max": 11837,
+        "length_mean": 758.465875,
+        "length_histogram": {
+          "singleton": 6432,
+          "2_to_d": 8720,
+          "d_plus_1_to_2d": 3049,
+          "over_2d": 5799
+        },
+        "oracle_probes": [
+          {
+            "query_index": 0,
+            "expected": false
+          },
+          {
+            "query_index": 1,
+            "expected": true
+          },
+          {
+            "query_index": 2,
+            "expected": false
+          },
+          {
+            "query_index": 3,
+            "expected": true
+          },
+          {
+            "query_index": 4,
+            "expected": false
+          },
+          {
+            "query_index": 5,
+            "expected": true
+          },
+          {
+            "query_index": 6,
+            "expected": false
+          },
+          {
+            "query_index": 7,
+            "expected": true
+          }
+        ],
+        "guaranteed_yes_rule": "every odd zero-based query index",
+        "guaranteed_no_rule": null
+      },
+      "answer_sha256": "da8c821812a4040bbb99928ecfa7a9436ecab9f6a0d9477c3fe6b12d520ac308",
+      "runs": {
+        "before": [
+          {
+            "algorithm": "timestamp-fast",
+            "parse_seconds": 0.021510875,
+            "solve_seconds": 0.077241916,
+            "program_seconds": 0.099072625,
+            "peak_rss_bytes": 6766592,
+            "yes": 16632,
+            "queries": 24000,
+            "answer_hash": "15315936021364178545",
+            "visits": 1430731,
+            "reductions": 1266450,
+            "writes": 1169634,
+            "pops": 1175289,
+            "max_pending": 1
+          },
+          {
+            "algorithm": "timestamp-fast",
+            "parse_seconds": 0.021819125,
+            "solve_seconds": 0.074531542,
+            "program_seconds": 0.096678375,
+            "peak_rss_bytes": 6766592,
+            "yes": 16632,
+            "queries": 24000,
+            "answer_hash": "15315936021364178545",
+            "visits": 1430731,
+            "reductions": 1266450,
+            "writes": 1169634,
+            "pops": 1175289,
+            "max_pending": 1
+          },
+          {
+            "algorithm": "timestamp-fast",
+            "parse_seconds": 0.088358208,
+            "solve_seconds": 0.096792667,
+            "program_seconds": 0.185435708,
+            "peak_rss_bytes": 6782976,
+            "yes": 16632,
+            "queries": 24000,
+            "answer_hash": "15315936021364178545",
+            "visits": 1430731,
+            "reductions": 1266450,
+            "writes": 1169634,
+            "pops": 1175289,
+            "max_pending": 1
+          },
+          {
+            "algorithm": "timestamp-fast",
+            "parse_seconds": 0.020542875,
+            "solve_seconds": 0.07688725,
+            "program_seconds": 0.097784625,
+            "peak_rss_bytes": 6766592,
+            "yes": 16632,
+            "queries": 24000,
+            "answer_hash": "15315936021364178545",
+            "visits": 1430731,
+            "reductions": 1266450,
+            "writes": 1169634,
+            "pops": 1175289,
+            "max_pending": 1
+          },
+          {
+            "algorithm": "timestamp-fast",
+            "parse_seconds": 0.020754083,
+            "solve_seconds": 0.075640334,
+            "program_seconds": 0.096723208,
+            "peak_rss_bytes": 6766592,
+            "yes": 16632,
+            "queries": 24000,
+            "answer_hash": "15315936021364178545",
+            "visits": 1430731,
+            "reductions": 1266450,
+            "writes": 1169634,
+            "pops": 1175289,
+            "max_pending": 1
+          }
+        ],
+        "after": [
+          {
+            "algorithm": "timestamp-fast",
+            "parse_seconds": 0.022356084,
+            "solve_seconds": 0.040122041,
+            "program_seconds": 0.062810417,
+            "peak_rss_bytes": 6766592,
+            "yes": 16632,
+            "queries": 24000,
+            "answer_hash": "15315936021364178545",
+            "visits": 1430731,
+            "reductions": 1266450,
+            "writes": 1169634,
+            "pops": 1175289,
+            "max_pending": 1
+          },
+          {
+            "algorithm": "timestamp-fast",
+            "parse_seconds": 0.020459875,
+            "solve_seconds": 0.038072625,
+            "program_seconds": 0.058816125,
+            "peak_rss_bytes": 6766592,
+            "yes": 16632,
+            "queries": 24000,
+            "answer_hash": "15315936021364178545",
+            "visits": 1430731,
+            "reductions": 1266450,
+            "writes": 1169634,
+            "pops": 1175289,
+            "max_pending": 1
+          },
+          {
+            "algorithm": "timestamp-fast",
+            "parse_seconds": 0.020745417,
+            "solve_seconds": 0.039035375,
+            "program_seconds": 0.060056875,
+            "peak_rss_bytes": 6766592,
+            "yes": 16632,
+            "queries": 24000,
+            "answer_hash": "15315936021364178545",
+            "visits": 1430731,
+            "reductions": 1266450,
+            "writes": 1169634,
+            "pops": 1175289,
+            "max_pending": 1
+          },
+          {
+            "algorithm": "timestamp-fast",
+            "parse_seconds": 0.021276459,
+            "solve_seconds": 0.039102208,
+            "program_seconds": 0.060649292,
+            "peak_rss_bytes": 6782976,
+            "yes": 16632,
+            "queries": 24000,
+            "answer_hash": "15315936021364178545",
+            "visits": 1430731,
+            "reductions": 1266450,
+            "writes": 1169634,
+            "pops": 1175289,
+            "max_pending": 1
+          },
+          {
+            "algorithm": "timestamp-fast",
+            "parse_seconds": 0.020508792,
+            "solve_seconds": 0.038150166,
+            "program_seconds": 0.058991917,
+            "peak_rss_bytes": 6766592,
+            "yes": 16632,
+            "queries": 24000,
+            "answer_hash": "15315936021364178545",
+            "visits": 1430731,
+            "reductions": 1266450,
+            "writes": 1169634,
+            "pops": 1175289,
+            "max_pending": 1
+          }
+        ]
+      },
+      "median_seconds": {
+        "before": 0.07688725,
+        "after": 0.039035375
+      },
+      "speedup": 1.9696813467271677
+    },
+    {
+      "manifest": {
+        "name": "coupled-crt-d32",
+        "n": 12000,
+        "d": 32,
+        "q": 24000,
+        "factors": [
+          [
+            2,
+            3
+          ],
+          [
+            3,
+            2
+          ]
+        ],
+        "distribution": "coupled",
+        "seed": 20260917,
+        "modulus": 72,
+        "K": 5,
+        "w": 2,
+        "sha256": "5d061821b90ba6cd9367493ee1cb72dfb03e3dd11914639d261197fcf0d1d7bc",
+        "input_bytes": 3531829,
+        "length_min": 1,
+        "length_max": 11813,
+        "length_mean": 732.7657083333334,
+        "length_histogram": {
+          "singleton": 6411,
+          "2_to_d": 8834,
+          "d_plus_1_to_2d": 3155,
+          "over_2d": 5600
+        },
+        "oracle_probes": [
+          {
+            "query_index": 0,
+            "expected": false
+          },
+          {
+            "query_index": 1,
+            "expected": true
+          },
+          {
+            "query_index": 2,
+            "expected": false
+          },
+          {
+            "query_index": 3,
+            "expected": true
+          },
+          {
+            "query_index": 4,
+            "expected": false
+          },
+          {
+            "query_index": 5,
+            "expected": true
+          },
+          {
+            "query_index": 6,
+            "expected": false
+          },
+          {
+            "query_index": 7,
+            "expected": true
+          }
+        ],
+        "guaranteed_yes_rule": "every odd zero-based query index",
+        "guaranteed_no_rule": "every even zero-based query index"
+      },
+      "answer_sha256": "784d03ec0d07797c4bf75c46e8de844653d2f110c52fdfcbe7d67f31280ac007",
+      "runs": {
+        "before": [
+          {
+            "algorithm": "timestamp-fast",
+            "parse_seconds": 0.009221375,
+            "solve_seconds": 0.067453042,
+            "program_seconds": 0.076937209,
+            "peak_rss_bytes": 7913472,
+            "yes": 12000,
+            "queries": 24000,
+            "answer_hash": "7473412904740332965",
+            "visits": 1855693,
+            "reductions": 1447259,
+            "writes": 1111142,
+            "pops": 1125087,
+            "max_pending": 3
+          },
+          {
+            "algorithm": "timestamp-fast",
+            "parse_seconds": 0.011124625,
+            "solve_seconds": 0.0689135,
+            "program_seconds": 0.080271958,
+            "peak_rss_bytes": 7929856,
+            "yes": 12000,
+            "queries": 24000,
+            "answer_hash": "7473412904740332965",
+            "visits": 1855693,
+            "reductions": 1447259,
+            "writes": 1111142,
+            "pops": 1125087,
+            "max_pending": 3
+          },
+          {
+            "algorithm": "timestamp-fast",
+            "parse_seconds": 0.011006583,
+            "solve_seconds": 0.068130209,
+            "program_seconds": 0.079386917,
+            "peak_rss_bytes": 7913472,
+            "yes": 12000,
+            "queries": 24000,
+            "answer_hash": "7473412904740332965",
+            "visits": 1855693,
+            "reductions": 1447259,
+            "writes": 1111142,
+            "pops": 1125087,
+            "max_pending": 3
+          },
+          {
+            "algorithm": "timestamp-fast",
+            "parse_seconds": 0.010828917,
+            "solve_seconds": 0.067711125,
+            "program_seconds": 0.078806375,
+            "peak_rss_bytes": 7913472,
+            "yes": 12000,
+            "queries": 24000,
+            "answer_hash": "7473412904740332965",
+            "visits": 1855693,
+            "reductions": 1447259,
+            "writes": 1111142,
+            "pops": 1125087,
+            "max_pending": 3
+          },
+          {
+            "algorithm": "timestamp-fast",
+            "parse_seconds": 0.009123875,
+            "solve_seconds": 0.068041333,
+            "program_seconds": 0.077424417,
+            "peak_rss_bytes": 7913472,
+            "yes": 12000,
+            "queries": 24000,
+            "answer_hash": "7473412904740332965",
+            "visits": 1855693,
+            "reductions": 1447259,
+            "writes": 1111142,
+            "pops": 1125087,
+            "max_pending": 3
+          }
+        ],
+        "after": [
+          {
+            "algorithm": "timestamp-fast",
+            "parse_seconds": 0.009131958,
+            "solve_seconds": 0.050505917,
+            "program_seconds": 0.05990525,
+            "peak_rss_bytes": 7913472,
+            "yes": 12000,
+            "queries": 24000,
+            "answer_hash": "7473412904740332965",
+            "visits": 1855693,
+            "reductions": 1447259,
+            "writes": 1111142,
+            "pops": 1125087,
+            "max_pending": 3
+          },
+          {
+            "algorithm": "timestamp-fast",
+            "parse_seconds": 0.009032584,
+            "solve_seconds": 0.050162541,
+            "program_seconds": 0.059425084,
+            "peak_rss_bytes": 7913472,
+            "yes": 12000,
+            "queries": 24000,
+            "answer_hash": "7473412904740332965",
+            "visits": 1855693,
+            "reductions": 1447259,
+            "writes": 1111142,
+            "pops": 1125087,
+            "max_pending": 3
+          },
+          {
+            "algorithm": "timestamp-fast",
+            "parse_seconds": 0.009041625,
+            "solve_seconds": 0.049747083,
+            "program_seconds": 0.059042542,
+            "peak_rss_bytes": 7929856,
+            "yes": 12000,
+            "queries": 24000,
+            "answer_hash": "7473412904740332965",
+            "visits": 1855693,
+            "reductions": 1447259,
+            "writes": 1111142,
+            "pops": 1125087,
+            "max_pending": 3
+          },
+          {
+            "algorithm": "timestamp-fast",
+            "parse_seconds": 0.008991792,
+            "solve_seconds": 0.04927275,
+            "program_seconds": 0.05849925,
+            "peak_rss_bytes": 7929856,
+            "yes": 12000,
+            "queries": 24000,
+            "answer_hash": "7473412904740332965",
+            "visits": 1855693,
+            "reductions": 1447259,
+            "writes": 1111142,
+            "pops": 1125087,
+            "max_pending": 3
+          },
+          {
+            "algorithm": "timestamp-fast",
+            "parse_seconds": 0.009098083,
+            "solve_seconds": 0.04949125,
+            "program_seconds": 0.058847167,
+            "peak_rss_bytes": 7913472,
+            "yes": 12000,
+            "queries": 24000,
+            "answer_hash": "7473412904740332965",
+            "visits": 1855693,
+            "reductions": 1447259,
+            "writes": 1111142,
+            "pops": 1125087,
+            "max_pending": 3
+          }
+        ]
+      },
+      "median_seconds": {
+        "before": 0.068041333,
+        "after": 0.049747083
+      },
+      "speedup": 1.367745180154583
+    },
+    {
+      "manifest": {
+        "name": "nonunit-power-d24",
+        "n": 12000,
+        "d": 24,
+        "q": 24000,
+        "factors": [
+          [
+            2,
+            16
+          ]
+        ],
+        "distribution": "nonunit",
+        "seed": 20260917,
+        "modulus": 65536,
+        "K": 16,
+        "w": 1,
+        "sha256": "06c058625d50bc474057b9b4fb51c03fd2e9789872804ea5f212a6133d4117f2",
+        "input_bytes": 5278853,
+        "length_min": 1,
+        "length_max": 11877,
+        "length_mean": 746.0056666666667,
+        "length_histogram": {
+          "singleton": 6422,
+          "2_to_d": 8708,
+          "d_plus_1_to_2d": 3092,
+          "over_2d": 5778
+        },
+        "oracle_probes": [
+          {
+            "query_index": 0,
+            "expected": false
+          },
+          {
+            "query_index": 1,
+            "expected": true
+          },
+          {
+            "query_index": 2,
+            "expected": false
+          },
+          {
+            "query_index": 3,
+            "expected": true
+          },
+          {
+            "query_index": 4,
+            "expected": false
+          },
+          {
+            "query_index": 5,
+            "expected": true
+          },
+          {
+            "query_index": 6,
+            "expected": false
+          },
+          {
+            "query_index": 7,
+            "expected": true
+          }
+        ],
+        "guaranteed_yes_rule": "every odd zero-based query index",
+        "guaranteed_no_rule": "every even zero-based query index"
+      },
+      "answer_sha256": "784d03ec0d07797c4bf75c46e8de844653d2f110c52fdfcbe7d67f31280ac007",
+      "runs": {
+        "before": [
+          {
+            "algorithm": "timestamp-fast",
+            "parse_seconds": 0.011983667,
+            "solve_seconds": 0.168260333,
+            "program_seconds": 0.180485958,
+            "peak_rss_bytes": 6799360,
+            "yes": 12000,
+            "queries": 24000,
+            "answer_hash": "7473412904740332965",
+            "visits": 4304088,
+            "reductions": 4109224,
+            "writes": 3856496,
+            "pops": 3868193,
+            "max_pending": 15
+          },
+          {
+            "algorithm": "timestamp-fast",
+            "parse_seconds": 0.012229083,
+            "solve_seconds": 0.169402208,
+            "program_seconds": 0.181909833,
+            "peak_rss_bytes": 6815744,
+            "yes": 12000,
+            "queries": 24000,
+            "answer_hash": "7473412904740332965",
+            "visits": 4304088,
+            "reductions": 4109224,
+            "writes": 3856496,
+            "pops": 3868193,
+            "max_pending": 15
+          },
+          {
+            "algorithm": "timestamp-fast",
+            "parse_seconds": 0.012075334,
+            "solve_seconds": 0.172213916,
+            "program_seconds": 0.18452025,
+            "peak_rss_bytes": 6815744,
+            "yes": 12000,
+            "queries": 24000,
+            "answer_hash": "7473412904740332965",
+            "visits": 4304088,
+            "reductions": 4109224,
+            "writes": 3856496,
+            "pops": 3868193,
+            "max_pending": 15
+          },
+          {
+            "algorithm": "timestamp-fast",
+            "parse_seconds": 0.012152125,
+            "solve_seconds": 0.173534917,
+            "program_seconds": 0.185935125,
+            "peak_rss_bytes": 6815744,
+            "yes": 12000,
+            "queries": 24000,
+            "answer_hash": "7473412904740332965",
+            "visits": 4304088,
+            "reductions": 4109224,
+            "writes": 3856496,
+            "pops": 3868193,
+            "max_pending": 15
+          },
+          {
+            "algorithm": "timestamp-fast",
+            "parse_seconds": 0.012227833,
+            "solve_seconds": 0.173973,
+            "program_seconds": 0.186450625,
+            "peak_rss_bytes": 6815744,
+            "yes": 12000,
+            "queries": 24000,
+            "answer_hash": "7473412904740332965",
+            "visits": 4304088,
+            "reductions": 4109224,
+            "writes": 3856496,
+            "pops": 3868193,
+            "max_pending": 15
+          }
+        ],
+        "after": [
+          {
+            "algorithm": "timestamp-fast",
+            "parse_seconds": 0.012046209,
+            "solve_seconds": 0.130855083,
+            "program_seconds": 0.143141959,
+            "peak_rss_bytes": 6815744,
+            "yes": 12000,
+            "queries": 24000,
+            "answer_hash": "7473412904740332965",
+            "visits": 4304088,
+            "reductions": 4109224,
+            "writes": 3856496,
+            "pops": 3868193,
+            "max_pending": 15
+          },
+          {
+            "algorithm": "timestamp-fast",
+            "parse_seconds": 0.011837667,
+            "solve_seconds": 0.130763292,
+            "program_seconds": 0.142833167,
+            "peak_rss_bytes": 6815744,
+            "yes": 12000,
+            "queries": 24000,
+            "answer_hash": "7473412904740332965",
+            "visits": 4304088,
+            "reductions": 4109224,
+            "writes": 3856496,
+            "pops": 3868193,
+            "max_pending": 15
+          },
+          {
+            "algorithm": "timestamp-fast",
+            "parse_seconds": 0.011536292,
+            "solve_seconds": 0.132869125,
+            "program_seconds": 0.14464825,
+            "peak_rss_bytes": 6815744,
+            "yes": 12000,
+            "queries": 24000,
+            "answer_hash": "7473412904740332965",
+            "visits": 4304088,
+            "reductions": 4109224,
+            "writes": 3856496,
+            "pops": 3868193,
+            "max_pending": 15
+          },
+          {
+            "algorithm": "timestamp-fast",
+            "parse_seconds": 0.012036708,
+            "solve_seconds": 0.132668542,
+            "program_seconds": 0.144959166,
+            "peak_rss_bytes": 6815744,
+            "yes": 12000,
+            "queries": 24000,
+            "answer_hash": "7473412904740332965",
+            "visits": 4304088,
+            "reductions": 4109224,
+            "writes": 3856496,
+            "pops": 3868193,
+            "max_pending": 15
+          },
+          {
+            "algorithm": "timestamp-fast",
+            "parse_seconds": 0.012143,
+            "solve_seconds": 0.131981583,
+            "program_seconds": 0.144378083,
+            "peak_rss_bytes": 6799360,
+            "yes": 12000,
+            "queries": 24000,
+            "answer_hash": "7473412904740332965",
+            "visits": 4304088,
+            "reductions": 4109224,
+            "writes": 3856496,
+            "pops": 3868193,
+            "max_pending": 15
+          }
+        ]
+      },
+      "median_seconds": {
+        "before": 0.172213916,
+        "after": 0.131981583
+      },
+      "speedup": 1.3048329326372754
+    },
+    {
+      "manifest": {
+        "name": "valuation-ladder-d24",
+        "n": 12000,
+        "d": 24,
+        "q": 24000,
+        "factors": [
+          [
+            2,
+            30
+          ]
+        ],
+        "distribution": "valuation-ladder",
+        "seed": 20260917,
+        "modulus": 1073741824,
+        "K": 30,
+        "w": 1,
+        "sha256": "d46719bc3f453304c031c19d0ad80453fdb2e588ec51f67708b875fa41fe34ae",
+        "input_bytes": 6850288,
+        "length_min": 1,
+        "length_max": 11877,
+        "length_mean": 746.0056666666667,
+        "length_histogram": {
+          "singleton": 6422,
+          "2_to_d": 8708,
+          "d_plus_1_to_2d": 3092,
+          "over_2d": 5778
+        },
+        "oracle_probes": [
+          {
+            "query_index": 0,
+            "expected": false
+          },
+          {
+            "query_index": 1,
+            "expected": true
+          },
+          {
+            "query_index": 2,
+            "expected": false
+          },
+          {
+            "query_index": 3,
+            "expected": true
+          },
+          {
+            "query_index": 4,
+            "expected": false
+          },
+          {
+            "query_index": 5,
+            "expected": true
+          },
+          {
+            "query_index": 6,
+            "expected": false
+          },
+          {
+            "query_index": 7,
+            "expected": true
+          }
+        ],
+        "guaranteed_yes_rule": "every odd zero-based query index",
+        "guaranteed_no_rule": null
+      },
+      "answer_sha256": "088bd00f3aa4b7aa6d866d8fed4ef9b9626ac1794e322ddd271bd504ac73a9b4",
+      "runs": {
+        "before": [
+          {
+            "algorithm": "timestamp-fast",
+            "parse_seconds": 0.015002458,
+            "solve_seconds": 0.012914542,
+            "program_seconds": 0.028178,
+            "peak_rss_bytes": 6864896,
+            "yes": 14591,
+            "queries": 24000,
+            "answer_hash": "4105686035789432284",
+            "visits": 2355000,
+            "reductions": 187680,
+            "writes": 188400,
+            "pops": 188400,
+            "max_pending": 30
+          },
+          {
+            "algorithm": "timestamp-fast",
+            "parse_seconds": 0.014837625,
+            "solve_seconds": 0.012936291,
+            "program_seconds": 0.028082583,
+            "peak_rss_bytes": 6864896,
+            "yes": 14591,
+            "queries": 24000,
+            "answer_hash": "4105686035789432284",
+            "visits": 2355000,
+            "reductions": 187680,
+            "writes": 188400,
+            "pops": 188400,
+            "max_pending": 30
+          },
+          {
+            "algorithm": "timestamp-fast",
+            "parse_seconds": 0.015067583,
+            "solve_seconds": 0.014101334,
+            "program_seconds": 0.02945325,
+            "peak_rss_bytes": 6864896,
+            "yes": 14591,
+            "queries": 24000,
+            "answer_hash": "4105686035789432284",
+            "visits": 2355000,
+            "reductions": 187680,
+            "writes": 188400,
+            "pops": 188400,
+            "max_pending": 30
+          },
+          {
+            "algorithm": "timestamp-fast",
+            "parse_seconds": 0.014808666,
+            "solve_seconds": 0.013818,
+            "program_seconds": 0.028890791,
+            "peak_rss_bytes": 6864896,
+            "yes": 14591,
+            "queries": 24000,
+            "answer_hash": "4105686035789432284",
+            "visits": 2355000,
+            "reductions": 187680,
+            "writes": 188400,
+            "pops": 188400,
+            "max_pending": 30
+          },
+          {
+            "algorithm": "timestamp-fast",
+            "parse_seconds": 0.014601166,
+            "solve_seconds": 0.013969959,
+            "program_seconds": 0.028837583,
+            "peak_rss_bytes": 6864896,
+            "yes": 14591,
+            "queries": 24000,
+            "answer_hash": "4105686035789432284",
+            "visits": 2355000,
+            "reductions": 187680,
+            "writes": 188400,
+            "pops": 188400,
+            "max_pending": 30
+          }
+        ],
+        "after": [
+          {
+            "algorithm": "timestamp-fast",
+            "parse_seconds": 0.015252291,
+            "solve_seconds": 0.011501084,
+            "program_seconds": 0.027020291,
+            "peak_rss_bytes": 6864896,
+            "yes": 14591,
+            "queries": 24000,
+            "answer_hash": "4105686035789432284",
+            "visits": 2355000,
+            "reductions": 187680,
+            "writes": 188400,
+            "pops": 188400,
+            "max_pending": 30
+          },
+          {
+            "algorithm": "timestamp-fast",
+            "parse_seconds": 0.015317125,
+            "solve_seconds": 0.011703666,
+            "program_seconds": 0.027290291,
+            "peak_rss_bytes": 6864896,
+            "yes": 14591,
+            "queries": 24000,
+            "answer_hash": "4105686035789432284",
+            "visits": 2355000,
+            "reductions": 187680,
+            "writes": 188400,
+            "pops": 188400,
+            "max_pending": 30
+          },
+          {
+            "algorithm": "timestamp-fast",
+            "parse_seconds": 0.015133167,
+            "solve_seconds": 0.011722458,
+            "program_seconds": 0.027139042,
+            "peak_rss_bytes": 6864896,
+            "yes": 14591,
+            "queries": 24000,
+            "answer_hash": "4105686035789432284",
+            "visits": 2355000,
+            "reductions": 187680,
+            "writes": 188400,
+            "pops": 188400,
+            "max_pending": 30
+          },
+          {
+            "algorithm": "timestamp-fast",
+            "parse_seconds": 0.015249459,
+            "solve_seconds": 0.01147575,
+            "program_seconds": 0.026982125,
+            "peak_rss_bytes": 6864896,
+            "yes": 14591,
+            "queries": 24000,
+            "answer_hash": "4105686035789432284",
+            "visits": 2355000,
+            "reductions": 187680,
+            "writes": 188400,
+            "pops": 188400,
+            "max_pending": 30
+          },
+          {
+            "algorithm": "timestamp-fast",
+            "parse_seconds": 0.015273917,
+            "solve_seconds": 0.011890583,
+            "program_seconds": 0.02741575,
+            "peak_rss_bytes": 6864896,
+            "yes": 14591,
+            "queries": 24000,
+            "answer_hash": "4105686035789432284",
+            "visits": 2355000,
+            "reductions": 187680,
+            "writes": 188400,
+            "pops": 188400,
+            "max_pending": 30
+          }
+        ]
+      },
+      "median_seconds": {
+        "before": 0.013818,
+        "after": 0.011703666
+      },
+      "speedup": 1.1806557022389395
+    },
+    {
+      "manifest": {
+        "name": "zeros-duplicates-d32",
+        "n": 12000,
+        "d": 32,
+        "q": 24000,
+        "factors": [
+          [
+            2,
+            3
+          ],
+          [
+            3,
+            2
+          ]
+        ],
+        "distribution": "zeros-duplicates",
+        "seed": 20260917,
+        "modulus": 72,
+        "K": 5,
+        "w": 2,
+        "sha256": "716025a37001a11475fcd759afefd5660d21f8b4d830f9d06e9fc62005d9078d",
+        "input_bytes": 3287354,
+        "length_min": 1,
+        "length_max": 11813,
+        "length_mean": 732.7657083333334,
+        "length_histogram": {
+          "singleton": 6411,
+          "2_to_d": 8834,
+          "d_plus_1_to_2d": 3155,
+          "over_2d": 5600
+        },
+        "oracle_probes": [
+          {
+            "query_index": 0,
+            "expected": false
+          },
+          {
+            "query_index": 1,
+            "expected": true
+          },
+          {
+            "query_index": 2,
+            "expected": false
+          },
+          {
+            "query_index": 3,
+            "expected": true
+          },
+          {
+            "query_index": 4,
+            "expected": false
+          },
+          {
+            "query_index": 5,
+            "expected": true
+          },
+          {
+            "query_index": 6,
+            "expected": false
+          },
+          {
+            "query_index": 7,
+            "expected": true
+          }
+        ],
+        "guaranteed_yes_rule": "every odd zero-based query index",
+        "guaranteed_no_rule": null
+      },
+      "answer_sha256": "a9dd4beff73dd3d3fa1af9e3419cc89b67b0f4b413ec16bd6a4188aedfb87701",
+      "runs": {
+        "before": [
+          {
+            "algorithm": "timestamp-fast",
+            "parse_seconds": 0.0084475,
+            "solve_seconds": 0.025115125,
+            "program_seconds": 0.033847292,
+            "peak_rss_bytes": 7897088,
+            "yes": 14749,
+            "queries": 24000,
+            "answer_hash": "16652830816139592860",
+            "visits": 495006,
+            "reductions": 386957,
+            "writes": 300658,
+            "pops": 304061,
+            "max_pending": 3
+          },
+          {
+            "algorithm": "timestamp-fast",
+            "parse_seconds": 0.008444834,
+            "solve_seconds": 0.025187041,
+            "program_seconds": 0.0339025,
+            "peak_rss_bytes": 7929856,
+            "yes": 14749,
+            "queries": 24000,
+            "answer_hash": "16652830816139592860",
+            "visits": 495006,
+            "reductions": 386957,
+            "writes": 300658,
+            "pops": 304061,
+            "max_pending": 3
+          },
+          {
+            "algorithm": "timestamp-fast",
+            "parse_seconds": 0.00850025,
+            "solve_seconds": 0.024935958,
+            "program_seconds": 0.033702708,
+            "peak_rss_bytes": 7913472,
+            "yes": 14749,
+            "queries": 24000,
+            "answer_hash": "16652830816139592860",
+            "visits": 495006,
+            "reductions": 386957,
+            "writes": 300658,
+            "pops": 304061,
+            "max_pending": 3
+          },
+          {
+            "algorithm": "timestamp-fast",
+            "parse_seconds": 0.008615458,
+            "solve_seconds": 0.025099708,
+            "program_seconds": 0.033980208,
+            "peak_rss_bytes": 7929856,
+            "yes": 14749,
+            "queries": 24000,
+            "answer_hash": "16652830816139592860",
+            "visits": 495006,
+            "reductions": 386957,
+            "writes": 300658,
+            "pops": 304061,
+            "max_pending": 3
+          },
+          {
+            "algorithm": "timestamp-fast",
+            "parse_seconds": 0.008377375,
+            "solve_seconds": 0.025324959,
+            "program_seconds": 0.033987625,
+            "peak_rss_bytes": 7880704,
+            "yes": 14749,
+            "queries": 24000,
+            "answer_hash": "16652830816139592860",
+            "visits": 495006,
+            "reductions": 386957,
+            "writes": 300658,
+            "pops": 304061,
+            "max_pending": 3
+          }
+        ],
+        "after": [
+          {
+            "algorithm": "timestamp-fast",
+            "parse_seconds": 0.008270583,
+            "solve_seconds": 0.015454875,
+            "program_seconds": 0.024011333,
+            "peak_rss_bytes": 7913472,
+            "yes": 14749,
+            "queries": 24000,
+            "answer_hash": "16652830816139592860",
+            "visits": 495006,
+            "reductions": 386957,
+            "writes": 300658,
+            "pops": 304061,
+            "max_pending": 3
+          },
+          {
+            "algorithm": "timestamp-fast",
+            "parse_seconds": 0.008402875,
+            "solve_seconds": 0.015415541,
+            "program_seconds": 0.024089291,
+            "peak_rss_bytes": 7897088,
+            "yes": 14749,
+            "queries": 24000,
+            "answer_hash": "16652830816139592860",
+            "visits": 495006,
+            "reductions": 386957,
+            "writes": 300658,
+            "pops": 304061,
+            "max_pending": 3
+          },
+          {
+            "algorithm": "timestamp-fast",
+            "parse_seconds": 0.008426,
+            "solve_seconds": 0.015992291,
+            "program_seconds": 0.024701541,
+            "peak_rss_bytes": 7929856,
+            "yes": 14749,
+            "queries": 24000,
+            "answer_hash": "16652830816139592860",
+            "visits": 495006,
+            "reductions": 386957,
+            "writes": 300658,
+            "pops": 304061,
+            "max_pending": 3
+          },
+          {
+            "algorithm": "timestamp-fast",
+            "parse_seconds": 0.008801083,
+            "solve_seconds": 0.015652208,
+            "program_seconds": 0.024714166,
+            "peak_rss_bytes": 7913472,
+            "yes": 14749,
+            "queries": 24000,
+            "answer_hash": "16652830816139592860",
+            "visits": 495006,
+            "reductions": 386957,
+            "writes": 300658,
+            "pops": 304061,
+            "max_pending": 3
+          },
+          {
+            "algorithm": "timestamp-fast",
+            "parse_seconds": 0.008458375,
+            "solve_seconds": 0.015887292,
+            "program_seconds": 0.024610834,
+            "peak_rss_bytes": 7929856,
+            "yes": 14749,
+            "queries": 24000,
+            "answer_hash": "16652830816139592860",
+            "visits": 495006,
+            "reductions": 386957,
+            "writes": 300658,
+            "pops": 304061,
+            "max_pending": 3
+          }
+        ]
+      },
+      "median_seconds": {
+        "before": 0.025115125,
+        "after": 0.015652208
+      },
+      "speedup": 1.6045739361500944
+    }
+  ],
+  "status": "complete"
+}

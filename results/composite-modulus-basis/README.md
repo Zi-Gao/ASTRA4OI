@@ -15,6 +15,8 @@
 - [C++ 实现与标准化性能对照](implementation/benchmark_cpp/README.md)
 - **[OI/CP 性能实测汇总](docs/zh/cpp-benchmark-results.md)**（普通/优化 C++、8 种候选、36 组数据）
 
+- **[进一步常数优化与版本对照](docs/zh/constant-tuning.md)**（与提交 `9a0fb9e` 的快版配对实测）
+
 对已知分解 `m = ∏ p_s^k_s`，记 `K = ∑ k_s`、`w` 为分量数。
 主体坐标更新量为预处理 `O(nKd²)`、每次成员查询 `O(wd²)`。
 求逆、赋值、堆、因数分解与整数位成本另计；论文严格区分这些成本模型。

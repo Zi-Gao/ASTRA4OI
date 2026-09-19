@@ -17,6 +17,8 @@ operation-count proofs.
 - [C++ implementations and standardized benchmarks](implementation/benchmark_cpp/README-EN.md)
 - **[OI/CP performance results](docs/en/cpp-benchmark-results.md)** (basic/optimized C++, eight candidates, 36 datasets)
 
+- **[Further constant-factor tuning](docs/en/constant-tuning.md)** (paired comparison against the fast implementation at `9a0fb9e`)
+
 For a known factorization `m = ∏ p_s^k_s`, write `K = ∑ k_s` and let `w` be the component count.
 Dominant coordinate updates are `O(nKd²)` for preprocessing and `O(wd²)` per membership query.
 Inversion, valuation, heap, factorization, and integer bit costs are separate; the paper makes

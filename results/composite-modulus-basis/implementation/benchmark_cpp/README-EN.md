@@ -6,6 +6,8 @@
 
 The workload is static batched interval membership: identical input and ordered answers for every candidate; offline query reordering is allowed. Supported domain: `2 <= m < 2^32`, `1 <= d <= 256`. Ordinary products use 64 bits; reciprocal reduction and Bezout combinations use compiler `__int128`. Clang/GCC on macOS/Linux and Python 3.10+ are required, with no third-party packages.
 
+The current `timestamp-fast` additionally uses division-free valuation/quotients, 32-bit inversion with bounded caches, power-of-two vector loops, a single heap sift, and cached full-module certificates. See the [tuning report](../../docs/en/constant-tuning.md) for new timings and reproduction. The original 36-case comparison remains a snapshot of `9a0fb9e`.
+
 ## Implementations
 
 | Name | Implementation | Scope |

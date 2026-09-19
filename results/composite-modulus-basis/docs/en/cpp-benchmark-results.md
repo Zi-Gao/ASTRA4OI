@@ -2,6 +2,8 @@
 
 [中文](../zh/cpp-benchmark-results.md)
 
+This page is the cross-algorithm benchmark snapshot at `9a0fb9e`; see [constant-factor tuning](constant-tuning.md) for the current fast implementation.
+
 **Results depend on modulus and distribution: small exponents are favorable, deep powers do not always win, and packed XOR remains the specialized choice for modulus 2.** The full matrix is shown; timeouts are not exact times, and local baselines are not claimed to be best-in-class implementations.
 
 Host: Apple M3 Pro, Darwin 25.6.0; Apple clang version 17.0.0 (clang-1700.6.3.2). Native flags: `-std=c++17 -Wall -Wextra -O3 -DNDEBUG -march=native`. Standard: 5 measured runs; scaling/stress: 3/3, plus warmups.

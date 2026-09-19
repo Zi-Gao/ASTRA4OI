@@ -33,6 +33,8 @@ def render(native, portable, scaling, stress, lang):
     heading = "OI/CP C++ 性能实测" if zh else "OI/CP C++ performance results"
     other = "en" if zh else "zh"
     lines = [f"# {heading}", "", f"[{'English' if zh else '中文'}](../{other}/cpp-benchmark-results.md)", ""]
+    lines += [("本页是提交 `9a0fb9e` 的横向基准快照；当前快版的进一步优化见 [常数优化报告](constant-tuning.md)。" if zh else
+               "This page is the cross-algorithm benchmark snapshot at `9a0fb9e`; see [constant-factor tuning](constant-tuning.md) for the current fast implementation."), ""]
     if zh:
         lines += ["**结论应按模数和数据分布区分：小幂指数下表现突出，深幂层下并不总胜出，模 2 应优先考虑打包专用实现。** 以下列出完整测试矩阵，不把超时当成具体耗时，也不把本地基线称为该路线的最快实现。", "",
                   f"机器：{native['environment'].get('cpu', 'unknown')}，{native['environment']['system']} {native['environment']['release']}；{native['compiler_version'].splitlines()[0]}。原生优化使用 `{' '.join(native['flags'])}`。标准组 {native['repeats']} 次测量，伸缩与压力组各 {scaling['repeats']} / {stress['repeats']} 次，均另有预热。", "",

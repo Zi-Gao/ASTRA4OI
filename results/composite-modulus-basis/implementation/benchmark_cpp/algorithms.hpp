@@ -109,6 +109,21 @@ public:
     }
 };
 
+// Extended Euclid for a 32-bit unit. Coefficients alternate signs and their
+// magnitudes never exceed m, so signed 64-bit intermediates suffice. Keeping
+// the remainders at 32 bits also avoids wide division in the hot inverse path.
+inline Word inverse32(Word a, Word m) {
+    Word r = m, next = a;
+    std::int64_t t = 0, u = 1;
+    while (next) {
+        Word q = r / next, remainder = r - q * next;
+        std::int64_t v = t - std::int64_t(q) * u;
+        r = next; next = remainder; t = u; u = v;
+    }
+    if (r != 1) throw std::logic_error("attempted to invert a nonunit");
+    return static_cast<Word>(t < 0 ? t + m : t);
+}
+
 struct Pivot { int time = 0, level = 0; Row row; };
 struct Task { int time, level, start; Row row; };
 struct TaskOrder {
@@ -198,18 +213,92 @@ class FastTimestamp {
     Word p_, m_;
     int k_, d_;
     Reducer arithmetic_;
-    Row powers_, rows_, work_, query_;
+    // Inverses are cached only below 2^16 (at most 256 KiB/component).
+    // Very small odd rings use a multiplication table of at most 4 KiB.
+    Row powers_, rows_, work_, query_, odd_inverse_, divisibility_limit_, inverse_cache_, products_;
     std::vector<Meta> slots_, tasks_;
     std::vector<int> heap_;
     Counters* c_;
+    int unit_count_ = 0, full_since_ = 0;
+    bool full_dirty_ = false;
     int valuation(Word x) const {
         if (p_ == 2) return __builtin_ctz(x);
         int lo = 0, hi = k_;
         while (hi - lo > 1) {
             int mid = (lo + hi) / 2;
-            if (x % powers_[mid] == 0) lo = mid; else hi = mid;
+            if (Word(x * odd_inverse_[mid]) <= divisibility_limit_[mid]) lo = mid; else hi = mid;
         }
         return lo;
+    }
+    Word quotient(Word x, int v) const {
+        // x is exactly divisible by p^v. For odd p, multiplication by its
+        // inverse modulo 2^32 recovers the (32-bit) integer quotient.
+        return p_ == 2 ? x >> v : x * odd_inverse_[v];
+    }
+    Word unit_inverse(Word x) {
+        if (p_ == 2) return arithmetic_.unit_inverse(x);
+        if (x == 1) return 1;
+        if (inverse_cache_.empty()) return inverse32(x, m_);
+        Word& cached = inverse_cache_[x];
+        if (!cached) cached = inverse32(x, m_);
+        return cached;
+    }
+    void eliminate(Word* row, const Word* pivot, Word coefficient, int start) const {
+        if (p_ == 2) {
+            const Word mask = m_ - 1;
+            // Unsigned wraparound followed by a mask is exact modulo 2^k;
+            // keeping all lanes at 32 bits lets the compiler vectorize.
+            for (int h = start; h < d_; ++h)
+                row[h] = (row[h] - coefficient * pivot[h]) & mask;
+        } else if (!products_.empty()) {
+            const Word* product = products_.data() + coefficient * m_;
+            for (int h = start; h < d_; ++h) {
+                Word r = row[h] + m_ - product[pivot[h]];
+                row[h] = r >= m_ ? r - m_ : r;
+            }
+        } else {
+            for (int h = start; h < d_; ++h)
+                row[h] = arithmetic_.subtract(row[h], arithmetic_.multiply(coefficient, pivot[h]));
+        }
+    }
+    bool replace(Word* row, Word* pivot, Word inv, int start, bool occupied) const {
+        Word residual = 0;
+        if (p_ == 2) {
+            const Word mask = m_ - 1;
+            if (occupied) {
+                for (int h = start; h < d_; ++h) {
+                    Word normalized = (row[h] * inv) & mask;
+                    row[h] = (pivot[h] - normalized) & mask;
+                    residual |= row[h];
+                    pivot[h] = normalized;
+                }
+            } else {
+                for (int h = start; h < d_; ++h) pivot[h] = (row[h] * inv) & mask;
+            }
+        } else if (!products_.empty()) {
+            const Word* product = products_.data() + inv * m_;
+            if (occupied) {
+                for (int h = start; h < d_; ++h) {
+                    Word normalized = product[row[h]];
+                    Word r = pivot[h] + m_ - normalized;
+                    row[h] = r >= m_ ? r - m_ : r;
+                    residual |= row[h];
+                    pivot[h] = normalized;
+                }
+            } else {
+                for (int h = start; h < d_; ++h) pivot[h] = product[row[h]];
+            }
+        } else if (occupied) {
+            for (int h = start; h < d_; ++h) {
+                Word normalized = arithmetic_.multiply(row[h], inv);
+                row[h] = arithmetic_.subtract(pivot[h], normalized);
+                residual |= row[h];
+                pivot[h] = normalized;
+            }
+        } else {
+            for (int h = start; h < d_; ++h) pivot[h] = arithmetic_.multiply(row[h], inv);
+        }
+        return residual != 0;
     }
     bool before(int a, int b) const {
         return tasks_[a].time != tasks_[b].time ? tasks_[a].time < tasks_[b].time
@@ -219,8 +308,19 @@ public:
     FastTimestamp(Factor f, int d, Counters& c) : p_(f.p), m_(prime_power(f)),
         k_(f.k), d_(d), arithmetic_(m_), powers_(k_ + 1, 1),
         rows_(std::size_t(d) * k_ * d), work_(k_ * d), query_(d),
+        odd_inverse_(k_ + 1, 1), divisibility_limit_(k_ + 1),
+        inverse_cache_(p_ != 2 && m_ <= 65536 ? m_ : 0),
+        products_(p_ != 2 && m_ <= 32 ? m_ * m_ : 0),
         slots_(d * k_), tasks_(k_), c_(&c) {
         for (int e = 1; e <= k_; ++e) powers_[e] = Wide(powers_[e - 1]) * p_;
+        if (p_ != 2) for (int e = 0; e <= k_; ++e) {
+            Word x = powers_[e], inv = x;
+            for (int bits = 3; bits < 32; bits *= 2) inv *= 2U - x * inv;
+            odd_inverse_[e] = inv;
+            divisibility_limit_[e] = std::numeric_limits<Word>::max() / x;
+        }
+        if (!products_.empty()) for (Word a = 0; a < m_; ++a)
+            for (Word b = 0; b < m_; ++b) products_[a * m_ + b] = a * b % m_;
         heap_.reserve(k_);
     }
     void append(const Row& source, int time) {
@@ -233,12 +333,11 @@ public:
             if (e + 1 < k_) for (int j = 0; j < d_; ++j)
                 work_[(e + 1) * d_ + j] = arithmetic_.multiply(row[j], p_);
         }
-        auto order = [this](int a, int b) { return before(a, b); };
-        std::make_heap(heap_.begin(), heap_.end(), order);
+        // Equal timestamps and increasing levels already form a max heap.
         c_->max_pending = std::max(c_->max_pending, Wide(heap_.size()));
         while (!heap_.empty()) {
-            std::pop_heap(heap_.begin(), heap_.end(), order);
-            int id = heap_.back(); heap_.pop_back(); ++c_->pops;
+            int id = heap_[0]; ++c_->pops;
+            bool successor = false;
             Meta task = tasks_[id];
             Word* row = work_.data() + id * d_;
             for (int j = task.start; j < d_; ++j) {
@@ -249,41 +348,65 @@ public:
                 Word* pivot = rows_.data() + std::size_t(index) * d_;
                 if (old.time == task.time) throw std::logic_error("same-time collision");
                 if (old.time < task.time) {
-                    Word inv = arithmetic_.unit_inverse(row[j] / powers_[v]);
-                    bool has_residual = false;
-                    for (int h = j; h < d_; ++h) {
-                        Word normalized = arithmetic_.multiply(row[h], inv);
-                        if (old.time) {
-                            row[h] = arithmetic_.subtract(pivot[h], normalized);
-                            has_residual |= row[h] != 0;
-                        }
-                        pivot[h] = normalized;
+                    Word inv = unit_inverse(quotient(row[j], v));
+                    bool has_residual = replace(row, pivot, inv, j + 1, old.time != 0);
+                    pivot[j] = powers_[v];
+                    row[j] = 0;
+                    if (v == 0) {
+                        unit_count_ += old.time == 0;
+                        full_dirty_ = true;
                     }
                     slots_[index] = {task.time, task.level, 0}; ++c_->writes;
                     if (old.time) ++c_->reductions;
                     if (has_residual) {
                         tasks_[id] = {old.time, old.level, j + 1};
-                        heap_.push_back(id);
-                        std::push_heap(heap_.begin(), heap_.end(), order);
+                        successor = true;
                     }
                     break;
                 }
-                Word coefficient = row[j] / powers_[v];
-                for (int h = j; h < d_; ++h)
-                    row[h] = arithmetic_.subtract(row[h], arithmetic_.multiply(coefficient, pivot[h]));
+                Word coefficient = quotient(row[j], v);
+                eliminate(row, pivot, coefficient, j + 1);
+                row[j] = 0;
                 ++c_->reductions;
+            }
+            // A displaced successor has a strictly older timestamp. Replace
+            // the root and sift down once, instead of pop_heap + push_heap.
+            if (!successor) {
+                heap_[0] = heap_.back();
+                heap_.pop_back();
+            }
+            if (!heap_.empty()) {
+                int root = heap_[0], hole = 0, size = static_cast<int>(heap_.size());
+                for (int child = 1; child < size; child = 2 * hole + 1) {
+                    if (child + 1 < size && before(heap_[child], heap_[child + 1])) ++child;
+                    if (!before(root, heap_[child])) break;
+                    heap_[hole] = heap_[child];
+                    hole = child;
+                }
+                heap_[hole] = root;
             }
         }
     }
     bool contains(const Row& target, int left) {
+        // A triangular set of unit pivots is a basis of the whole module.
+        // Their minimum timestamp certifies every suffix starting before it.
+        // Cache once between writes; deficient modules never pay for a scan.
+        if (unit_count_ == d_) {
+            if (full_dirty_) {
+                full_since_ = slots_[0].time;
+                for (int j = 1; j < d_; ++j)
+                    full_since_ = std::min(full_since_, slots_[j * k_].time);
+                full_dirty_ = false;
+            }
+            if (left <= full_since_) return true;
+        }
         for (int j = 0; j < d_; ++j) query_[j] = arithmetic_.reduce(target[j]);
         for (int j = 0; j < d_; ++j) if (query_[j]) {
             int v = valuation(query_[j]), index = j * k_ + v;
             if (slots_[index].time < left) return false;
             const Word* pivot = rows_.data() + std::size_t(index) * d_;
-            Word coefficient = query_[j] / powers_[v];
-            for (int h = j; h < d_; ++h)
-                query_[h] = arithmetic_.subtract(query_[h], arithmetic_.multiply(coefficient, pivot[h]));
+            Word coefficient = quotient(query_[j], v);
+            eliminate(query_.data(), pivot, coefficient, j + 1);
         }
         return true;
     }
