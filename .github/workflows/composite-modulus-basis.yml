@@ -35,6 +35,7 @@ jobs:
           python3 implementation/test_solver.py
           python3 formal/sync_paper.py --check
           python3 paper/check_artifact.py
+          make problem-check
 
   lean:
     runs-on: ubuntu-latest

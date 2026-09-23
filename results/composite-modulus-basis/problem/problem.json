@@ -1,0 +1,87 @@
+{
+  "schema": "astra4oi.problem.v1",
+  "id": "range-module",
+  "title": "区间生成子模",
+  "type": "traditional",
+  "language": "zh-CN",
+  "io": {
+    "input": "stdin",
+    "output": "stdout",
+    "checker": "tokens"
+  },
+  "limits": {
+    "time_ms": 8000,
+    "memory_mb": 512,
+    "output_kb": 1024,
+    "reference_language": "GNU C++17"
+  },
+  "constraints": {
+    "n": "1 <= n <= 100000",
+    "q": "1 <= q <= 100000",
+    "d": "1 <= d <= 30",
+    "m": "2 <= m <= 2000000000",
+    "coordinates": "0 <= value < m",
+    "factorization": "m = product(p_s^k_s), K = sum(k_s) <= 8, w <= 4",
+    "work_budget": "(n*K + q*w)*d^2 <= 150000000"
+  },
+  "subtasks": [
+    {
+      "id": 1,
+      "name": "small",
+      "score": 10,
+      "constraints": "n<=80, q<=120, d<=4, m<=1000",
+      "cases": ["01", "02", "03"]
+    },
+    {
+      "id": 2,
+      "name": "dimension-one",
+      "score": 15,
+      "constraints": "d=1",
+      "cases": ["04", "05"]
+    },
+    {
+      "id": 3,
+      "name": "prime",
+      "score": 15,
+      "constraints": "m is prime",
+      "cases": ["06", "07"]
+    },
+    {
+      "id": 4,
+      "name": "squarefree",
+      "score": 15,
+      "constraints": "m is square-free",
+      "cases": ["08", "09", "10"]
+    },
+    {
+      "id": 5,
+      "name": "prefix",
+      "score": 15,
+      "constraints": "l=1 for every query",
+      "cases": ["11", "12"]
+    },
+    {
+      "id": 6,
+      "name": "full",
+      "score": 30,
+      "constraints": "no additional constraints",
+      "cases": ["13", "14", "15", "16", "17", "18", "19"]
+    }
+  ],
+  "samples": [
+    {"input": "examples/1.in", "output": "examples/1.out"},
+    {"input": "examples/2.in", "output": "examples/2.out"}
+  ],
+  "data": {
+    "directory": "data",
+    "manifest": "data/manifest.json",
+    "generator": "gen.py",
+    "validator": "validator.py",
+    "reference": "std.cpp",
+    "brute": "brute.cpp",
+    "solutions_directory": "solutions",
+    "verification": "verify.py",
+    "comparison": "artifacts/solution-comparison.json",
+    "seed_policy": "fixed per case; row/query/answer streams use seed, seed+1, seed+2"
+  }
+}

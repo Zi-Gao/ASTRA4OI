@@ -2,7 +2,7 @@ PYTHON ?= python3
 LATEXMK ?= latexmk
 CXX ?= c++
 
-.PHONY: test test-large formal core map check paper benchmark cpp-test benchmark-cpp benchmark-cpp-native benchmark-cpp-stress
+.PHONY: test test-large formal core map check paper benchmark cpp-test benchmark-cpp benchmark-cpp-native benchmark-cpp-stress problem-data problem-check problem-quick problem-sanitize problem-compare
 
 test:
 	$(PYTHON) implementation/test_solver.py
@@ -49,3 +49,18 @@ benchmark-cpp-native:
 
 benchmark-cpp-stress:
 	CXX="$(CXX)" $(PYTHON) implementation/benchmark_cpp/run.py --profile stress --tuning native
+
+problem-data:
+	$(MAKE) -C problem data PYTHON="$(PYTHON)"
+
+problem-check:
+	$(MAKE) -C problem check PYTHON="$(PYTHON)" CXX="$(CXX)"
+
+problem-quick:
+	$(MAKE) -C problem quick PYTHON="$(PYTHON)" CXX="$(CXX)"
+
+problem-sanitize:
+	$(MAKE) -C problem sanitize PYTHON="$(PYTHON)" CXX="$(CXX)"
+
+problem-compare:
+	$(MAKE) -C problem compare PYTHON="$(PYTHON)" CXX="$(CXX)"

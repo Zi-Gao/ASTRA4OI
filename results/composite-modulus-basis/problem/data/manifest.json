@@ -1,0 +1,591 @@
+{
+  "schema": "astra4oi.range-module.data.v1",
+  "answer_policy": "labels use the independent seed+2 stream; every NO has a certificate",
+  "cases": [
+    {
+      "case_id": "01",
+      "name": "small-p4",
+      "subtask": "small",
+      "n": 12,
+      "d": 2,
+      "factors": [
+        [
+          2,
+          2
+        ]
+      ],
+      "q": 32,
+      "mode": "exhaustive",
+      "seed": 91001,
+      "prefix": false,
+      "modulus": 4,
+      "K": 2,
+      "w": 1,
+      "yes": 15,
+      "no": 17,
+      "input_bytes": 323,
+      "answer_bytes": 111,
+      "input_sha256": "935bf6fab80071768f13e5dfc4fa8093efe71e51ddbaf59d2a0f089ac83a50e1",
+      "answer_sha256": "8ffcb8ca8a9bbfa4d01a302b00262a1728c7ff48c2aaca01f1614893ddfb3425",
+      "oracle": "complete coefficient closure"
+    },
+    {
+      "case_id": "02",
+      "name": "small-crt",
+      "subtask": "small",
+      "n": 14,
+      "d": 3,
+      "factors": [
+        [
+          2,
+          1
+        ],
+        [
+          3,
+          1
+        ]
+      ],
+      "q": 40,
+      "mode": "exhaustive",
+      "seed": 91002,
+      "prefix": false,
+      "modulus": 6,
+      "K": 2,
+      "w": 2,
+      "yes": 20,
+      "no": 20,
+      "input_bytes": 524,
+      "answer_bytes": 140,
+      "input_sha256": "1ab70636a56b52703757439cf41ad4b5a998adc42011266f64e27e8986b928ce",
+      "answer_sha256": "7114da865531c0c199d38696c9560b31c90d2d26fe0681225d55fc07aa0c80fc",
+      "oracle": "complete coefficient closure"
+    },
+    {
+      "case_id": "03",
+      "name": "small-zeros",
+      "subtask": "small",
+      "n": 30,
+      "d": 4,
+      "factors": [
+        [
+          2,
+          2
+        ],
+        [
+          3,
+          1
+        ]
+      ],
+      "q": 60,
+      "mode": "coupled-zeros",
+      "seed": 91003,
+      "prefix": false,
+      "modulus": 12,
+      "K": 3,
+      "w": 2,
+      "yes": 29,
+      "no": 31,
+      "input_bytes": 1068,
+      "answer_bytes": 209,
+      "input_sha256": "577c306ff4a98492148881661cb81d642ad44348ae55438ccd672d6f05e8dc1c",
+      "answer_sha256": "f87ce91ff30a7cb601e48e1592710117d2d3f198c000b80127305ff64bcb8d89",
+      "oracle": "constructed positive / independently certified negative"
+    },
+    {
+      "case_id": "04",
+      "name": "dimension-one-72",
+      "subtask": "dimension-one",
+      "n": 10000,
+      "d": 1,
+      "factors": [
+        [
+          2,
+          3
+        ],
+        [
+          3,
+          2
+        ]
+      ],
+      "q": 12000,
+      "mode": "one-dimensional",
+      "seed": 91004,
+      "prefix": false,
+      "modulus": 72,
+      "K": 5,
+      "w": 2,
+      "yes": 6058,
+      "no": 5942,
+      "input_bytes": 173930,
+      "answer_bytes": 42058,
+      "input_sha256": "dc9276ebe8668f5125584aad3dcbb47772f9a81db4e1bc9b0be0843d94e92189",
+      "answer_sha256": "b7c39ed8baff937c12e016410e908ffd4fe5f60985536a386f71579ef54c4feb",
+      "oracle": "constructed positive / independently certified negative"
+    },
+    {
+      "case_id": "05",
+      "name": "dimension-one-boundary",
+      "subtask": "dimension-one",
+      "n": 100000,
+      "d": 1,
+      "factors": [
+        [
+          2,
+          1
+        ],
+        [
+          998244353,
+          1
+        ]
+      ],
+      "q": 100000,
+      "mode": "one-dimensional",
+      "seed": 91005,
+      "prefix": false,
+      "modulus": 1996488706,
+      "K": 2,
+      "w": 2,
+      "yes": 49952,
+      "no": 50048,
+      "input_bytes": 2778234,
+      "answer_bytes": 349952,
+      "input_sha256": "af7d3f3c1d685c136d9f51e8492cc98ac1178306a9980e62a0a2d8ad91669407",
+      "answer_sha256": "585294f86dc569f961df3b9ea023a747dde4b63c48e28a8893628845c50191b0",
+      "oracle": "constructed positive / independently certified negative"
+    },
+    {
+      "case_id": "06",
+      "name": "prime-local",
+      "subtask": "prime",
+      "n": 6000,
+      "d": 16,
+      "factors": [
+        [
+          998244353,
+          1
+        ]
+      ],
+      "q": 8000,
+      "mode": "local",
+      "seed": 91006,
+      "prefix": false,
+      "modulus": 998244353,
+      "K": 1,
+      "w": 1,
+      "yes": 4000,
+      "no": 4000,
+      "input_bytes": 2291850,
+      "answer_bytes": 28000,
+      "input_sha256": "359588aceca185912ca825421f5e4c0e023c3da2cd9a8f3289c6397a13ab74ad",
+      "answer_sha256": "c300ce15473300453e5ae5435a2363bbfda23cbdb8507024972f66eaf7565ffd",
+      "oracle": "constructed positive / independently certified negative"
+    },
+    {
+      "case_id": "07",
+      "name": "prime-coupled",
+      "subtask": "prime",
+      "n": 5000,
+      "d": 20,
+      "factors": [
+        [
+          1000000007,
+          1
+        ]
+      ],
+      "q": 7000,
+      "mode": "coupled",
+      "seed": 91007,
+      "prefix": false,
+      "modulus": 1000000007,
+      "K": 1,
+      "w": 1,
+      "yes": 3481,
+      "no": 3519,
+      "input_bytes": 2439270,
+      "answer_bytes": 24481,
+      "input_sha256": "a8aa29beaccd8b67e730fcf58fa709eb2f97c2e290159a7a2bec1632aff468d6",
+      "answer_sha256": "702dcabe9fb9fa2677f13cdac461b2a4c25ad1e29a6ecdf5160ac73e1dfbc472",
+      "oracle": "constructed positive / independently certified negative"
+    },
+    {
+      "case_id": "08",
+      "name": "squarefree-local",
+      "subtask": "squarefree",
+      "n": 8000,
+      "d": 14,
+      "factors": [
+        [
+          2,
+          1
+        ],
+        [
+          3,
+          1
+        ]
+      ],
+      "q": 10000,
+      "mode": "local",
+      "seed": 91008,
+      "prefix": false,
+      "modulus": 6,
+      "K": 2,
+      "w": 2,
+      "yes": 5099,
+      "no": 4901,
+      "input_bytes": 600877,
+      "answer_bytes": 35099,
+      "input_sha256": "7a2038a7281ce4d75909e4d8aa76a149b05c83a8457d1e9667193ae00aac30a2",
+      "answer_sha256": "aba5c8a69a601cd334af93f63e7558f62964b630c8b5630fb00ee94677787496",
+      "oracle": "constructed positive / independently certified negative"
+    },
+    {
+      "case_id": "09",
+      "name": "squarefree-axis",
+      "subtask": "squarefree",
+      "n": 7000,
+      "d": 16,
+      "factors": [
+        [
+          2,
+          1
+        ],
+        [
+          3,
+          1
+        ],
+        [
+          5,
+          1
+        ],
+        [
+          7,
+          1
+        ]
+      ],
+      "q": 9000,
+      "mode": "diagonal",
+      "seed": 91009,
+      "prefix": false,
+      "modulus": 210,
+      "K": 4,
+      "w": 4,
+      "yes": 4539,
+      "no": 4461,
+      "input_bytes": 868853,
+      "answer_bytes": 31539,
+      "input_sha256": "9351972d501a7d256579b9612161ae0244e172954a2e83529c97cb6bc5a38f30",
+      "answer_sha256": "89245c537741648c33986e2ae53a6573979d7de245a22498102369ac85268903",
+      "oracle": "constructed positive / independently certified negative"
+    },
+    {
+      "case_id": "10",
+      "name": "squarefree-zeros",
+      "subtask": "squarefree",
+      "n": 5000,
+      "d": 20,
+      "factors": [
+        [
+          3,
+          1
+        ],
+        [
+          5,
+          1
+        ],
+        [
+          7,
+          1
+        ],
+        [
+          11,
+          1
+        ]
+      ],
+      "q": 7000,
+      "mode": "coupled-zeros",
+      "seed": 91010,
+      "prefix": false,
+      "modulus": 1155,
+      "K": 4,
+      "w": 4,
+      "yes": 3486,
+      "no": 3514,
+      "input_bytes": 951782,
+      "answer_bytes": 24486,
+      "input_sha256": "6100242c6a543d1796e3b5735f3d0f2699c14b44b8b8fded698b18a76695d8f1",
+      "answer_sha256": "2251780db2822dc70e0c4849da3ba13edb448e9ecc402a648c0ecb606a04ad0e",
+      "oracle": "constructed positive / independently certified negative"
+    },
+    {
+      "case_id": "11",
+      "name": "prefix-power",
+      "subtask": "prefix",
+      "n": 8000,
+      "d": 16,
+      "factors": [
+        [
+          2,
+          8
+        ]
+      ],
+      "q": 10000,
+      "mode": "nonunit",
+      "seed": 91011,
+      "prefix": true,
+      "modulus": 256,
+      "K": 8,
+      "w": 1,
+      "yes": 4998,
+      "no": 5002,
+      "input_bytes": 1088172,
+      "answer_bytes": 34998,
+      "input_sha256": "cc64f7dc96d49c9d19e22f3856810fd866a6ba9419f4d74126a6ea2e7348a483",
+      "answer_sha256": "afc5da228806a36396558c9d0b51b6e8de13aeeda271ecede0c99663ba963ec2",
+      "oracle": "constructed positive / independently certified negative"
+    },
+    {
+      "case_id": "12",
+      "name": "prefix-crt",
+      "subtask": "prefix",
+      "n": 6500,
+      "d": 20,
+      "factors": [
+        [
+          2,
+          3
+        ],
+        [
+          3,
+          2
+        ]
+      ],
+      "q": 8500,
+      "mode": "diagonal",
+      "seed": 91012,
+      "prefix": true,
+      "modulus": 72,
+      "K": 5,
+      "w": 2,
+      "yes": 4258,
+      "no": 4242,
+      "input_bytes": 851942,
+      "answer_bytes": 29758,
+      "input_sha256": "5847a9be5b4007bd32d9503d6c07839e52f228a09cb49efc70704079248a139a",
+      "answer_sha256": "2353386288a0661931b373f8aaeef399bb4326506533c0228ba46a0376a48258",
+      "oracle": "constructed positive / independently certified negative"
+    },
+    {
+      "case_id": "13",
+      "name": "full-padic-local",
+      "subtask": "full",
+      "n": 7000,
+      "d": 20,
+      "factors": [
+        [
+          2,
+          8
+        ]
+      ],
+      "q": 9000,
+      "mode": "local",
+      "seed": 91013,
+      "prefix": false,
+      "modulus": 256,
+      "K": 8,
+      "w": 1,
+      "yes": 4538,
+      "no": 4462,
+      "input_bytes": 1228798,
+      "answer_bytes": 31538,
+      "input_sha256": "fd0f7c2c45675d246f11a8eda146b0d5d95affe67d48eef8c89b0cccc8ef2d73",
+      "answer_sha256": "6e667602c417fe1824d78d9db0df1abbd28299bd7882f31e7c7f84bfb0b7198f",
+      "oracle": "constructed positive / independently certified negative"
+    },
+    {
+      "case_id": "14",
+      "name": "full-crt-coupled",
+      "subtask": "full",
+      "n": 8000,
+      "d": 20,
+      "factors": [
+        [
+          2,
+          3
+        ],
+        [
+          3,
+          2
+        ]
+      ],
+      "q": 10000,
+      "mode": "coupled",
+      "seed": 91014,
+      "prefix": false,
+      "modulus": 72,
+      "K": 5,
+      "w": 2,
+      "yes": 4993,
+      "no": 5007,
+      "input_bytes": 1125023,
+      "answer_bytes": 34993,
+      "input_sha256": "1aa56e944e0821b3c0a9d12a0748f50610cfee51f381ec9fc2d58e23b05c9d80",
+      "answer_sha256": "7640dc694031a95130fc41d4ef02319e2b45862ea0a04b3113cfa9918dbeb0fc",
+      "oracle": "constructed positive / independently certified negative"
+    },
+    {
+      "case_id": "15",
+      "name": "full-many-primes",
+      "subtask": "full",
+      "n": 8000,
+      "d": 18,
+      "factors": [
+        [
+          2,
+          1
+        ],
+        [
+          3,
+          1
+        ],
+        [
+          5,
+          1
+        ],
+        [
+          7,
+          1
+        ]
+      ],
+      "q": 10000,
+      "mode": "diagonal",
+      "seed": 91015,
+      "prefix": false,
+      "modulus": 210,
+      "K": 4,
+      "w": 4,
+      "yes": 4984,
+      "no": 5016,
+      "input_bytes": 1050298,
+      "answer_bytes": 34984,
+      "input_sha256": "ff429021d7bb4d450304e69fa05e1c9683fd16ea510ad56cd21ad69ff0138ad5",
+      "answer_sha256": "d1a6a342e0af139bafa4b0eda14d2329563ccef8a319c28204d1bb31422f0334",
+      "oracle": "constructed positive / independently certified negative"
+    },
+    {
+      "case_id": "16",
+      "name": "full-zeros-duplicates",
+      "subtask": "full",
+      "n": 5000,
+      "d": 24,
+      "factors": [
+        [
+          2,
+          3
+        ],
+        [
+          3,
+          2
+        ]
+      ],
+      "q": 7000,
+      "mode": "coupled-zeros",
+      "seed": 91016,
+      "prefix": false,
+      "modulus": 72,
+      "K": 5,
+      "w": 2,
+      "yes": 3470,
+      "no": 3530,
+      "input_bytes": 847302,
+      "answer_bytes": 24470,
+      "input_sha256": "5b258c268018d1b89b962a508a6db1760c9a788c88b91d18ca213d759a22ad12",
+      "answer_sha256": "cfa303f2811533ebed9cf7e6290ccc5ca1a929f590a7c388481a72ffc07f50cd",
+      "oracle": "constructed positive / independently certified negative"
+    },
+    {
+      "case_id": "17",
+      "name": "full-large-modulus",
+      "subtask": "full",
+      "n": 5000,
+      "d": 20,
+      "factors": [
+        [
+          2,
+          1
+        ],
+        [
+          998244353,
+          1
+        ]
+      ],
+      "q": 7000,
+      "mode": "nonunit",
+      "seed": 91017,
+      "prefix": false,
+      "modulus": 1996488706,
+      "K": 2,
+      "w": 2,
+      "yes": 3444,
+      "no": 3556,
+      "input_bytes": 2542244,
+      "answer_bytes": 24444,
+      "input_sha256": "3f5ad8cad0c5394d54b86a2adceeb7b8ef2db4f4b8596a51bd614bfb51fb8b83",
+      "answer_sha256": "14c4dae255401e78294aa4fcc41c4a75f4cbb832f2b97ff6e17b4e657dc9333c",
+      "oracle": "constructed positive / independently certified negative"
+    },
+    {
+      "case_id": "18",
+      "name": "full-max-nq",
+      "subtask": "full",
+      "n": 100000,
+      "d": 2,
+      "factors": [
+        [
+          2,
+          2
+        ]
+      ],
+      "q": 100000,
+      "mode": "diagonal",
+      "seed": 91018,
+      "prefix": false,
+      "modulus": 4,
+      "K": 2,
+      "w": 1,
+      "yes": 50034,
+      "no": 49966,
+      "input_bytes": 1970621,
+      "answer_bytes": 350034,
+      "input_sha256": "79ae3bfa4151f2a69052f45b31c1b36124334a370c17085a7f6bd45de475023d",
+      "answer_sha256": "fe1dcc2b511f5a54c1f61fdda2374a009d06e5e8a363ee41987131f1cf60b4f6",
+      "oracle": "constructed positive / independently certified negative"
+    },
+    {
+      "case_id": "19",
+      "name": "full-deep-power",
+      "subtask": "full",
+      "n": 30000,
+      "d": 20,
+      "factors": [
+        [
+          3,
+          8
+        ]
+      ],
+      "q": 30000,
+      "mode": "diagonal-valuation",
+      "seed": 91019,
+      "prefix": false,
+      "modulus": 6561,
+      "K": 8,
+      "w": 1,
+      "yes": 14897,
+      "no": 15103,
+      "input_bytes": 4879007,
+      "answer_bytes": 104897,
+      "input_sha256": "43067a08bdc6fb81529697bd7673df5114d575d18b348a63d694ccf54b1fc6fe",
+      "answer_sha256": "ba01852420a780a24bb9a7bc319eaf5af61badf993b5f92a3c0578e3594c851b",
+      "oracle": "constructed positive / independently certified negative"
+    }
+  ]
+}

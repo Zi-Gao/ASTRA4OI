@@ -29,6 +29,7 @@ formal/          Lean 工程、论文主定理、声明审计
 implementation/  参考程序、测试、性能样例、输入输出样例
   experiments/   历史原型，只作补充对照
   tests/         独立整数格 oracle 和大模数测试
+problem/         完整 OI 模板题包、多做法测评、生成器及 19 组正式数据
 docs/zh/         中文使用、验证、测试、扩展及历史说明
 docs/en/         对应英文说明
 artifacts/       实际测试、构建与性能日志
@@ -44,11 +45,13 @@ make test
 make formal
 make paper
 make check
+make problem-check
 ```
 
 - Lean 首次安装与依赖缓存：[形式化说明](docs/zh/formalization.md)。
 - PDF 需要含 `ctex`、Fandol 字体和 `latexmk` 的 TeX Live/XeLaTeX。
 - [程序接口与输入契约](docs/zh/usage.md) · [测试覆盖](docs/zh/testing.md) · [补充数学说明](docs/zh/extensions.md)
+- [OI 模板题《区间生成子模》](problem/README.md)包含题面、题解、配置、C++17 标程、独立数据 oracle 与对拍门禁。
 
 Python 参考程序测试包含最大为 **2,147,483,647** 的质数、`2^64`、`(10^9+7)^3` 和 **120 位 CRT 模数**，
 同时覆盖 YES、NO、历史版本与操作上界。实测日志位于 [artifacts/](artifacts/)。
